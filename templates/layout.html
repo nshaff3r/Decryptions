@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <title>DailyCryptogram</title>
+        <link href="../static/styles.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.cdnfonts.com/css/ibm-plex-mono" rel="stylesheet">
+        <canvas style="display:none" id="canvas"></canvas>
+        <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+        <script src="../static/script.js"></script>
+        
+    </head>
+    <body>
+        <img src="../static/logo.png" type="img/png" id="logo">
+        <div id="divider"></div>
+        <div id="cryptogramContainer">
+            <div id="text"></div>
+        </div>
+        <div id="keyboardContainer"></div>
+        {% block body %}{% endblock %}
+    </body>
+</html>
