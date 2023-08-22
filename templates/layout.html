@@ -13,6 +13,13 @@
         <img src="../static/logo.png" type="img/png" id="logo">
         <div id="divider"></div>
         <div id="cryptogramContainer">
+            <div id="number">
+                <p>
+                <span id="date">{{ date }}</span>
+                <span id="num">#{{ number }}</span>
+                </p>
+            </div>
+            <div id="text"></div>
             {% block cryptogram %}{% endblock %}
         </div>
         <div id="keyboardContainer">
