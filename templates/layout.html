@@ -18,16 +18,5 @@
         <div id="keyboardContainer">
             {% block keyboard %}{% endblock %}
         </div>
-        <script>
-        document.addEventListener("DOMContentLoaded", function(){
-            var text = document.getElementById('text');
-            var typewriter = new Typewriter(text, {
-                cursor: '<span style="color: #ffffff;">|</span>',
-                delay: 50
-            });
-            typewriter.start()
-            typewriter.typeString('Welcome. Have you played Cryptogram before?')
-        });
-        </script>
     </body>
 </html>
