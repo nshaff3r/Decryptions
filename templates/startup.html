@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block cryptogram %}
+<div id="number">
+    <p>
+    <span id="date">{{ date }}</span>
+    <span id="num">#{{ number }}</span>
+    </p>
+</div>
+<div id="text"></div>
+{% endblock %}
+
+{% block keyboard %}
+<button type="button" class="ynbutton" id="yes">Yes</button>
+<button type="button" class="ynbutton" id="no">No</button>
+<script>
+    let yes = document.getElementById("yes")
+    let no = document.getElementById("no")
+    yes.addEventListener("mouseover", function(){
+        no.style.marginRight = 0;
+        no.style.opacity = 0;
+        yes.style.width = "300px";
+        yes.style.backgroundColor = "green";
+    });
+    yes.addEventListener("mouseout", function(){
+        no.style.marginRight = "100px";
+        no.style.opacity = 1;
+        yes.style.width = "100px";
+        yes.style.backgroundColor = "slategrey";
+    });
+    no.addEventListener("mouseover", function(){
+        yes.style.marginLeft = 0;
+        yes.style.opacity = 0;
+        no.style.width = "300px";
+        no.style.backgroundColor = "red";
+    });
+    no.addEventListener("mouseout", function(){
+        yes.style.marginLeft = "100px";
+        yes.style.opacity = 1;
+        no.style.width = "100px";
+        no.style.backgroundColor = "slategrey";
+    });
+</script>
+{% endblock %}
