@@ -1,1 +1,59 @@
 {% extends "layout.html" %}
+
+{% block cryptogram %}
+
+<div id="inputText" class="text"></div>
+
+<p id="cryptogram" class="text">{{ cryptogramText }}</p>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        var userText = document.getElementById('inputText');
+        let userWriter = new Typewriter(userText, {
+            cursor: '<span style="color: #ffffff;">|</span>',
+            delay: 50,
+            deleteSpeed: 20
+        });
+        userWriter.start();
+        userWriter.typeString('Letter to replace:');
+    });
+</script>
+{% endblock %}
+
+{% block keyboard %}
+<div id="keyboard">
+    <div class="first-row">
+        <button class="keyboard-button">Q</button>
+        <button class="keyboard-button">W</button>
+        <button class="keyboard-button">E</button>
+        <button class="keyboard-button">R</button>
+        <button class="keyboard-button">T</button>
+        <button class="keyboard-button">Y</button>
+        <button class="keyboard-button">U</button>
+        <button class="keyboard-button">I</button>
+        <button class="keyboard-button">O</button>
+        <button class="keyboard-button">P</button>
+    </div>
+    <div class="second-row">
+        <button class="keyboard-button">A</button>
+        <button class="keyboard-button">S</button>
+        <button class="keyboard-button">D</button>
+        <button class="keyboard-button">F</button>
+        <button class="keyboard-button">G</button>
+        <button class="keyboard-button">H</button>
+        <button class="keyboard-button">J</button>
+        <button class="keyboard-button">K</button>
+        <button class="keyboard-button">L</button>
+    </div>
+    <div class="third-row">
+        <button class="keyboard-button" id="del">Del</button>
+        <button class="keyboard-button">Z</button>
+        <button class="keyboard-button">X</button>
+        <button class="keyboard-button">C</button>
+        <button class="keyboard-button">V</button>
+        <button class="keyboard-button">B</button>
+        <button class="keyboard-button">N</button>
+        <button class="keyboard-button">M</button>
+        <button class="keyboard-button" id="confirm">Confirm</button>
+    </div>
+</div>
+{% endblock %}

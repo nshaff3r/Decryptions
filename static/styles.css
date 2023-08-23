@@ -31,7 +31,7 @@ body
     margin-right: auto;
     border-radius: 15px;
     width: 350px;
-    height: 300px;
+    height: 400px;
     background-color: #201c1c;
     box-shadow: inset 0 0 3px black;
 }
@@ -45,19 +45,24 @@ body
     border-radius: 15px;
     width: 500px;
     border-style: solid;
-    /* background-color: #201c1c;
-    box-shadow: inset 0 0 3px black; */
-    height: 250px;
+    background-color: #201c1c;
+    box-shadow: inset 0 0 3px black;
+    height: 200px;
     overflow: hidden;
 }
 
-#text
+#welcomeText
 {
-    margin-left: 20px;
-    margin-right: 20px;
     font-size: 30px;
-    font-family: 'IBM Plex Mono', sans-serif;
-    color: white;
+}
+
+#cryptogram
+{
+    font-family: "Syne Mono", Helvetica;
+    line-height: 1.5;
+    margin-top: 75px;
+    text-align: center;
+    font-size: 25px;
 }
 
 #number
@@ -76,20 +81,6 @@ body
     float: right;
 }
 
-.ynbutton
-{
-    width: 100px;
-    opacity: 0;
-    margin-top: 100px;
-    border-radius: 15px;
-    height: 50px;
-    font-size: 25px;
-    font-family:  'IBM Plex Mono', sans-serif;
-    background-color: slategrey;
-    color: white;
-    border-width: 0;
-    transition: all 1s ;
-}
 
 #yes
 {
@@ -101,4 +92,80 @@ body
 {
     float: right;
     margin-right: 100px
+}
+
+#inputText
+{   
+    margin-top: -10px;
+    margin-right: 0px;
+    font-size: 23px;
+}
+
+
+#keyboard 
+{
+    margin-top: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#confirm
+{
+    float: right;
+    margin-left: 4px;
+    font-size: 15px;
+    height: 56px;
+    padding: 7px;
+}
+
+#del
+{
+    float: left;
+    margin-right: 4px;
+    font-size: 15px;
+    height: 56px;
+}
+
+.second-row
+{
+    margin: 5px;
+}
+
+.keyboard-button
+{
+    font-size: 20px;
+    font-weight: 1000;
+    font-family: "Syne Mono", Helvetica;
+    text-align: center;
+    padding: 16px;
+    margin: 1px;
+    background-color: grey;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.ynbutton
+{
+    width: 100px;
+    opacity: 0;
+    margin-top: 150px;
+    border-radius: 15px;
+    height: 50px;
+    font-size: 25px;
+    font-family:  'IBM Plex Mono', sans-serif;
+    background-color: slategrey;
+    color: white;
+    border-width: 0;
+    transition: all 1s ;
+}
+
+.text
+{
+    font-family: 'IBM Plex Mono', sans-serif;
+    color: white;
+    margin-left: 20px;
+    margin-right: 20px;
 }

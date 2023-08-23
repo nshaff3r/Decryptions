@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 
+{% block cryptogram %}
+<div id="welcomeText" class="text"></div>
+{% endblock %}
+
 {% block keyboard %}
 <form action="/welcome" id="yesForm" method="post" value="yes">
     <input type="hidden" name="newUser" id="requestData">
@@ -8,7 +12,7 @@
 </form>
 <script>
     document.addEventListener("DOMContentLoaded", function(){
-        var text = document.getElementById('text');
+        var text = document.getElementById('welcomeText');
         let typewriter = new Typewriter(text, {
             cursor: '<span style="color: #ffffff;">|</span>',
             delay: 50,
