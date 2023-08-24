@@ -4,42 +4,94 @@
 
 <div id="hearts">
     {% for i in range(lives) %}
-        <img src="../static//heart.svg" alt="♡" id="life">
+        <img src="../static//heart.svg" alt="♡" class="life">
     {% endfor %}
 </div>
 
 <div id="inputText" class="text"></div>
+<div id="status"></div>
 <p id="cryptogram" class="text">{{ cryptogramText }}</p>
 
 <script>
-    // mode 0: highlight letter; mode 1: replace letter
-    // mode 2: undo replacement; mode 3: undo replacement and highlight
-    function highlight(letter, mode=0, altLetter='')
-    {
-        var cryptogramText = document.getElementById("cryptogram");
-        var highlighted = `<span style="color: #ffff00;">${letter}</span>`;
-        var altHighlighted = `<span style="color: #ffff00;">${altLetter}</span>`;
-        if (mode==0)
-        {
-            cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(letter, highlighted);
-        }
-        else if (mode==1)
-        {
-             
-            cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(highlighted, altHighlighted);
-        }
-        else if (mode==2)
-        {
-            cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(altHighlighted, highlighted);
-        }
-        else
-        {
-            cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(altHighlighted, letter);
-        }
-
-    }
     document.addEventListener("DOMContentLoaded", function(){
+        // mode 0: highlight letter; mode 1: replace letter
+        // mode 2: undo replacement; mode 3: undo replacement and highlight;
+        // mode 4: restore replacements
+        function highlight(letter, mode=0, altLetter='', color="#ffff00")
+        {
+            var highlighted = `<span style="color: #ffff00;">${letter}</span>`;
+            var altHighlighted = `<span style="color: ${color};">${altLetter}</span>`;
+            if (mode==0) {
+                cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(letter, highlighted);
+                var doubleReplaced = `<span style="color: #00ff00;"><span style="color: #ffff00;">${letter}</span></span>`;
+                highlighted = `<span style="color: #00ff00;">${letter}</span>`;
+                cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(doubleReplaced, highlighted);
+            } else if (mode==1) {
+                cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(highlighted, altHighlighted);
+            } else if (mode==2) {
+                cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(altHighlighted, highlighted);
+            } else if (mode==3) {
+                cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(altHighlighted, letter);
+            } else {
+                cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(letter, altHighlighted);
+            }
+        }
+        function correct(letter)
+        {
+            status.innerHTML = "CORRECT";
+            status.style.color = "#00ff00"
+            status.style.opacity = 100;
+            container.style.boxShadow = "inset 0 0 100px green";
+            highlight(letter, 1, letter, "#00ff00");
+        }
+        function incorrect(letter)
+        {
+            status.innerHTML = "INCORRECT";
+            status.style.color = "#ff0000"
+            status.style.opacity = 100;
+            container.style.boxShadow = "inset 0 0 100px red";
+            highlight(letter, 1, letter, "#ff0000");
+        }
+        function keyColor(arr, color)
+        {
+            for (let i = 0; i < arr.length; i++) {
+                document.getElementById(arr[i]).style.backgroundColor = color;
+            }
+        }
+        const replaced = {{ replaced | tojson }};
+        const failed = {{ failed | tojson }};
+        const container = document.getElementById("cryptogramContainer");
+        const status = document.getElementById("status");
+        const del = document.getElementById("del");
         const changing = new Object();
+        const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let cryptogramText = document.getElementById("cryptogram");
+        var ignore = [];
+        var changed = [];
+        var attempts = {};
+        setTimeout(function(){
+            for (let i = 0; i < alpha.length; i++) {
+                if (!cryptogramText.innerHTML.includes(alpha[i])) {
+                    ignore.push(alpha[i]);
+                }
+            }
+            for (let i = 0; i < replaced.length; i++) {
+                highlight(replaced[i][0], 4, replaced[i][1], "#00ff00");
+                changed.push(replaced[i][1]);
+                ignore.push(replaced[i][0]);
+                console.log(replaced[i][0]);
+            }
+            keyColor(ignore, "#201c1c");
+            for (let i = 0; i < failed.length; i++) {
+                if (failed[i][0] in attempts) {
+                    attempts[failed[i][0]].push(failed[i][1]);
+                }
+                else {
+                    attempts[failed[i][0]] = [failed[i][1]];
+                }
+                
+            }
+        }, 1500);
         changing.changed = false;
         changing.replaced = false;
         changing.old = '';
@@ -59,22 +111,41 @@
                 {
                     if (!changing.changed)
                     {
-                        userWriter.stop().pauseFor(1).start().typeString(this.textContent);
-                        highlight(this.textContent);
-                        userWriter.typeString('<br>New letter: ');
-                        document.getElementById("del").innerHTML = "Back";
-                        changing.old = this.textContent;
-                        changing.changed = true;
+                        if (!ignore.includes(this.textContent))
+                        {
+                            userWriter.stop().pauseFor(1).start().typeString(this.textContent); 
+                            highlight(this.textContent);
+                            userWriter.typeString('<br>New letter: ');
+                            del.innerHTML = "Back";
+                            changing.old = this.textContent;
+                            changing.changed = true;
+                            keyColor(changed, "green");
+                            if (this.textContent in attempts) {
+                                keyColor(attempts[this.textContent], "red");
+                            }
+                            keyColor(ignore, "grey");
+                        }
                     }
                     else if (!changing.replaced)
                     {
-                        userWriter.stop().pauseFor(1).start().typeString(this.textContent);
-                        highlight(changing.old, 1, this.textContent);
-                        changing.new = this.textContent;
-                        changing.replaced = true;
-                        document.getElementById("del").innerHTML = "Del";
+                        if (!changed.includes(this.textContent))
+                        {
+                            var resume = true;
+                            if (changing.old in attempts) {
+                                if (attempts[changing.old].includes(this.textContent)) {
+                                    resume = false;
+                                }
+                            }
+                            if (resume)
+                            {
+                            userWriter.stop().pauseFor(1).start().typeString(this.textContent);
+                            highlight(changing.old, 1, this.textContent);
+                            changing.new = this.textContent;
+                            changing.replaced = true;
+                            del.innerHTML = "Del";
+                            }
+                        }
                     }
-                    
                 }
                 else
                 {
@@ -82,10 +153,14 @@
                     {
                         if (this.textContent == "Back")
                         {
-                            userWriter.stop().pauseFor(1).start().deleteChars(12);
+                            userWriter.stop().pauseFor(1).start().deleteChars(13);
                             changing.changed = false;
-                            document.getElementById("del").innerHTML = "Del";
                             setTimeout(function(){
+                                keyColor(changed, "grey");
+                                if (changing.old in attempts) {
+                                    keyColor(attempts[changing.old], "grey");
+                                }
+                                keyColor(ignore, "#201c1c");
                                 highlight(changing.old, 3, changing.old);
                             }, 1200);
                             
@@ -93,7 +168,7 @@
                         if (this.textContent == "Del")
                         {
                             userWriter.stop().pauseFor(1).start().deleteChars(1);
-                            document.getElementById("del").innerHTML = "Back";
+                            del.innerHTML = "Back";
                             changing.replaced = false;
                             highlight(changing.old, 2, changing.new);
                         }
@@ -106,10 +181,47 @@
                             })
                             .then(response => response.json())
                             .then(response => {
-                                alert(response.message)
+                                if (response.message == "correct") {
+                                    correct(changing.new);
+                                    ignore.push(changing.old);
+                                    changed.push(changing.new)
+                                } else {
+                                    incorrect(changing.new);
+                                    if (changing.old in attempts) {
+                                        console.log("CAUGHT");
+                                        console.log(attempts[changing.old]);
+                                        attempts[changing.old].push(changing.new);
+                                        console.log(attempts[changing.old]);
+                                    } else {
+                                        attempts[changing.old] = [changing.new];
+                                    }
+                                }
+                                var lives = document.querySelectorAll('.life');
+                                setTimeout(function(){
+                                    container.style.boxShadow = "inset 0 0 3px black";
+                                    userWriter.stop().pauseFor(1).start().deleteChars(14);
+                                    status.style.opacity = 0;
+                                    status.innerHTML = "";
+                                    del.innerHTML = "Back";
+                                    changing.changed = false; 
+                                    changing.replaced = false;  
+                                    if (response.message == "wrong") {
+                                        highlight(changing.old, 3, changing.new, "#ff0000");
+                                    }
+                                    keyColor(changed, "grey");
+                                    if (changing.old in attempts) {
+                                        keyColor(attempts[changing.old], "grey");
+                                        status.style.color = "#201c1c";
+                                    }
+                                    keyColor(ignore, "#201c1c");
+                                }, 1500);
+                                setTimeout(function(){
+                                    lives[response.lives].classList.add("animation");
+                                    lives[response.lives].style.opacity = 0;
+                                }, 3200);
                             });
                         }
-                        
+            
                     }
                 }
                 
@@ -122,37 +234,37 @@
 {% block keyboard %}
 <div id="keyboard">
     <div class="first-row">
-        <button class="keyboard-button" value="A">Q</button>
-        <button class="keyboard-button">W</button>
-        <button class="keyboard-button">E</button>
-        <button class="keyboard-button">R</button>
-        <button class="keyboard-button">T</button>
-        <button class="keyboard-button">Y</button>
-        <button class="keyboard-button">U</button>
-        <button class="keyboard-button">I</button>
-        <button class="keyboard-button">O</button>
-        <button class="keyboard-button">P</button>
+        <button class="keyboard-button" id="Q">Q</button>
+        <button class="keyboard-button" id="W">W</button>
+        <button class="keyboard-button" id="E">E</button>
+        <button class="keyboard-button" id="R">R</button>
+        <button class="keyboard-button" id="T">T</button>
+        <button class="keyboard-button" id="Y">Y</button>
+        <button class="keyboard-button" id="U">U</button>
+        <button class="keyboard-button" id="I">I</button>
+        <button class="keyboard-button" id="O">O</button>
+        <button class="keyboard-button" id="P">P</button>
     </div>
     <div class="second-row">
-        <button class="keyboard-button">A</button>
-        <button class="keyboard-button">S</button>
-        <button class="keyboard-button">D</button>
-        <button class="keyboard-button">F</button>
-        <button class="keyboard-button">G</button>
-        <button class="keyboard-button">H</button>
-        <button class="keyboard-button">J</button>
-        <button class="keyboard-button">K</button>
-        <button class="keyboard-button">L</button>
+        <button class="keyboard-button" id="A">A</button>
+        <button class="keyboard-button" id="S">S</button>
+        <button class="keyboard-button" id="D">D</button>
+        <button class="keyboard-button" id="F">F</button>
+        <button class="keyboard-button" id="G">G</button>
+        <button class="keyboard-button" id="H">H</button>
+        <button class="keyboard-button" id="J">J</button>
+        <button class="keyboard-button" id="K">K</button>
+        <button class="keyboard-button" id="L">L</button>
     </div>
     <div class="third-row">
         <button class="keyboard-button" id="del">Back</button>
-        <button class="keyboard-button">Z</button>
-        <button class="keyboard-button">X</button>
-        <button class="keyboard-button">C</button>
-        <button class="keyboard-button">V</button>
-        <button class="keyboard-button">B</button>
-        <button class="keyboard-button">N</button>
-        <button class="keyboard-button">M</button>
+        <button class="keyboard-button" id="Z">Z</button>
+        <button class="keyboard-button" id="X">X</button>
+        <button class="keyboard-button" id="C">C</button>
+        <button class="keyboard-button" id="V">V</button>
+        <button class="keyboard-button" id="B">B</button>
+        <button class="keyboard-button" id="N">N</button>
+        <button class="keyboard-button" id="M">M</button>
         <button class="keyboard-button" id="confirm">Confirm</button>
     </div>
 </div>
