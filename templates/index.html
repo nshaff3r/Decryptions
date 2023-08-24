@@ -2,11 +2,48 @@
 
 {% block cryptogram %}
 
-<div id="inputText" class="text"></div>
+<div id="hearts">
+    {% for i in range(lives) %}
+        <img src="../static//heart.svg" alt="♡" id="life">
+    {% endfor %}
+</div>
 
+<div id="inputText" class="text"></div>
 <p id="cryptogram" class="text">{{ cryptogramText }}</p>
+
 <script>
+    // mode 0: highlight letter; mode 1: replace letter
+    // mode 2: undo replacement; mode 3: undo replacement and highlight
+    function highlight(letter, mode=0, altLetter='')
+    {
+        var cryptogramText = document.getElementById("cryptogram");
+        var highlighted = `<span style="color: #ffff00;">${letter}</span>`;
+        var altHighlighted = `<span style="color: #ffff00;">${altLetter}</span>`;
+        if (mode==0)
+        {
+            cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(letter, highlighted);
+        }
+        else if (mode==1)
+        {
+             
+            cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(highlighted, altHighlighted);
+        }
+        else if (mode==2)
+        {
+            cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(altHighlighted, highlighted);
+        }
+        else
+        {
+            cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(altHighlighted, letter);
+        }
+
+    }
     document.addEventListener("DOMContentLoaded", function(){
+        const changing = new Object();
+        changing.changed = false;
+        changing.replaced = false;
+        changing.old = '';
+        changing.new = '';
         var userText = document.getElementById('inputText');
         let userWriter = new Typewriter(userText, {
             cursor: '<span style="color: #ffffff;">|</span>',
@@ -14,7 +51,70 @@
             deleteSpeed: 20
         });
         userWriter.start();
-        userWriter.typeString('Letter to replace:');
+        userWriter.typeString('Letter to replace: ');
+        var keys = document.querySelectorAll('.keyboard-button');
+        for (var i = 0; i < keys.length; i++) {
+            keys[i].addEventListener("click", function(){
+                if (this.textContent.length == 1)
+                {
+                    if (!changing.changed)
+                    {
+                        userWriter.stop().pauseFor(1).start().typeString(this.textContent);
+                        highlight(this.textContent);
+                        userWriter.typeString('<br>New letter: ');
+                        document.getElementById("del").innerHTML = "Back";
+                        changing.old = this.textContent;
+                        changing.changed = true;
+                    }
+                    else if (!changing.replaced)
+                    {
+                        userWriter.stop().pauseFor(1).start().typeString(this.textContent);
+                        highlight(changing.old, 1, this.textContent);
+                        changing.new = this.textContent;
+                        changing.replaced = true;
+                        document.getElementById("del").innerHTML = "Del";
+                    }
+                    
+                }
+                else
+                {
+                    if (changing.changed)
+                    {
+                        if (this.textContent == "Back")
+                        {
+                            userWriter.stop().pauseFor(1).start().deleteChars(12);
+                            changing.changed = false;
+                            document.getElementById("del").innerHTML = "Del";
+                            setTimeout(function(){
+                                highlight(changing.old, 3, changing.old);
+                            }, 1200);
+                            
+                        }
+                        if (this.textContent == "Del")
+                        {
+                            userWriter.stop().pauseFor(1).start().deleteChars(1);
+                            document.getElementById("del").innerHTML = "Back";
+                            changing.replaced = false;
+                            highlight(changing.old, 2, changing.new);
+                        }
+                        if (this.textContent == "Confirm")
+                        {
+                            fetch("/api", {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify(changing)
+                            })
+                            .then(response => response.json())
+                            .then(response => {
+                                alert(response.message)
+                            });
+                        }
+                        
+                    }
+                }
+                
+            });
+        }
     });
 </script>
 {% endblock %}
@@ -22,7 +122,7 @@
 {% block keyboard %}
 <div id="keyboard">
     <div class="first-row">
-        <button class="keyboard-button">Q</button>
+        <button class="keyboard-button" value="A">Q</button>
         <button class="keyboard-button">W</button>
         <button class="keyboard-button">E</button>
         <button class="keyboard-button">R</button>
@@ -45,7 +145,7 @@
         <button class="keyboard-button">L</button>
     </div>
     <div class="third-row">
-        <button class="keyboard-button" id="del">Del</button>
+        <button class="keyboard-button" id="del">Back</button>
         <button class="keyboard-button">Z</button>
         <button class="keyboard-button">X</button>
         <button class="keyboard-button">C</button>

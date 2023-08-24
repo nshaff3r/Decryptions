@@ -15,16 +15,9 @@ body
     margin-right: auto;
 }
 
-#divider
-{
-    height: .5px;
-    margin-top: 10px;
-    width: 100%;
-    background-color: grey;
-}
-
 #cryptogramContainer
 {
+    position: relative;
     display: block;
     margin-top: 30px;
     margin-left: auto;
@@ -44,9 +37,9 @@ body
     margin-right: auto;
     border-radius: 15px;
     width: 500px;
-    border-style: solid;
-    background-color: #201c1c;
-    box-shadow: inset 0 0 3px black;
+    /* border-style: solid; */
+    /* background-color: #201c1c;
+    box-shadow: inset 0 0 3px black; */
     height: 200px;
     overflow: hidden;
 }
@@ -58,11 +51,11 @@ body
 
 #cryptogram
 {
-    font-family: "Syne Mono", Helvetica;
+    position: absolute;
+    font-family: "Martian Mono", Helvetica;
     line-height: 1.5;
-    margin-top: 75px;
-    text-align: center;
-    font-size: 25px;
+    bottom: 0px;
+    font-size: 23px;
 }
 
 #number
@@ -113,18 +106,34 @@ body
 #confirm
 {
     float: right;
-    margin-left: 4px;
-    font-size: 15px;
-    height: 56px;
+    margin-left: 5px;
+    font-size: 13px;
+    height: 50px;
     padding: 7px;
 }
 
 #del
 {
     float: left;
-    margin-right: 4px;
-    font-size: 15px;
-    height: 56px;
+    margin-right: 5px;
+    font-size: 13px;
+    height: 50px;
+    vertical-align: center;
+    width: 70px;
+}
+
+#hearts
+{
+    position: absolute;
+    left: 160px;
+    top: 17px;
+    width: 136px;
+    height: 14px;
+}
+#life
+{
+    width: 14px;
+    margin-right: 10px;
 }
 
 .second-row
@@ -134,13 +143,13 @@ body
 
 .keyboard-button
 {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 1000;
-    font-family: "Syne Mono", Helvetica;
+    font-family: "Martian Mono", Helvetica;
     text-align: center;
     padding: 16px;
     margin: 1px;
-    background-color: grey;
+    background-color: dimgray;
     border-width: 0;
     border-radius: 5px;
     color: white;
