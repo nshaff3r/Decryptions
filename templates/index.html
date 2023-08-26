@@ -33,8 +33,11 @@
             } else if (mode==3) {
                 cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(altHighlighted, letter);
             } else {
+                cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(`>${letter}</`, `>~</`);
                 cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(letter, altHighlighted);
+                cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(`>~</`, `>${letter}</`);
             }
+            console.log(cryptogramText.innerHTML);
         }
         function correct(letter)
         {
@@ -58,6 +61,137 @@
                 document.getElementById(arr[i]).style.backgroundColor = color;
             }
         }
+        function userAction(letter) {
+            letter = letter.toUpperCase();
+            letter = letter.match(/[A-Z]/g);
+            if (letter == null){
+                return;
+            }
+            letter = letter.join("");
+            if (letter.length == 1)
+            {
+                if (!changing.changed)
+                {
+                    if (!ignore.includes(letter))
+                    {
+                        userWriter.stop().pauseFor(1).start().typeString(letter); 
+                        highlight(letter);
+                        userWriter.typeString('<br>New letter: ');
+                        del.innerHTML = "Back";
+                        changing.old = letter;
+                        changing.changed = true;
+                        keyColor(ignore, "grey");
+                        document.getElementById(letter).style.backgroundColor = "#201c1c";
+                        keyColor(changed, "green");
+                        if (letter in attempts) {
+                            keyColor(attempts[letter], "red");
+                        }
+                    }
+                }
+                else if (!changing.replaced)
+                {
+                    if (!changed.includes(letter))
+                    {
+                        var resume = true;
+                        if (changing.old in attempts) {
+                            if (attempts[changing.old].includes(letter)) {
+                                resume = false;
+                            }
+                        }
+                        if (changing.old == letter) {
+                            resume = false;
+                        }
+                        if (resume)
+                        {
+                        userWriter.stop().pauseFor(1).start().typeString(letter);
+                        highlight(changing.old, 1, letter);
+                        changing.new = letter;
+                        changing.replaced = true;
+                        del.innerHTML = "Del";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (changing.changed)
+                {
+                    if (del.innerHTML == "Back" && ["BACK", "BACKSPACE"].includes(letter))
+                    {
+                        userWriter.stop().pauseFor(1).start().deleteChars(13);
+                        changing.changed = false;
+                        setTimeout(function(){
+                            keyColor(changed, "grey");
+                            document.getElementById(changing.old).style.backgroundColor = "grey";
+                            if (changing.old in attempts) {
+                                keyColor(attempts[changing.old], "grey");
+                            }
+                            keyColor(ignore, "#201c1c");
+                            highlight(changing.old, 3, changing.old);
+                        }, 1200);
+                        
+                    }
+                    else if (del.innerHTML == "Del" && ["DEL", "BACKSPACE"].includes(letter))
+                    {
+                        userWriter.stop().pauseFor(1).start().deleteChars(1);
+                        del.innerHTML = "Back";
+                        changing.replaced = false;
+                        highlight(changing.old, 2, changing.new);
+                    }
+                    if (["CONFIRM", "ENTER"].includes(letter) && changing.replaced)
+                    {
+                        fetch("/api", {
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify(changing)
+                        })
+                        .then(response => response.json())
+                        .then(response => {
+                            if (response.message == "correct") {
+                                correct(changing.new);
+                                ignore.push(changing.old);
+                                changed.push(changing.new)
+                                if (response.complete == true) {
+                                    alert("CONGRATS ON FINISHING!")
+                                } 
+                            } else {
+                                incorrect(changing.new);
+                                if (changing.old in attempts) {
+                                    attempts[changing.old].push(changing.new);
+                                } else {
+                                    attempts[changing.old] = [changing.new];
+                                }
+                            }
+                            changing.changed = false; 
+                            changing.replaced = false; 
+                            var lives = document.querySelectorAll('.life');
+                            setTimeout(function(){
+                                container.style.boxShadow = "inset 0 0 3px black";
+                                userWriter.stop().pauseFor(1).start().deleteChars(14);
+                                status.style.opacity = 0;
+                                status.innerHTML = "";
+                                del.innerHTML = "Back";
+                                document.getElementById(changing.old).style.backgroundColor = "grey"; 
+                                if (response.message == "wrong") {
+                                    highlight(changing.old, 3, changing.new, "#ff0000");
+                                }
+                                keyColor(changed, "grey");
+                                if (changing.old in attempts) {
+                                    keyColor(attempts[changing.old], "grey");
+                                    status.style.color = "#201c1c";
+                                }
+                                keyColor(ignore, "#201c1c");
+                            }, 1500);
+                            setTimeout(function(){
+                                lives[response.lives].classList.add("animation");
+                                lives[response.lives].style.opacity = 0;
+                            }, 3200);
+                        });
+                    }
+        
+                }
+            }
+        }
         const replaced = {{ replaced | tojson }};
         const failed = {{ failed | tojson }};
         const container = document.getElementById("cryptogramContainer");
@@ -76,10 +210,9 @@
                 }
             }
             for (let i = 0; i < replaced.length; i++) {
-                highlight(replaced[i][0], 4, replaced[i][1], "#00ff00");
+                highlight(replaced[i][0], 5, replaced[i][1], "#00ff00");
                 changed.push(replaced[i][1]);
                 ignore.push(replaced[i][0]);
-                console.log(replaced[i][0]);
             }
             keyColor(ignore, "#201c1c");
             for (let i = 0; i < failed.length; i++) {
@@ -91,6 +224,15 @@
                 }
                 
             }
+            var keys = document.querySelectorAll('.keyboard-button');
+            for (var i = 0; i < keys.length; i++) {
+                keys[i].addEventListener("click", function(){
+                    userAction(this.textContent);
+                });
+            }
+            document.addEventListener("keyup", function(e){
+                userAction(e.key);
+            });
         }, 1500);
         changing.changed = false;
         changing.replaced = false;
@@ -104,129 +246,6 @@
         });
         userWriter.start();
         userWriter.typeString('Letter to replace: ');
-        var keys = document.querySelectorAll('.keyboard-button');
-        for (var i = 0; i < keys.length; i++) {
-            keys[i].addEventListener("click", function(){
-                if (this.textContent.length == 1)
-                {
-                    if (!changing.changed)
-                    {
-                        if (!ignore.includes(this.textContent))
-                        {
-                            userWriter.stop().pauseFor(1).start().typeString(this.textContent); 
-                            highlight(this.textContent);
-                            userWriter.typeString('<br>New letter: ');
-                            del.innerHTML = "Back";
-                            changing.old = this.textContent;
-                            changing.changed = true;
-                            keyColor(changed, "green");
-                            if (this.textContent in attempts) {
-                                keyColor(attempts[this.textContent], "red");
-                            }
-                            keyColor(ignore, "grey");
-                        }
-                    }
-                    else if (!changing.replaced)
-                    {
-                        if (!changed.includes(this.textContent))
-                        {
-                            var resume = true;
-                            if (changing.old in attempts) {
-                                if (attempts[changing.old].includes(this.textContent)) {
-                                    resume = false;
-                                }
-                            }
-                            if (resume)
-                            {
-                            userWriter.stop().pauseFor(1).start().typeString(this.textContent);
-                            highlight(changing.old, 1, this.textContent);
-                            changing.new = this.textContent;
-                            changing.replaced = true;
-                            del.innerHTML = "Del";
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (changing.changed)
-                    {
-                        if (this.textContent == "Back")
-                        {
-                            userWriter.stop().pauseFor(1).start().deleteChars(13);
-                            changing.changed = false;
-                            setTimeout(function(){
-                                keyColor(changed, "grey");
-                                if (changing.old in attempts) {
-                                    keyColor(attempts[changing.old], "grey");
-                                }
-                                keyColor(ignore, "#201c1c");
-                                highlight(changing.old, 3, changing.old);
-                            }, 1200);
-                            
-                        }
-                        if (this.textContent == "Del")
-                        {
-                            userWriter.stop().pauseFor(1).start().deleteChars(1);
-                            del.innerHTML = "Back";
-                            changing.replaced = false;
-                            highlight(changing.old, 2, changing.new);
-                        }
-                        if (this.textContent == "Confirm")
-                        {
-                            fetch("/api", {
-                                method: "POST",
-                                headers: {"Content-Type": "application/json"},
-                                body: JSON.stringify(changing)
-                            })
-                            .then(response => response.json())
-                            .then(response => {
-                                if (response.message == "correct") {
-                                    correct(changing.new);
-                                    ignore.push(changing.old);
-                                    changed.push(changing.new)
-                                } else {
-                                    incorrect(changing.new);
-                                    if (changing.old in attempts) {
-                                        console.log("CAUGHT");
-                                        console.log(attempts[changing.old]);
-                                        attempts[changing.old].push(changing.new);
-                                        console.log(attempts[changing.old]);
-                                    } else {
-                                        attempts[changing.old] = [changing.new];
-                                    }
-                                }
-                                var lives = document.querySelectorAll('.life');
-                                setTimeout(function(){
-                                    container.style.boxShadow = "inset 0 0 3px black";
-                                    userWriter.stop().pauseFor(1).start().deleteChars(14);
-                                    status.style.opacity = 0;
-                                    status.innerHTML = "";
-                                    del.innerHTML = "Back";
-                                    changing.changed = false; 
-                                    changing.replaced = false;  
-                                    if (response.message == "wrong") {
-                                        highlight(changing.old, 3, changing.new, "#ff0000");
-                                    }
-                                    keyColor(changed, "grey");
-                                    if (changing.old in attempts) {
-                                        keyColor(attempts[changing.old], "grey");
-                                        status.style.color = "#201c1c";
-                                    }
-                                    keyColor(ignore, "#201c1c");
-                                }, 1500);
-                                setTimeout(function(){
-                                    lives[response.lives].classList.add("animation");
-                                    lives[response.lives].style.opacity = 0;
-                                }, 3200);
-                            });
-                        }
-            
-                    }
-                }
-                
-            });
-        }
     });
 </script>
 {% endblock %}

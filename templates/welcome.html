@@ -46,6 +46,8 @@
                     buttons[i].style.backgroundColor = "slategrey";
                 });
                 buttons[i].addEventListener("click", function(){
+                    buttons[1 - i].style.display = "none";
+                    buttons[i].classList.add("fixed");
                     typewriter.stop().pauseFor(1).start().deleteChars(43);
                     setTimeout(function() {
                         document.getElementById("requestData").value = data[i];

@@ -209,6 +209,18 @@ body
     transition: all 1s ;
 }
 
+#yes.fixed
+{
+    width: 300px !important;
+    background-color: green !important;
+}
+
+#no.fixed
+{
+    width: 300px !important;
+    background-color: red !important;
+}
+
 .text
 {
     font-family: 'IBM Plex Mono', sans-serif;

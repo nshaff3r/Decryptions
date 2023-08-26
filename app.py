@@ -13,10 +13,11 @@ number = 1
 curDate = today.strftime("%B %d, %Y")
 testCryptogram = 'GDS FGEGS XC YZRRSFXGE GEQSF ZGF REYS CKXY E REGZLS HEQXGE IXKH CXK "FQV-GZRGSH IEGSK."'
 testSolution =  'THE STATE OF MINNESOTA TAKES ITS NAME FROM A NATIVE DAKOTA WORD FOR "SKY-TINTED WATER."'
+count = 16
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    print("hello, world!")
     if not session.get("returning"):
         return redirect("/welcome")
     if not session.get("lives"):
@@ -40,9 +41,12 @@ def new():
 def api():
     data = request.json
     if testCryptogram.find(data["old"]) == testSolution.find(data["new"]):
+         complete = False
          session["replaced"].append(data["old"] + data["new"])
-         return jsonify({'message': 'correct', 'lives': session["lives"]}), 200
+         if len(session["replaced"]) == count:
+             complete = True
+         return jsonify({'message': 'correct', 'lives': session["lives"], 'complete': complete}), 200
     else:
         session["lives"] -= 1
         session["failed"].append(data["old"] + data["new"])
-        return jsonify({'message': 'wrong', 'lives': session["lives"]}), 200
+        return jsonify({'message': 'wrong', 'lives': session["lives"], 'complete': False}), 200
