@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block cryptogram %}
-
 <div id="hearts">
     {% for i in range(lives) %}
         <img src="../static//heart.svg" alt="♡" class="life">
@@ -152,7 +151,7 @@
                                 ignore.push(changing.old);
                                 changed.push(changing.new)
                                 if (response.complete == true) {
-                                    alert("CONGRATS ON FINISHING!")
+                                    window.location.replace("/complete");
                                 } 
                             } else {
                                 incorrect(changing.new);

@@ -53,7 +53,7 @@ body
     margin-right: auto;
     border-radius: 15px;
     width: 500px;
-    /* border-style: solid; */
+    border-style: solid;
     /* background-color: #201c1c;
     box-shadow: inset 0 0 3px black; */
     height: 200px;
@@ -91,13 +91,13 @@ body
 }
 
 
-#yes
+#left
 {
     float: left;
     margin-left: 100px;
 }
 
-#no
+#right
 {
     float: right;
     margin-right: 100px
@@ -106,7 +106,7 @@ body
 #inputText
 {   
     margin-top: -10px;
-    margin-right: 0px;
+    margin-right: 15px;
     font-size: 23px;
 }
 
@@ -160,6 +160,11 @@ body
     transition: all 1s;
 }
 
+.solved
+{
+    color: #00ff00 !important;
+}
+
 .life
 {
     width: 14px;
@@ -209,16 +214,22 @@ body
     transition: all 1s ;
 }
 
-#yes.fixed
+#left.fixed
 {
     width: 300px !important;
     background-color: green !important;
 }
 
-#no.fixed
+#right.fixed
 {
     width: 300px !important;
     background-color: red !important;
+}
+
+.postfixed
+{
+    width: 300px !important;
+    background-color: blue !important;
 }
 
 .text
@@ -227,4 +238,19 @@ body
     color: white;
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.postbutton
+{
+    width: 100px;
+    opacity: 1;
+    margin-top: 120px;
+    border-radius: 15px;
+    height: 80px;
+    font-size: 25px;
+    font-family:  'IBM Plex Mono', sans-serif;
+    background-color: slategrey;
+    color: white;
+    border-width: 0;
+    transition: all 1s ;
 }

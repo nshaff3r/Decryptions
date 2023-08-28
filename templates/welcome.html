@@ -7,8 +7,8 @@
 {% block keyboard %}
 <form action="/welcome" id="ynForm" method="post">
     <input type="hidden" name="newUser" id="requestData">
-    <button type="button" class="ynbutton" id="yes">Yes</button>
-    <button type="button" class="ynbutton" id="no">No</button>
+    <button type="button" class="ynbutton" id="left">Yes</button>
+    <button type="button" class="ynbutton" id="right">No</button>
 </form>
 <script>
     document.addEventListener("DOMContentLoaded", function(){
@@ -18,8 +18,8 @@
             delay: 50,
             deleteSpeed: 20
         });
-        let yes = document.getElementById("yes");
-        let no = document.getElementById("no");
+        let yes = document.getElementById("left");
+        let no = document.getElementById("right");
         typewriter.start();
         typewriter.typeString('Welcome. Have you played Cryptogram before?');
 
