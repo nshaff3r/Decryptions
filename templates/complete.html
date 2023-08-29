@@ -31,8 +31,8 @@
         var userText = document.getElementById('inputText');
         let userWriter = new Typewriter(userText, {
             cursor: '<span style="color: #ffffff;">|</span>',
-            delay: 50,
-            deleteSpeed: 20
+            delay: 40,
+            deleteSpeed: 5
         });
         userWriter.start();
         userWriter.typeString(msg);
@@ -88,11 +88,11 @@
                                 buttons[1].classList.remove("postfixed");
                                 buttons[0].style.display = "block";
                             }, 100);
-                        }, 3000);
+                        }, 1700);
                     }
                 })
             }
-        }, 3000);
+        }, 2500);
     });
 </script>
 {% endblock %}

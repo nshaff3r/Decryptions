@@ -172,11 +172,21 @@ body
 {
     position: absolute;
     bottom: 60px;
-    right: 0px;
+    right: 2px;
     height: 130px;
     width: 320px;
     transition: all 5s;
     background-color: #201c1c;
+}
+
+#stop
+{
+    position: absolute;
+    background-color: #201c1c;
+    height: 25px;
+    width: 50px;
+    right: 40px;
+    top: 170px;
 }
 .solved
 {

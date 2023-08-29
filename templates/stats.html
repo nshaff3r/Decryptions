@@ -7,10 +7,10 @@
 <div>
     <canvas id="myChart"></canvas>
 </div>
+<div id="stop"></div>
 <div id="cover"></div>
-
+<img id="url" src="">
 {% endblock %}
-
 
 {% block keyboard %}
 <button type="button" class="postbutton" id="left">Share<br>Stats</button>
@@ -21,22 +21,25 @@
         let left = document.getElementById("left");
         let right = document.getElementById("right");
         const data = {{ data | tojson }};
-        var msg = `
-        Games: ${data.games}<br>Solved: ${((data.solved/data.games) * 100).toFixed(2)}%<br>
-        Current Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>
-        Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls: ${data.closeCalls}
-        `;
+        var msg = `Games: ${data.games}<br>Solved: ${((data.solved/data.games) * 100).toFixed(2)}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1❤️ Wins)</i>: ${data.closeCalls}`;
         var userText = document.getElementById('inputText');
         let userWriter = new Typewriter(userText, {
             cursor: '<span style="color: #ffffff;">|</span>',
-            delay: 50,
-            deleteSpeed: 20
+            delay: 30,
+            deleteSpeed: 5
         });
+        let stop = document.getElementById("stop");
+        if (data.closeCalls > 9) {
+            stop.style.right = "28px";
+        }
+        if (data.closeCalls > 99) {
+            stop.style.right = "16px";
+        }
         userWriter.start();
         userWriter.typeString(msg);
-        setTimeout(function(){
-            userWriter.stop();
-            new Chart(ctx, {
+        const img = document.createElement("img");
+        setTimeout(function(){ 
+        var myChart = new Chart(ctx.getContext('2d'), {
                 type: 'line',
                 data: {
                     labels: ['💀', '❤️', '❤️❤️', '❤️❤️❤️', '❤️❤️❤️❤️', '❤️❤️❤️❤️❤️'],
@@ -47,7 +50,7 @@
                 },
                 options: {  
                     animation: {
-                        duration: 0
+                        duration: 0,
                     },
                     scales: {
                         x: {
@@ -75,7 +78,7 @@
                 }
             });
             document.getElementById("cover").style.width = 0;
-        }, 8000);
+        }, 4000);
         setTimeout(function(){
             let buttons = [left, right];
             for (let i = 0; i < 2; i++)
@@ -100,39 +103,41 @@
                     buttons[1 - i].style.display = "none";
                     buttons[i].classList.add("postfixed"); 
                     if (i == 0) {
-                        var copy = `CRYPTOGRAM\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ncryptogramgame.com`
+                        var copy = msg.replaceAll("<br>", "\n");
+                        copy = copy.replaceAll('<i style="font-size: 12px;">(1❤️ Wins)</i>', ' (1❤️ Wins)');
                         navigator.clipboard.writeText(copy)
                             .then(() => {
-                                userWriter.stop().pauseFor(1).start().typeString(`<br><br>Copied to keyboard.`); 
+                                userWriter.stop().pauseFor(1).start().typeString("\nCopied to keyboard."); 
                                 setTimeout(function(){
                                     userWriter.stop().pauseFor(1).start().deleteChars(20);
                                     buttons[0].classList.remove("postfixed");
                                     buttons[1].style.display = "block";
                                 }, 3000)
                             })
-                            .catch(error => {
-                                var errorString = `<br><br>Error copying to keyboard. Please check your browser permissions and try again.`;
-                                userWriter.stop().pauseFor(1).start().typeString(errorString); 
-                                setTimeout(function(){
-                                    userWriter.stop().pauseFor(1).start().deleteChars(80);
-                                    buttons[0].classList.remove("postfixed");
-                                    buttons[1].style.display = "block";
-                                }, 6500)
+                            .catch((error) => {
+                                var errorString = "\nError copying to keyboard. Please check your browser permissions and try again.";
+                            userWriter.stop().pauseFor(1).start().typeString(errorString); 
+                            setTimeout(function(){
+                                userWriter.stop().pauseFor(1).start().deleteChars(80);
+                                buttons[0].classList.remove("postfixed");
+                                buttons[1].style.display = "block";
+                            }, 6500)
                             });
                     }
                     if (i == 1) {
-                        userWriter.stop().pauseFor(1).start().deleteChars(40);
+                        userWriter.stop().pauseFor(1).start().deleteChars(100);
+                        myChart.style.display = "none";
                         setTimeout(function(){
-                            window.location.href = "/stats";
+                            window.location.href = "/";
                             setTimeout(function() {
                                 buttons[1].classList.remove("postfixed");
                                 buttons[0].style.display = "block";
                             }, 100);
-                        }, 2600);
+                        }, 3500);
                     }
                 })
             }
-        }, 0);
+        }, 7500);
     });
 </script>
 {% endblock %}
