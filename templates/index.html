@@ -3,7 +3,7 @@
 {% block cryptogram %}
 <div id="hearts">
     {% for i in range(lives) %}
-        <img src="../static//heart.svg" alt="♡" class="life">
+        <img src="../static//heart.svg" alt="❤️" class="life">
     {% endfor %}
 </div>
 
@@ -160,6 +160,11 @@
                                 } else {
                                     attempts[changing.old] = [changing.new];
                                 }
+                                if (response.complete == true) {
+                                    setTimeout(function(){
+                                        window.location.replace("/complete");
+                                    }, 5000);
+                                } 
                             }
                             changing.changed = false; 
                             changing.replaced = false; 
@@ -184,7 +189,7 @@
                             setTimeout(function(){
                                 lives[response.lives].classList.add("animation");
                                 lives[response.lives].style.opacity = 0;
-                            }, 3200);
+                            }, 2800);
                         });
                     }
         

@@ -160,6 +160,24 @@ body
     transition: all 1s;
 }
 
+#myChart
+{
+    position: absolute;
+    bottom: 10px;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+
+#cover
+{
+    position: absolute;
+    bottom: 60px;
+    right: 0px;
+    height: 130px;
+    width: 320px;
+    transition: all 5s;
+    background-color: #201c1c;
+}
 .solved
 {
     color: #00ff00 !important;
@@ -226,6 +244,11 @@ body
     background-color: red !important;
 }
 
+.stat
+{
+    font-size: 20px !important;
+}
+
 .postfixed
 {
     width: 300px !important;
@@ -243,7 +266,7 @@ body
 .postbutton
 {
     width: 100px;
-    opacity: 1;
+    opacity: 0;
     margin-top: 120px;
     border-radius: 15px;
     height: 80px;

@@ -1,33 +1,31 @@
 {% extends "layout.html" %}
 
+
 {% block cryptogram %}
 
-<div id="inputText" class="text"></div>
-<p id="cryptogram" class="text solved">{{ solvedCryptogram }}</p>
+<div id="inputText" class="text stat"></div>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<div id="cover"></div>
 
 {% endblock %}
 
 
 {% block keyboard %}
-<button type="button" class="postbutton" id="left">Share</button>
-<button type="button" class="postbutton" id="right">View<br>Stats</button>
+<button type="button" class="postbutton" id="left">Share<br>Stats</button>
+<button type="button" class="postbutton" id="right">Home</button>
 <script>
     document.addEventListener("DOMContentLoaded", function(){
+        const ctx = document.getElementById('myChart');
         let left = document.getElementById("left");
         let right = document.getElementById("right");
-        const dateDashed = {{ dateDashed | tojson }};
-        const attempts = {{ attempts | tojson }};
-        const status = {{ status | tojson }};
-        let num = document.getElementById("num").innerHTML;
-        let finished = "";
-        var msg = "";
-        if (status) {
-            finished = "✅";
-            msg = `Congratulations on completing Cryptogram ${num}!`;
-        } else {
-            finished = "💀";
-            msg = `Better luck next time!<br>`;
-        }
+        const data = {{ data | tojson }};
+        var msg = `
+        Games: ${data.games}<br>Solved: ${((data.solved/data.games) * 100).toFixed(2)}%<br>
+        Current Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>
+        Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls: ${data.closeCalls}
+        `;
         var userText = document.getElementById('inputText');
         let userWriter = new Typewriter(userText, {
             cursor: '<span style="color: #ffffff;">|</span>',
@@ -36,8 +34,50 @@
         });
         userWriter.start();
         userWriter.typeString(msg);
-        let buttons = [left, right];
         setTimeout(function(){
+            userWriter.stop();
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['💀', '❤️', '❤️❤️', '❤️❤️❤️', '❤️❤️❤️❤️', '❤️❤️❤️❤️❤️'],
+                        datasets: [{
+                        data: [3,1, 4, 1, 1, 0],
+                        borderWidth: 1
+                    }]
+                },
+                options: {  
+                    animation: {
+                        duration: 0
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            border: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            border: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            document.getElementById("cover").style.width = 0;
+        }, 8000);
+        setTimeout(function(){
+            let buttons = [left, right];
             for (let i = 0; i < 2; i++)
             {
                 buttons[i].style.marginTop = "60px";
@@ -81,18 +121,18 @@
                             });
                     }
                     if (i == 1) {
-                        userWriter.stop().pauseFor(1).start().deleteChars(50);
+                        userWriter.stop().pauseFor(1).start().deleteChars(40);
                         setTimeout(function(){
                             window.location.href = "/stats";
                             setTimeout(function() {
                                 buttons[1].classList.remove("postfixed");
                                 buttons[0].style.display = "block";
                             }, 100);
-                        }, 3000);
+                        }, 2600);
                     }
                 })
             }
-        }, 3000);
+        }, 0);
     });
 </script>
 {% endblock %}
