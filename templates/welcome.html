@@ -15,8 +15,8 @@
         var text = document.getElementById('welcomeText');
         let typewriter = new Typewriter(text, {
             cursor: '<span style="color: #ffffff;">|</span>',
-            delay: 50,
-            deleteSpeed: 20
+            delay: 45,
+            deleteSpeed: 5
         });
         let yes = document.getElementById("left");
         let no = document.getElementById("right");
@@ -52,10 +52,10 @@
                     setTimeout(function() {
                         document.getElementById("requestData").value = data[i];
                         document.getElementById("ynForm").submit();
-                    }, 3200);
+                    }, 1000);
                 })
             }
-        }, 3500);
+        }, 2300);
     });
 </script>
 {% endblock %}

@@ -30,10 +30,10 @@
         });
         let stop = document.getElementById("stop");
         if (data.closeCalls > 9) {
-            stop.style.right = "28px";
+            stop.style.width = "78px";
         }
         if (data.closeCalls > 99) {
-            stop.style.right = "16px";
+            stop.style.width = "68px";
         }
         userWriter.start();
         userWriter.typeString(msg);
@@ -78,7 +78,7 @@
                 }
             });
             document.getElementById("cover").style.width = 0;
-        }, 4000);
+        }, 3700);
         setTimeout(function(){
             let buttons = [left, right];
             for (let i = 0; i < 2; i++)
@@ -112,7 +112,7 @@
                                     userWriter.stop().pauseFor(1).start().deleteChars(20);
                                     buttons[0].classList.remove("postfixed");
                                     buttons[1].style.display = "block";
-                                }, 3000)
+                                }, 1500)
                             })
                             .catch((error) => {
                                 var errorString = "\nError copying to keyboard. Please check your browser permissions and try again.";
@@ -121,7 +121,7 @@
                                 userWriter.stop().pauseFor(1).start().deleteChars(80);
                                 buttons[0].classList.remove("postfixed");
                                 buttons[1].style.display = "block";
-                            }, 6500)
+                            }, 3300)
                             });
                     }
                     if (i == 1) {
@@ -133,7 +133,7 @@
                                 buttons[1].classList.remove("postfixed");
                                 buttons[0].style.display = "block";
                             }, 100);
-                        }, 3500);
+                        }, 3100);
                     }
                 })
             }

@@ -17,10 +17,10 @@ if (slashedDate[:2] != "10"):
 
 # testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV.'
 # testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
-testCryptogram = "Q"
+testCryptogram = "ABCDEFG HIJK LMNOP QRSTUV WXYZ"
 testSolution = "A"
 count = 0
-alpha = "ABCDEFGHIJKLMNOPQRSTUVQXYZ"
+alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for letter in alpha:
     if letter not in testSolution:
         count += 1
@@ -103,7 +103,7 @@ def stats():
             "streak": 3,
             "maxStreak": 3,
             "avgLives": 1.667,
-            "closeCalls": 1,
+            "closeCalls": 188,
             "lives": [3, 1, 4, 1, 1, 0]
         }
     return render_template("stats.html", date=curDate, number=number, data=session["history"])
