@@ -164,7 +164,7 @@
                                 if (response.complete == true) {
                                     setTimeout(function(){
                                         window.location.replace("/complete");
-                                    }, 5000);
+                                    }, 4600);
                                 } 
                             }
                             var lives = document.querySelectorAll('.life');
@@ -184,14 +184,16 @@
                                     status.style.color = "#201c1c";
                                 }
                                 keyColor(ignore, "#201c1c");
-                            }, 1500);
+                            }, 1000);
                             setTimeout(function(){
-                                changing.changed = false; 
-                                changing.replaced = false; 
-                                changing.confirmed = false;
+                                if (response.complete == false) {
+                                    changing.changed = false; 
+                                    changing.replaced = false; 
+                                    changing.confirmed = false;
+                                }
                                 lives[response.lives].classList.add("animation");
                                 lives[response.lives].style.opacity = 0;
-                            }, 2800);
+                            }, 2300);
                         });
                     }
         

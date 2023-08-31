@@ -27,7 +27,7 @@
             msg = `Congratulations on completing Cryptogram ${num}!`;
         } else {
             finished = "💀";
-            msg = `Better luck next time!<br>`;
+            msg = `Better luck next time!\n`;
             time = 1500;
         }
         var userText = document.getElementById('inputText');
@@ -64,7 +64,7 @@
                     buttons[i].classList.add("postfixed"); 
                     if (i == 0) {
                         var copy = `CRYPTOGRAM\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ncryptogramgame.com`
-                        navigator.clipboard.writeText(copy)
+                        navigator.clipboard.write(copy)
                             .then(() => {
                                 userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
                                 setTimeout(function(){
