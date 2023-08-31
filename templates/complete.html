@@ -21,14 +21,17 @@
         let num = document.getElementById("num").innerHTML;
         let finished = "";
         var msg = "";
+        var time = 2500
         if (status) {
             finished = "✅";
             msg = `Congratulations on completing Cryptogram ${num}!`;
         } else {
             finished = "💀";
             msg = `Better luck next time!<br>`;
+            time = 1500;
         }
         var userText = document.getElementById('inputText');
+        userText.style.backgroundColor = "#201c1c";
         let userWriter = new Typewriter(userText, {
             cursor: '<span style="color: #ffffff;">|</span>',
             delay: 45,
@@ -63,21 +66,21 @@
                         var copy = `CRYPTOGRAM\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ncryptogramgame.com`
                         navigator.clipboard.writeText(copy)
                             .then(() => {
-                                userWriter.stop().pauseFor(1).start().typeString(`<br><br>Copied to keyboard.`); 
+                                userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
                                 setTimeout(function(){
                                     userWriter.stop().pauseFor(1).start().deleteChars(20);
                                     buttons[0].classList.remove("postfixed");
                                     buttons[1].style.display = "block";
-                                }, 3000)
+                                }, 2000)
                             })
                             .catch(error => {
-                                var errorString = `<br><br>Error copying to keyboard. Please check your browser permissions and try again.`;
+                                var errorString = `\n<br>Error copying to clipboard. Please check your browser permissions and try again.`;
                                 userWriter.stop().pauseFor(1).start().typeString(errorString); 
                                 setTimeout(function(){
-                                    userWriter.stop().pauseFor(1).start().deleteChars(80);
+                                    userWriter.stop().pauseFor(1).start().deleteChars(81);
                                     buttons[0].classList.remove("postfixed");
                                     buttons[1].style.display = "block";
-                                }, 6500)
+                                }, 5000)
                             });
                     }
                     if (i == 1) {
@@ -88,11 +91,11 @@
                                 buttons[1].classList.remove("postfixed");
                                 buttons[0].style.display = "block";
                             }, 100);
-                        }, 1500);
+                        }, time / 1.7);
                     }
                 })
             }
-        }, 2500);
+        }, time);
     });
 </script>
 {% endblock %}

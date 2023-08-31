@@ -19,17 +19,60 @@
 
 @media only screen and (max-width: 520px) {
     .keyboard-button {
-        width: 7.6vw !important;
+        width: 8.1vw !important;
     }
     #confirm    {
-        width: 14.8vw !important;
+        width: 14.2vw !important;
         font-size: 2.4vw !important;
+    }
+    #del {
+        font-size: 2.5vw !important;
+        width: 11.9vw !important;
+    }
+}
+
+@media only screen and (max-width: 401px) {
+    .keyboard-button {
+        width: 7.9vw !important;
+    }
+    #confirm    {
+        width: 14.2vw !important;
+        font-size: 2.2vw !important;
+    }
+    #del {
+        font-size: 2.5vw !important;
+        width: 11.6vw !important;
+    }
+}
+/* 
+@media only screen and (max-width: 365px) {
+    .keyboard-button {
+        width: 7.9vw !important;
+    }
+    #confirm    {
+        width: 14.2vw !important;
+        font-size: 2.2vw !important;
+    }
+    #del {
+        font-size: 2.5vw !important;
+        width: 11.6vw !important;
+    }
+} */
+
+@media only screen and (max-width: 310px) {
+    .keyboard-button {
+        width: 7.5vw !important;
+    }
+    #confirm    {
+        width: 14vw !important;
+        font-size: 2.2vw !important;
     }
     #del {
         font-size: 2.5vw !important;
         width: 11vw !important;
     }
 }
+
 
 body
 {
@@ -47,12 +90,11 @@ body
 #cryptogramContainer
 {
     position: relative;
+    overflow: hidden;
     display: block;
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 30px auto;
     border-radius: 15px;
-    width: 350px;
+    max-width: 350px;
     height: 400px;
     background-color: #201c1c;
     box-shadow: inset 0 00 3px black;
@@ -68,8 +110,8 @@ body
     border-radius: 15px;
     max-width: 500px;
     border-style: solid;
-    background-color: #201c1c;
-    box-shadow: inset 0 0 3px black;
+    /* background-color: #201c1c;
+    box-shadow: inset 0 0 3px black; */
     height: 200px;
     overflow: hidden;
 }
@@ -119,6 +161,9 @@ body
 
 #inputText
 {   
+    position: absolute;
+    z-index: 2;
+    background-color: none;
     margin-top: -10px;
     margin-right: 15px;
     font-size: 23px;
@@ -139,7 +184,7 @@ body
     margin-left: 5px;
     font-size: 13px;
     height: 50px;
-    width: 80px;
+    width: 75px;
 }
 
 #del
@@ -149,7 +194,7 @@ body
     font-size: 13px;
     height: 50px;
     vertical-align: center;
-    width: 70px;
+    width: 60px;
 }
 
 #hearts
@@ -196,6 +241,7 @@ body
 #stop
 {
     position: absolute;
+    z-index: 2;
     background-color: #201c1c;
     height: 25px;
     width: 88px;
