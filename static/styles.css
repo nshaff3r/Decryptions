@@ -21,7 +21,7 @@
     .keyboard-button {
         width: 8.1vw !important;
     }
-    #confirm    {
+    #confirm {
         width: 14.2vw !important;
         font-size: 2.4vw !important;
     }
@@ -35,7 +35,7 @@
     .keyboard-button {
         width: 7.9vw !important;
     }
-    #confirm    {
+    #confirm {
         width: 14.2vw !important;
         font-size: 2.2vw !important;
     }
@@ -59,17 +59,26 @@
     }
 } */
 
-@media only screen and (max-width: 310px) {
+@media only screen and (max-width: 365px) {
     .keyboard-button {
         width: 7.5vw !important;
     }
-    #confirm    {
+    #confirm {
         width: 14vw !important;
         font-size: 2.2vw !important;
     }
     #del {
-        font-size: 2.5vw !important;
+        font-size: 2.6vw !important;
         width: 11vw !important;
+    }
+}
+
+@media only screen and (max-width: 345px) {
+    #num {
+        display: none;
+    }
+    #hearts {
+        left: 160px !important;
     }
 }
 
@@ -81,10 +90,12 @@ body
 
 #logo
 {
-    width: 300px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    font-family: "Breymont", sans-serif;
+    font-size: 50px;
+    /* letter-spacing: 5px; */
+    color: white;
+    text-align: center;
+    margin-top: 15px;
 }
 
 #cryptogramContainer
@@ -200,7 +211,7 @@ body
 #hearts
 {
     position: absolute;
-    left: 160px;
+    left: 170px;
     top: 17px;
     width: 136px;
     height: 14px;
@@ -266,6 +277,13 @@ body
     display: none;
 }
 
+#toolDiv
+{
+    position: absolute;
+    right: 30px;
+    top: 25px;
+}
+
 .cryptogram
 {
     color: white;
@@ -278,6 +296,12 @@ body
     font-size: 23px;
 }
 
+.tool
+{
+    width: 30px;
+    margin-right: 5px;
+    pointer-events: none
+}
 .solved
 {
     color: #00ff00 !important;

@@ -52,18 +52,18 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     var page = 0;
     let example = document.getElementById("cryptogram");
+    example.style.display = "none";
     let tips = document.getElementById("tips");
     const exampleText = "AUR JFR HO QLZNAHBLKVF OHL RSARLAKDSVRSA MKARF PKQT AH AUR VDMMXR KBRF, IURLR VHSTF NXKZRM AURV AH NKFF ADVR."
     const solution = "THE USE OF CRYPTOGRAMS FOR ENTERTAINMENT DATES BACK TO THE MIDDLE AGES, WHERE MONKS PLAYED THEM TO PASS TIME."
     const tipsText = 'NDG EQWZ "VWXTNQIWSJ" HC S VWXTNQIWSJ LQW LQWNX-GHIDN QNDGW GUIOHCD EQWZC.'
-    example.style.display = "none";
     let hider = document.getElementById("hider");
     let left = document.getElementById("left");
     let right = document.getElementById("right");
     var userText = document.getElementById('inputText');
     let userWriter = typeReset();
     let msg0 = `
-    Every day, there is a new puzzle in accordance with the day's theme:
+    Every day, there is a new puzzle in accordance with a set theme:
     <span style="color: #00ff00;"><br>Mon: Fun Fact<br>Tue: Quote<br>
     Wed: Joke<br>Thu: Proverb<br>Fri: Pun<br>Sat: Riddle<br>Sun: Haiku</span>
     `;
@@ -82,10 +82,10 @@ document.addEventListener("DOMContentLoaded", function(){
     `;
     let msg4 = `
     Next, look for three letter words. "The" is often at the beginning (and if it's
-    a question, it's probably one of "Who, What, When, Where, "Why").
+    a question, it's probably one of "Who", "What", "When", "Where", "Why").
     `;
     let msg5 = `
-    Look for common letters, which are often things like "E, T, S, R". Don't forget
+    Look for common letters, which are often things like "E", "T", "S", "R". Don't forget
     the vowels!
     `;
     let msg6 = `
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function(){
                                 hider.style.display = "none"
                                 userWriter.stop().pauseFor(1).start().typeString(msg2); 
                             }
-                        }, 23000);
+                        }, 22000);
                     }
                 } else if (page == 2) {
                     if (i == 0) {

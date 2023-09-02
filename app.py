@@ -17,9 +17,6 @@ if (slashedDate[:2] != "10"):
 
 testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV.'
 testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
-# testCryptogram = "QQQ QQQ QQ Q Q QQQ QQ QQ QQ Q Q QQQQQQ QQ QQQ QQQQQQQ QQQ QQQ QQQ QQQQQ QQQQ QQQQQ QQQ QQ QQQQQ QQ"
-# testSolution = "AAA AAA AA A A AAA AA AA AA A A AAAAAA AA AAA AAAAAAA AAA AAA AAA AAAAA AAAA AAAAA AAA AA AAAAA AA"
-# testSolution = "ZOF FYF QJ MVCOZQYVFHY JQV FRZFVZFJRHFRZ QFZFY HFMC ZQ ZOF HJQQSF FYFY, MOFVF HQRCY OSFCFQ ZOFH ZQ OFYY ZJHF."
 count = 0
 alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for letter in alpha:
@@ -59,7 +56,10 @@ def index():
 def welcome():
     if request.method == "POST":
         session["returning"] = request.form.get("newUser")
-        return redirect("/")
+        if session["returning"] == "no":
+            return redirect("/instructions")
+        else:
+            return redirect("/")
     return render_template("welcome.html", date=curDate, number=number)
 
 @app.route("/complete")

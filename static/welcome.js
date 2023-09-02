@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function(){
     let yes = document.getElementById("left");
     let no = document.getElementById("right");
     typewriter.start();
-    typewriter.typeString('Welcome. Have you played Cryptogram before?');
+    typewriter.typeString('Welcome. Have you played Decryption before?');
 
     setTimeout(function(){
         let buttons = [yes, no];
