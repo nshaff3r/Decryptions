@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
     let left = document.getElementById("left");
     let right = document.getElementById("right");
-    const dateDashed = {{ dateDashed | tojson }};
-    const attempts = {{ attempts | tojson }};
-    const status = {{ status | tojson }};
     let num = document.getElementById("num").innerHTML;
     let finished = "";
     var msg = "";
@@ -50,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[i].classList.add("postfixed"); 
                 if (i == 0) {
                     var copy = `CRYPTOGRAM\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ncryptogramgame.com`
-                    navigator.clipboard.write(copy)
+                    navigator.clipboard.writeText(copy)
                         .then(() => {
                             userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
                             setTimeout(function(){

@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
-    const ctx = document.getElementById('myChart');
     let left = document.getElementById("left");
     let right = document.getElementById("right");
-    const data = {{ data | tojson }};
     var solved = ((data.solved/data.games) * 100).toFixed(2);
     if (data.games == 0) {
         solved = 0;

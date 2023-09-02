@@ -15,17 +15,17 @@ slashedDate = today.strftime("%m/%d")
 if (slashedDate[:2] != "10"):
     slashedDate = slashedDate.replace("0", "")
 
-# testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV.'
-# testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
-testCryptogram = "QQQ QQQ QQ Q Q QQQ QQ QQ QQ Q Q QQQQQQ QQ QQQ QQQQQQQ QQQ QQQ QQQ QQQQQ QQQQ QQQQQ QQQ QQ QQQQQ QQ"
-testSolution = "AAA AAA AA A A AAA AA AA AA A A AAAAAA AA AAA AAAAAAA AAA AAA AAA AAAAA AAAA AAAAA AAA AA AAAAA AA"
+testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV.'
+testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
+# testCryptogram = "QQQ QQQ QQ Q Q QQQ QQ QQ QQ Q Q QQQQQQ QQ QQQ QQQQQQQ QQQ QQQ QQQ QQQQQ QQQQ QQQQQ QQQ QQ QQQQQ QQ"
+# testSolution = "AAA AAA AA A A AAA AA AA AA A A AAAAAA AA AAA AAAAAAA AAA AAA AAA AAAAA AAAA AAAAA AAA AA AAAAA AA"
+# testSolution = "ZOF FYF QJ MVCOZQYVFHY JQV FRZFVZFJRHFRZ QFZFY HFMC ZQ ZOF HJQQSF FYFY, MOFVF HQRCY OSFCFQ ZOFH ZQ OFYY ZJHF."
 count = 0
 alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for letter in alpha:
     if letter not in testSolution:
         count += 1
 count = 26 - count
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -66,6 +66,7 @@ def welcome():
 def complete():
     if not session.get("finished"):
         return redirect("/")
+
     if not session.get("stats"):
         session["stats"] = True
         if session["finished"]:
@@ -76,21 +77,22 @@ def complete():
             session["history"]["games"] += 1
             session["history"]["lives"][session["lives"]] += 1
             if session["lives"] == 0:
-                win = False
                 session["history"]["streak"] = 0
             else:
-                win = True
                 session["history"]["solved"] += 1
                 session["history"]["streak"] += 1
                 if session["history"]["streak"] > session["history"]["maxStreak"]:
                     session["history"]["maxStreak"] = session["history"]["streak"]
                 if session["lives"] == 1:
                     session["history"]["closeCalls"] += 1
-            return render_template("complete.html", date=curDate, number=number, solvedCryptogram=testSolution,
-                            dateDashed=slashedDate, attempts=5 - session["lives"], status=win)
 
+    if session["lives"] == 0:
+        win = False
     else:
-        return redirect("/")
+        win = True
+
+    return render_template("complete.html", date=curDate, number=number, solvedCryptogram=testSolution,
+                    dateDashed=slashedDate, attempts=5 - session["lives"], status=win)
 
 @app.route("/stats")
 def stats():
@@ -105,6 +107,10 @@ def stats():
             "lives": [0, 0, 0, 0, 0, 0]
         }
     return render_template("stats.html", date=curDate, number=number, data=session["history"])
+
+@app.route("/instructions")
+def instructions():
+    return render_template("instructions.html", date=curDate, number=number)
 
 @app.route("/api", methods=["POST"])
 def api():

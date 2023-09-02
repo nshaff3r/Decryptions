@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var text = document.getElementById('welcomeText');
     let typewriter = new Typewriter(text, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 45,
+        delay: 50,
         deleteSpeed: 5
     });
     let yes = document.getElementById("left");
@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 setTimeout(function() {
                     document.getElementById("requestData").value = data[i];
                     document.getElementById("ynForm").submit();
-                }, 1600);
+                }, 1500);
             })
         }
-    }, 2300);
+    }, 3200);
 });

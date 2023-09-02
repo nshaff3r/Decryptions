@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function(){
             cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(letter, altHighlighted);
             cryptogramText.innerHTML = cryptogramText.innerHTML.replaceAll(`>~</`, `>${letter}</`);
         }
-        console.log(cryptogramText.innerHTML);
     }
     function correct(letter)
     {
@@ -65,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     del.innerHTML = "Back";
                     changing.old = letter;
                     changing.changed = true;
-                    keyColor(ignore, "grey");
+                    keyColor(ignore, "dimgrey");
                     document.getElementById(letter).style.backgroundColor = "#201c1c";
                     keyColor(changed, "green");
                     if (letter in attempts) {
@@ -106,10 +105,10 @@ document.addEventListener("DOMContentLoaded", function(){
                     userWriter.stop().pauseFor(1).start().deleteChars(13);
                     changing.changed = false;
                     setTimeout(function(){
-                        keyColor(changed, "grey");
-                        document.getElementById(changing.old).style.backgroundColor = "grey";
+                        keyColor(changed, "dimgrey");
+                        document.getElementById(changing.old).style.backgroundColor = "dimgrey";
                         if (changing.old in attempts) {
-                            keyColor(attempts[changing.old], "grey");
+                            keyColor(attempts[changing.old], "dimgrey");
                         }
                         keyColor(ignore, "#201c1c");
                         highlight(changing.old, 3, changing.old);
@@ -160,13 +159,13 @@ document.addEventListener("DOMContentLoaded", function(){
                             status.style.opacity = 0;
                             status.innerHTML = "";
                             del.innerHTML = "Back";
-                            document.getElementById(changing.old).style.backgroundColor = "grey"; 
+                            document.getElementById(changing.old).style.backgroundColor = "dimgrey"; 
                             if (response.message == "wrong") {
                                 highlight(changing.old, 3, changing.new, "#ff0000");
                             }
-                            keyColor(changed, "grey");
+                            keyColor(changed, "dimgrey");
                             if (changing.old in attempts) {
-                                keyColor(attempts[changing.old], "grey");
+                                keyColor(attempts[changing.old], "dimgrey");
                                 status.style.color = "#201c1c";
                             }
                             keyColor(ignore, "#201c1c");
@@ -186,8 +185,6 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
     }
-    const replaced = {{ replaced | tojson }};
-    const failed = {{ failed | tojson }};
     const container = document.getElementById("cryptogramContainer");
     const status = document.getElementById("status");
     const del = document.getElementById("del");
