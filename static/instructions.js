@@ -41,22 +41,27 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
     }
+
+    function typeReset()
+    {
+        let userWriter = new Typewriter(userText, {
+            cursor: '<span style="color: #ffffff;">|</span>',
+            delay: 30,
+        });
+        return userWriter;
+    }
     var page = 0;
     let example = document.getElementById("cryptogram");
     let tips = document.getElementById("tips");
     const exampleText = "AUR JFR HO QLZNAHBLKVF OHL RSARLAKDSVRSA MKARF PKQT AH AUR VDMMXR KBRF, IURLR VHSTF NXKZRM AURV AH NKFF ADVR."
     const solution = "THE USE OF CRYPTOGRAMS FOR ENTERTAINMENT DATES BACK TO THE MIDDLE AGES, WHERE MONKS PLAYED THEM TO PASS TIME."
     const tipsText = 'NDG EQWZ "VWXTNQIWSJ" HC S VWXTNQIWSJ LQW LQWNX-GHIDN QNDGW GUIOHCD EQWZC.'
-    const tipsSolution = 'THE WORD "CRYPTOGRAM" IS A CRYPTOGRAM FOR FORTY-EIGHT OTHER ENGLISH WORDS.'
     example.style.display = "none";
     let hider = document.getElementById("hider");
     let left = document.getElementById("left");
     let right = document.getElementById("right");
     var userText = document.getElementById('inputText');
-    let userWriter = new Typewriter(userText, {
-        cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 30,
-    });
+    let userWriter = typeReset();
     let msg0 = `
     Every day, there is a new puzzle in accordance with the day's theme:
     <span style="color: #00ff00;"><br>Mon: Fun Fact<br>Tue: Quote<br>
@@ -87,12 +92,11 @@ document.addEventListener("DOMContentLoaded", function(){
     Finally, fill in the blanks. Use context clues!
     `;
     let msg7 = `
-    Some other tips include checking for double letters (often "EE", "LL", "SS, etc.),
-    common combos (ex. "TH", "ED"), and carefully thinking ahead. There's many more strategies out
-    there to discover. Have fun!
+    Some other tips include checking for double letters ("EE", "LL", "SS, etc.),
+    common combos ("TH", "ED"), noting punctiation (apostrophes), and carefully 
+    thinking ahead. Good luck!
     `;
-    userWriter.start();
-    userWriter.typeString(msg0);
+    userWriter.start().typeString(msg0);
     let buttons = [left, right];
     left.style.display = "none";
     setTimeout(function(){
@@ -116,13 +120,9 @@ document.addEventListener("DOMContentLoaded", function(){
             });
             buttons[i].addEventListener("click", function(){
                 if (page == 0) {
-                        buttons[1].style.backgroundColor = "#0000ff"
-                        userWriter = new Typewriter(userText, {
-                        cursor: '<span style="color: #ffffff;">|</span>',
-                        delay: 30,
-                    });
-                    userWriter.start();
-                    userWriter.typeString(msg1);
+                    buttons[1].style.backgroundColor = "#0000ff"
+                    userWriter = typeReset();
+                    userWriter.start().typeString(msg1); 
                     buttons[1].style.fontSize = "20px";
                     buttons[1].innerHTML = "See<br>Example";
                     buttons[0].style.display = "block";
@@ -130,12 +130,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 } else if (page == 1) {
                     page = 2;
                     if (i == 0) {
-                        let userWriter = new Typewriter(userText, {
-                            cursor: '<span style="color: #ffffff;">|</span>',
-                            delay: 30,
-                        });
-                        userWriter.start();
-                        userWriter.typeString(msg0);
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg0); 
                         buttons[0].style.backgroundColor = "#0000ff"
                         buttons[0].style.opacity = 0;
                         buttons[1].style.fontSize = "25px";
@@ -150,18 +146,16 @@ document.addEventListener("DOMContentLoaded", function(){
                         buttons[1].innerHTML = "Tips"
                         buttons[1].style.fontSize = "25px"
                         example.innerHTML = exampleText;
-                        let userWriter = new Typewriter(userText, {
-                            cursor: '<span style="color: #ffffff;">|</span>',
-                            delay: 30,
-                        });
-                        userWriter.start();
-                        userWriter.typeString("");
+                        userWriter = typeReset();
+                        userWriter.start().typeString(""); 
                         hider.style.display = "block"
                         example.style.display = "block";
                         exampler(example, exampleText, solution);
                         setTimeout(function(){
-                            hider.style.display = "none"
-                            userWriter.stop().pauseFor(1).start().typeString(msg2); 
+                            if (page == 2) {
+                                hider.style.display = "none"
+                                userWriter.stop().pauseFor(1).start().typeString(msg2); 
+                            }
                         }, 23000);
                     }
                 } else if (page == 2) {
@@ -169,54 +163,102 @@ document.addEventListener("DOMContentLoaded", function(){
                         buttons[0].style.backgroundColor = "#0000ff"
                         hider.style.display = "none"
                         example.style.display = "none";
-                        userWriter = new Typewriter(userText, {
-                            cursor: '<span style="color: #ffffff;">|</span>',
-                            delay: 30,
-                        });
-                        userWriter.start();
-                        userWriter.typeString(msg1);
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg1); 
                         buttons[1].style.fontSize = "20px";
                         buttons[1].innerHTML = "See<br>Example";
                         page = 1;
                     }
                     if (i == 1) {
+                        page = 3;
                         example.style.display = "none";
+                        tips.innerHTML = tipsText;
                         tips.style.display = "block";
                         hider.style.display = "none";
                         buttons[1].style.backgroundColor = "#0000ff";
-                        buttons[1].innerHTML = "Play!";
-                        example.innerHTML = tipsText;
-                        userWriter = new Typewriter(userText, {
-                            cursor: '<span style="color: #ffffff;">|</span>',
-                            delay: 10,
-                            deleteSpeed: 1
-                        });
-                        userWriter.start();
-                        userWriter.typeString(msg3);
-                        userWriter.deleteChars(100);
-                        userWriter.typeString(msg4);
-                        userWriter.deleteChars(170);
-                        userWriter.typeString(msg5);
-                        userWriter.deleteChars(120);
-                        userWriter.typeString(msg6);
-                        setTimeout(function(){
-                            userText.style.fontSize = "19px";
-                        }, 9000);
-                        setTimeout(function(){
-                            userText.style.fontSize = "23px";
-                        }, 26000);
-                        setTimeout(function(){
-                            userWriter.stop().pauseFor(1).start().deleteChars(60);
-                            userText.style.fontSize = "16px";
-                            userWriter.typeString(msg7);
-                        }, 46000);
+                        buttons[1].innerHTML = "Next";
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg3); 
                         setTimeout(exampler, 3500, tips, "SHC", "AIS");
-                        setTimeout(exampler, 17000, tips, "NDG", "THE");
-                        setTimeout(exampler, 30000, tips, "WQ", "RO");
-                        setTimeout(exampler, 38000, tips, "LIEZUIOVXTJ", "FGWDNGLCYPM");
+                    }
+                } else if (page == 3) {
+                    if (i == 0) {
+                        buttons[0].style.backgroundColor = "#0000ff"
+                        tips.style.display = "none";
+                        example.style.display = "block";
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg2); 
+                        buttons[1].innerHTML = "Tips";
+                        page = 2;
+                    }
+                    if (i == 1) {
+                        page = 4;
+                        buttons[1].style.backgroundColor = "#0000ff";
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg4); 
+                        userText.style.fontSize = "19px";
+                        setTimeout(exampler, 1000, tips, "NDG", "THE");
+                    }
+                } else if (page == 4) {
+                    if (i == 0) {
+                        buttons[0].style.backgroundColor = "#0000ff"
+                        userText.style.fontSize = "23px";
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg3); 
+                        page = 3;
+                    }
+                    if (i == 1) {
+                        page = 5;
+                        buttons[1].style.backgroundColor = "#0000ff";
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg5); 
+                        userText.style.fontSize = "23px";
+                        setTimeout(exampler, 1000, tips, "WQ", "RO");
+                    }
+                } else if (page == 5) { 
+                    if (i == 0) {
+                        buttons[0].style.backgroundColor = "#0000ff"
+                        userText.style.fontSize = "19px";
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg4); 
+                        page = 4;
+                    }
+                    if (i == 1) {
+                        page = 6;
+                        buttons[1].style.backgroundColor = "#0000ff";
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg6); 
+                        userText.style.fontSize = "23px";
+                        setTimeout(exampler, 1000, tips, "LIEZUIOVXTJ", "FGWDNGLCYPM");
+                    }
+                } else if (page == 6) { 
+                    if (i == 0) {
+                        buttons[0].style.backgroundColor = "#0000ff"
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg5); 
+                        page = 5;
+                    }
+                    if (i == 1) {
+                        page = 7;
+                        buttons[1].style.backgroundColor = "#0000ff";
+                        buttons[1].innerHTML = "Play!"
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg7); 
+                        userText.style.fontSize = "18px";
+                    }
+                } else if (page == 7) { 
+                    if (i == 0) {
+                        buttons[0].style.backgroundColor = "#0000ff"
+                        buttons[1].innerHTML = "Next"
+                        userText.style.fontSize = "23px";
+                        userWriter = typeReset();
+                        userWriter.start().typeString(msg6); 
+                        page = 6;
+                    }
+                    if (i == 1) {
+                        window.location.href = "/";
                     }
                 }
-
             })
         }
     }, 0);
