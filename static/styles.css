@@ -1,6 +1,6 @@
 @font-face {
-    font-family: cascadia;
-    src: url("https://fonts.cdnfonts.com/css/cascadia-code");
+    font-family: breymont;
+    src: url("Breymont-Bold.ttf");
 }
 
 @keyframes shake {
@@ -17,70 +17,9 @@
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
-@media only screen and (max-width: 520px) {
-    .keyboard-button {
-        width: 8.1vw !important;
-    }
-    #confirm {
-        width: 14.2vw !important;
-        font-size: 2.4vw !important;
-    }
-    #del {
-        font-size: 2.5vw !important;
-        width: 11.9vw !important;
-    }
-}
-
-@media only screen and (max-width: 401px) {
-    .keyboard-button {
-        width: 7.9vw !important;
-    }
-    #confirm {
-        width: 14.2vw !important;
-        font-size: 2.2vw !important;
-    }
-    #del {
-        font-size: 2.5vw !important;
-        width: 11.6vw !important;
-    }
-}
-/* 
-@media only screen and (max-width: 365px) {
-    .keyboard-button {
-        width: 7.9vw !important;
-    }
-    #confirm    {
-        width: 14.2vw !important;
-        font-size: 2.2vw !important;
-    }
-    #del {
-        font-size: 2.5vw !important;
-        width: 11.6vw !important;
-    }
-} */
-
-@media only screen and (max-width: 365px) {
-    .keyboard-button {
-        width: 7.5vw !important;
-    }
-    #confirm {
-        width: 14vw !important;
-        font-size: 2.2vw !important;
-    }
-    #del {
-        font-size: 2.6vw !important;
-        width: 11vw !important;
-    }
-}
-
-@media only screen and (max-width: 345px) {
-    #num {
-        display: none;
-    }
-    #hearts {
-        left: 160px !important;
-    }
-}
+::selection {
+    background: #ff0000;
+  }
 
 
 body
@@ -88,14 +27,24 @@ body
     background-color: black;
 }
 
+a
+{
+    color: #ff0000;
+}
+
+a:hover
+{
+    color: #ffffff;
+}
 #logo
 {
+    text-decoration: none !important;
     font-family: "Breymont", sans-serif;
-    font-size: 50px;
-    /* letter-spacing: 5px; */
+    font-size: 45px;
     color: white;
     text-align: center;
     margin-top: 15px;
+    user-select: none;
 }
 
 #cryptogramContainer
@@ -103,7 +52,7 @@ body
     position: relative;
     overflow: hidden;
     display: block;
-    margin: 30px auto;
+    margin: 10px auto;
     border-radius: 15px;
     max-width: 350px;
     height: 400px;
@@ -115,7 +64,7 @@ body
 #keyboardContainer
 {
     display: block;
-    margin-top: 20px;
+    margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 15px;
@@ -123,7 +72,7 @@ body
     border-style: solid;
     /* background-color: #201c1c;
     box-shadow: inset 0 0 3px black; */
-    height: 200px;
+    height: 170px;
     overflow: hidden;
 }
 
@@ -183,7 +132,6 @@ body
 
 #keyboard 
 {
-    margin-top: 7px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -280,8 +228,21 @@ body
 #toolDiv
 {
     position: absolute;
-    right: 30px;
+    right: 20px;
     top: 25px;
+}
+
+#menu
+{
+    position: absolute;
+    z-index: 4;
+    right: 35px;
+    top: 60px;
+    background-color: red;
+    width: 200px;
+    height: 0px;
+    overflow: hidden;
+    transition: all .8s;
 }
 
 .cryptogram
@@ -300,8 +261,22 @@ body
 {
     width: 30px;
     margin-right: 5px;
-    pointer-events: none
 }
+
+.option
+{
+    color: white;
+    float: right;
+    margin: 7px;
+    font-family: 'IBM Plex Mono', sans-serif;
+    font-size:  30px;
+}
+
+.option:hover
+{
+    color: black;
+}
+
 .solved
 {
     color: #00ff00 !important;
@@ -346,6 +321,7 @@ body
 .ynbutton
 {
     width: 100px;
+    text-align: center;
     opacity: 0;
     margin-top: 150px;
     border-radius: 15px;
@@ -402,4 +378,102 @@ body
     color: white;
     border-width: 0;
     transition: all 1s ;
+}
+
+@media only screen and (max-width: 700px) {
+    #logo {
+        text-align: left;
+        font-size: 28px;
+        margin-top: 21px;
+        margin-left: 20px;
+    }
+}
+
+@media only screen and (max-width: 520px) {
+    .keyboard-button {
+        width: 8.1vw;
+    }
+    #confirm {
+        width: 14.2vw;
+        font-size: 2.4vw;
+    }
+    #del {
+        font-size: 2.5vw;
+        width: 11.9vw;
+    }
+    #left {
+        margin-left: 50px;
+    }
+    #right {
+        margin-right: 50px;
+    }
+}
+
+@media only screen and (max-width: 401px) {
+    .keyboard-button {
+        width: 7.9vw;
+    }
+    #confirm {
+        width: 14.2vw;
+        font-size: 2.2vw;
+    }
+    #del {
+        font-size: 2.5vw;
+        width: 11.6vw;
+    } 
+    #logo {
+        font-size: 25px;
+        margin-top: 24px;
+        margin-left: 10px;
+    }
+    #toolDiv {
+        right: 10px;
+    }
+    #left {
+        margin-left: 45px;
+    }
+    #right {
+        margin-right: 45px;
+    }
+}
+
+@media only screen and (max-width: 365px) {
+    .keyboard-button {
+        width: 7.5vw;
+    }
+    #confirm {
+        width: 14vw;
+        font-size: 2.2vw;
+    }
+    #del {
+        font-size: 2.6vw;
+        width: 11vw;
+    }
+    #left {
+        margin-left: 20px;
+    }
+    #right {
+        margin-right: 20px;
+    }
+}
+
+@media only screen and (max-width: 345px) {
+    #num {
+        display: none;
+    }
+    #hearts {
+        left: 160px;
+    }
+    #logo {
+        font-size: 20px;
+        margin-top: 27px;
+        margin-left: 10px;
+    } #left {
+        margin-left: 0px;
+        width: 85px;
+    }
+    #right {
+        margin-right: 0px;
+        width: 85px;
+    }
 }

@@ -70,20 +70,24 @@ document.addEventListener("DOMContentLoaded", function(){
     }, 3700);
     setTimeout(function(){
         let buttons = [left, right];
+        let defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
+        window.addEventListener("resize", function(){
+            defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
+        });
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = "60px";
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
                 if (i == 0){buttons[1 - i].style.marginRight = 0;}
-                else{buttons[1 - i].style.marginLeft = 0;}
-                buttons[1 - i].style.opacity = 0;
+                else{buttons[1 - i].style.marginLeft = "-100px";}
+                buttons[1 - i].style.opacity = "-100px";
                 buttons[i].style.width = "300px";
                 buttons[i].style.backgroundColor = "green";
             });
             buttons[i].addEventListener("mouseout", function(){
-                if (i == 1){buttons[1 - i].style.marginLeft = "100px";}
-                else{buttons[1 - i].style.marginRight = "100px";}
+                if (i == 1){buttons[1 - i].style.marginLeft = defaultMargin;}
+                else{buttons[1 - i].style.marginRight = defaultMargin;}
                 buttons[1 - i].style.opacity = 1;
                 buttons[i].style.width = "100px";
                 buttons[i].style.backgroundColor = "slategrey";

@@ -3,23 +3,25 @@
 <html lang="en">
     <head>
         <meta name="viewport" content="initial-scale=1, width=device-width">
-        <title>DailyCryptogram</title>
+        <title>Decryptions</title>
         <link href="../static/styles.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.cdnfonts.com/css/ibm-plex-mono" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Martian+Mono:regular' rel='stylesheet'>
-        <link href='https://fonts.googleapis.com/css?family=Impact:regular' rel='stylesheet'>
-        <link href="https://fonts.cdnfonts.com/css/retronoid" rel="stylesheet">
-        <link href="https://fonts.cdnfonts.com/css/retro-computer" rel="stylesheet">
         <canvas style="display:none" id="canvas"></canvas>
         <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>    
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
-        <h1 id="logo">DECRYPTION</h1>
+        <a href="/" style="text-decoration: none;"><h1 id="logo">decryptions</h1></a>
         <div id="toolDiv">
             <a href="/stats"><img src="../static/stats.svg" alt="stats" id="stats" class="tool"></a>
             <a href="/instructions"><img src="../static/question.svg" alt="instructions" id="question" class="tool"></a>
             <img src="../static/contact.svg" alt="contact" id="contact" class="tool">
+        </div>
+        <div id="menu">
+            <a class="option" href="/give">.org?</a><br>
+            <a class="option" href="mailto:nolanshaffer@uchicago.edu">Feedback</a><br>
+            <a class="option" href="mailto:nolanshaffer@uchicago.edu">Report Bug</a>
         </div>
         <div id="cryptogramContainer">
             <div id="number">
@@ -35,25 +37,25 @@
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function(){
-                // let contact = document.getElementById("contact");
-                // contact.addEventListener("mouseover", function(){
+                let contact = document.getElementById("contact");
                 let text = document.getElementById("logo");
-                count = 1;
-                for (var i = 0; i < text.innerHTML.length; i++) {
-                    (function (index) {
-                        setTimeout(function () {
-                        text.innerHTML =
-                            text.innerHTML.slice(0, index) +
-                            text.innerHTML[index].toLowerCase() +
-                            text.innerHTML.slice(index + 1, text.innerHTML.length);
-                        }, 150 * index);
-                    })(i);
-                    }
+                let menu = document.getElementById("menu");
+                contact.addEventListener("mouseover", function(){
+                    menu.style.height = "160px";
+                });
+                menu.addEventListener("mouseover", function(){
+                    menu.style.height = "160px";
+                });
+                contact.addEventListener("mouseout", function(){
+                    menu.style.height = "0px";
+                });
+                menu.addEventListener("mouseout", function(){
+                    menu.style.height = "0px";
+                });
                 setTimeout(function(){
-                    text.innerHTML = "decRyption";
-                }, 2000);
+                    text.innerHTML = "decRyptions";
+                }, 500);
 
-                // });
             });
         </script>
     </body>

@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function(){
     let num = document.getElementById("num").innerHTML;
     let finished = "";
     var msg = "";
-    var time = 2500
-    if (status) {
+    var time = 3500
+    if (state) {
         finished = "✅";
-        msg = `Congratulations on completing Cryptogram ${num}!`;
+        msg = `Congratulations on completing Decryptions ${num}!`;
     } else {
         finished = "💀";
         msg = `Better luck next time!\n`;
@@ -17,27 +17,31 @@ document.addEventListener("DOMContentLoaded", function(){
     userText.style.backgroundColor = "#201c1c";
     let userWriter = new Typewriter(userText, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 45,
+        delay: 35,
         deleteSpeed: 5
     });
     userWriter.start();
     userWriter.typeString(msg);
     let buttons = [left, right];
+    let defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
+    window.addEventListener("resize", function(){
+        defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
+    });
     setTimeout(function(){
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = "60px";
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
-                if (i == 0){buttons[1 - i].style.marginRight = 0;}
-                else{buttons[1 - i].style.marginLeft = 0;}
+                if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
+                else{buttons[1 - i].style.marginLeft = "-100px";}
                 buttons[1 - i].style.opacity = 0;
                 buttons[i].style.width = "300px";
                 buttons[i].style.backgroundColor = "green";
             });
             buttons[i].addEventListener("mouseout", function(){
-                if (i == 1){buttons[1 - i].style.marginLeft = "100px";}
-                else{buttons[1 - i].style.marginRight = "100px";}
+                if (i == 1){buttons[1 - i].style.marginLeft = defaultMargin;}
+                else{buttons[1 - i].style.marginRight = defaultMargin;}
                 buttons[1 - i].style.opacity = 1;
                 buttons[i].style.width = "100px";
                 buttons[i].style.backgroundColor = "slategrey";
@@ -46,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[1 - i].style.display = "none";
                 buttons[i].classList.add("postfixed"); 
                 if (i == 0) {
-                    var copy = `CRYPTOGRAM\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ncryptogramgame.com`
+                    var copy = `DECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
                     navigator.clipboard.writeText(copy)
                         .then(() => {
                             userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 

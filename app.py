@@ -3,20 +3,22 @@ from flask_session import Session
 from datetime import date, timedelta
 
 app = Flask(__name__)
-
+app.config.from_pyfile('instance/config.py')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 today = date.today()
-number = 1
+number = 3
 curDate = today.strftime("%B %d, %Y")
 slashedDate = today.strftime("%m/%d")
 if (slashedDate[:2] != "10"):
     slashedDate = slashedDate.replace("0", "")
 
-testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV.'
-testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
+# testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV.'
+# testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
+testCryptogram = 'JIXLAD UNP JLAMBZIX ZDP, SMVGZAMPB FPXP VLQPVE BULVV ZGULSP ZAJ PXIWULAD MA UNP OMMA.'
+testSolution = 'DURING THE DINOSAUR AGE, VOLCANOES WERE LIKELY STILL ACTIVE AND ERUPTING ON THE MOON.'
 count = 0
 alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for letter in alpha:
@@ -26,8 +28,6 @@ count = 26 - count
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    if not session.get("returning"):
-        return redirect("/welcome")
     if not session.get("lives"):
         session["lives"] = 5
     if not session.get("replaced"):
@@ -92,7 +92,7 @@ def complete():
         win = True
 
     return render_template("complete.html", date=curDate, number=number, solvedCryptogram=testSolution,
-                    dateDashed=slashedDate, attempts=5 - session["lives"], status=win)
+                    dateDashed=slashedDate, attempts=5 - session["lives"], state=win)
 
 @app.route("/stats")
 def stats():
@@ -111,6 +111,10 @@ def stats():
 @app.route("/instructions")
 def instructions():
     return render_template("instructions.html", date=curDate, number=number)
+
+@app.route("/give")
+def give():
+    return render_template("give.html", date=curDate, number=number)
 
 @app.route("/api", methods=["POST"])
 def api():

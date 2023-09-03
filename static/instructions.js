@@ -69,9 +69,9 @@ document.addEventListener("DOMContentLoaded", function(){
     `;
     let msg1 = `
     The puzzles are cryptograms. To form
-    them, each letter is replaced by a different letter,
-    encoding meaning into gibberish. It's your job to figure
-    out what the original letters are!
+    them, every letter is replaced by a different letter. For example, every "H"
+    might be replaced by a "Q". It's your job to decrypt the gibberish and figure 
+    out the original puzzle!
     `;
     let msg2 = `
     Fun, right?
@@ -89,15 +89,22 @@ document.addEventListener("DOMContentLoaded", function(){
     the vowels!
     `;
     let msg6 = `
-    Finally, fill in the blanks. Use context clues!
+    Finally, use context clues. Remember: it starts out hard and gets easier.
+    Don't give up!
     `;
     let msg7 = `
-    Some other tips include checking for double letters ("EE", "LL", "SS, etc.),
+    Some other tips include checking for double letters ("EE", "LL", "SS),
     common combos ("TH", "ED"), noting punctiation (apostrophes), and carefully 
-    thinking ahead. Good luck!
+    thinking ahead. When you play, you can try different substitutions before hitting
+    confirm. Good luck!
     `;
+
     userWriter.start().typeString(msg0);
     let buttons = [left, right];
+    let defaultMargin = window.getComputedStyle(right).getPropertyValue("margin-right");
+    window.addEventListener("resize", function(){
+        defaultMargin = window.getComputedStyle(right).getPropertyValue("margin-right");
+    });
     left.style.display = "none";
     setTimeout(function(){
         for (let i = 0; i < 2; i++)
@@ -105,15 +112,15 @@ document.addEventListener("DOMContentLoaded", function(){
             buttons[i].style.marginTop = "60px";
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
-                if (i == 0){buttons[1 - i].style.marginRight = 0;}
-                else{buttons[1 - i].style.marginLeft = 0;}
+                if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
+                else{buttons[1 - i].style.marginLeft = "-100px";}
                 buttons[1 - i].style.opacity = 0;
                 buttons[i].style.width = "300px";
                 buttons[i].style.backgroundColor = "green";
             });
             buttons[i].addEventListener("mouseout", function(){
-                if (i == 1){buttons[1 - i].style.marginLeft = "100px";}
-                else{buttons[1 - i].style.marginRight = "100px";}
+                if (i == 1){buttons[1 - i].style.marginLeft = defaultMargin;}
+                else{buttons[1 - i].style.marginRight = defaultMargin;}
                 buttons[1 - i].style.opacity = 1;
                 buttons[i].style.width = "100px";
                 buttons[i].style.backgroundColor = "slategrey";
@@ -244,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         buttons[1].innerHTML = "Play!"
                         userWriter = typeReset();
                         userWriter.start().typeString(msg7); 
-                        userText.style.fontSize = "18px";
+                        userText.style.fontSize = "15px";
                     }
                 } else if (page == 7) { 
                     if (i == 0) {
