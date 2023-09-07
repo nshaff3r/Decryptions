@@ -130,3 +130,6 @@ def api():
         if (int(session["lives"]) == 0):
             session["finished"] = True
         return jsonify({'message': 'wrong', 'lives': session["lives"], 'complete': session["finished"]}), 200
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
