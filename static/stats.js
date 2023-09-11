@@ -1,11 +1,28 @@
 document.addEventListener("DOMContentLoaded", function(){
     let left = document.getElementById("left");
     let right = document.getElementById("right");
+    let buttons = [left, right];
     var solved = ((data.solved/data.games) * 100).toFixed(2);
     if (data.games == 0) {
         solved = 0;
     }
     var msg = `Games: ${data.games}<br>Solved: ${solved}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1❤️ Wins)</i>: ${data.closeCalls}`;
+    const container = document.getElementById("cryptogramContainer");
+    var top = "60px";
+    function sizing()
+    {
+        if (window.innerWidth <= 401) {
+            container.style.height = "400px";
+            top = "0px";
+        }
+        else
+        {
+            top = "60px";
+        }
+        buttons[0].style.marginTop = top;
+        buttons[1].style.marginTop = top;
+    }
+    sizing();
     var userText = document.getElementById('inputText');
     userText.style.backgroundColor = "#201c1c";
     let userWriter = new Typewriter(userText, {
@@ -15,16 +32,15 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     let stop = document.getElementById("stop");
     if (data.closeCalls > 9) {
-        stop.style.width = "78px";
+        stop.style.width = "50px";
     }
     if (data.closeCalls > 99) {
-        stop.style.width = "68px";
+        stop.style.width = "40px";
     }
     userWriter.start();
     userWriter.typeString(msg);
-    const img = document.createElement("img");
     setTimeout(function(){ 
-    var myChart = new Chart(ctx.getContext('2d'), {
+        var myChart = new Chart(ctx.getContext('2d'), {
             type: 'line',
             data: {
                 labels: ['💀', '❤️', '❤️❤️', '❤️❤️❤️', '❤️❤️❤️❤️', '❤️❤️❤️❤️❤️'],
@@ -34,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 }]
             },
             options: {  
+                maintainAspectRatio: false,
                 animation: {
                     duration: 0,
                 },
@@ -69,25 +86,23 @@ document.addEventListener("DOMContentLoaded", function(){
         document.getElementById("cover").style.width = 0;
     }, 3700);
     setTimeout(function(){
-        let buttons = [left, right];
-        let defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
         window.addEventListener("resize", function(){
-            defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
+            sizing();
         });
         for (let i = 0; i < 2; i++)
         {
-            buttons[i].style.marginTop = "60px";
+            buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
-                if (i == 0){buttons[1 - i].style.marginRight = 0;}
+                if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
                 else{buttons[1 - i].style.marginLeft = "-100px";}
-                buttons[1 - i].style.opacity = "-100px";
-                buttons[i].style.width = "300px";
+                buttons[1 - i].style.opacity = "0";
+                buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
                 buttons[i].style.backgroundColor = "green";
             });
             buttons[i].addEventListener("mouseout", function(){
-                if (i == 1){buttons[1 - i].style.marginLeft = defaultMargin;}
-                else{buttons[1 - i].style.marginRight = defaultMargin;}
+                if (i == 1){buttons[1 - i].style.marginLeft = 0;}
+                else{buttons[1 - i].style.marginRight = 0;}
                 buttons[1 - i].style.opacity = 1;
                 buttons[i].style.width = "100px";
                 buttons[i].style.backgroundColor = "slategrey";
@@ -130,5 +145,5 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             })
         }
-    }, 7500);
+    }, 0);
 });

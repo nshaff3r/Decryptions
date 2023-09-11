@@ -2,7 +2,7 @@
 
 <html lang="en">
     <head>
-        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Decryptions</title>
         <link href="../static/styles.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.cdnfonts.com/css/ibm-plex-mono" rel="stylesheet">
@@ -12,51 +12,66 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
-        <a href="/" style="text-decoration: none;"><h1 id="logo">decryptions</h1></a>
-        <div id="toolDiv">
-            <a href="/stats"><img src="../static/stats.svg" alt="stats" id="stats" class="tool"></a>
-            <a href="/instructions"><img src="../static/question.svg" alt="instructions" id="question" class="tool"></a>
-            <img src="../static/contact.svg" alt="contact" id="contact" class="tool">
-        </div>
-        <div id="menu">
-            <a class="option" href="/give">.org?</a><br>
-            <a class="option" href="mailto:nolanshaffer@uchicago.edu">Feedback</a><br>
-            <a class="option" href="mailto:nolanshaffer@uchicago.edu">Report Bug</a>
-        </div>
-        <div id="cryptogramContainer">
-            <div id="number">
-                <p>
-                <span id="date">{{ date }}</span>
-                <span id="num">#{{ number }}</span>
-                </p>
+        <div id="content">
+            <div id="logoContainer">
+                <a href="/" style="text-decoration: none;"><h1 id="logo">decryptions</h1></a>
             </div>
-            {% block cryptogram %}{% endblock %}
-        </div>
-        <div id="keyboardContainer">
-            {% block keyboard %}{% endblock %}
-        </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function(){
-                let contact = document.getElementById("contact");
-                let text = document.getElementById("logo");
-                let menu = document.getElementById("menu");
-                contact.addEventListener("mouseover", function(){
-                    menu.style.height = "160px";
-                });
-                menu.addEventListener("mouseover", function(){
-                    menu.style.height = "160px";
-                });
-                contact.addEventListener("mouseout", function(){
-                    menu.style.height = "0px";
-                });
-                menu.addEventListener("mouseout", function(){
-                    menu.style.height = "0px";
-                });
-                setTimeout(function(){
-                    text.innerHTML = "decRyptions";
-                }, 500);
+            <div id="toolDiv">
+                <a href="/stats"><img src="../static/stats.svg" alt="stats" id="stats" class="tool"></a>
+                <a href="/instructions"><img src="../static/question.svg" alt="instructions" id="question" class="tool"></a>
+                <img src="../static/contact.svg" alt="contact" id="contact" class="tool">
+            </div>
+            <div id="menu">
+                <a class="option" href="/give">.org?</a><br>
+                <a class="option" href="mailto:nolanshaffer@uchicago.edu">Feedback</a><br>
+                <a class="option" href="mailto:nolanshaffer@uchicago.edu">Report Bug</a>
+            </div>
+            <div id="cryptogramContainer">
+                <div id="number">
+                    <p>
+                    <span id="date">{{ date }}</span>
+                    <span id="num">#{{ number }}</span>
+                    </p>
+                </div>
+                {% block cryptogram %}{% endblock %}
+            </div>
+            <div id="keyboardContainer">
+                {% block keyboard %}{% endblock %}
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function(){
+                    let contact = document.getElementById("contact");
+                    let text = document.getElementById("logo");
+                    let menu = document.getElementById("menu");
+                    const content = document.getElementById("content");
+                    var gate = false
+                    content.style.setProperty("height", `${window.innerHeight - 15}px`);
+                    contact.addEventListener("mouseover", function(){
+                        menu.style.height = "160px";
+                    });
+                    menu.addEventListener("mouseover", function(){
+                        menu.style.height = "160px";
+                    });
+                    contact.addEventListener("mouseout", function(){
+                        menu.style.height = "0px";
+                    });
+                    menu.addEventListener("mouseout", function(){
+                        menu.style.height = "0px";
+                    });
+                    contact.addEventListener("touchstart", function(){
+                        menu.classList.toggle("menuOpen");
+                        if (gate == true) {
+                            menu.classList.remove("menuOpen");
+                            alert("ASDF");
+                        }
+                        gate = true;
+                    })
+                    setTimeout(function(){
+                        text.innerHTML = "decRyptions";
+                    }, 500);
 
-            });
-        </script>
+                });
+            </script>
+        </div>
     </body>
 </html>

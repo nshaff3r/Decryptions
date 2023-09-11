@@ -36,6 +36,19 @@ a:hover
 {
     color: #ffffff;
 }
+
+#content
+{
+    height: 100vh;
+    overflow: hidden;
+}
+
+#logoContainer
+{
+    width: 22em;
+    margin-left: auto;
+    margin-right: auto;
+}
 #logo
 {
     text-decoration: none !important;
@@ -58,7 +71,7 @@ a:hover
     height: 400px;
     background-color: #201c1c;
     box-shadow: inset 0 00 3px black;
-    transition: all 1s;
+    transition: box-shadow 1s;
 }
 
 #keyboardContainer
@@ -67,9 +80,8 @@ a:hover
     margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 15px;
-    max-width: 500px;
-    border-style: solid;
+    margin-top: 5px;
+    max-width: 350px;
     /* background-color: #201c1c;
     box-shadow: inset 0 0 3px black; */
     height: 170px;
@@ -93,10 +105,9 @@ a:hover
 #number
 {
     font-size: 12px;
-    padding: 5px;
-    margin-left: 10px;
-    margin-right: 10px;
-    top: 100px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
     font-family: 'IBM Plex Mono', sans-serif;
     color: slategrey;
 }
@@ -110,13 +121,11 @@ a:hover
 #left
 {
     float: left;
-    margin-left: 100px;
 }
 
 #right
 {
     float: right;
-    margin-right: 100px;
 }
 
 #inputText
@@ -150,7 +159,7 @@ a:hover
 {
     float: left;
     margin-right: 5px;
-    font-size: 13px;
+    font-size: 14px;
     height: 50px;
     vertical-align: center;
     width: 60px;
@@ -160,7 +169,7 @@ a:hover
 {
     position: absolute;
     left: 170px;
-    top: 17px;
+    top: 11px;
     width: 136px;
     height: 14px;
 }
@@ -203,9 +212,9 @@ a:hover
     z-index: 2;
     background-color: #201c1c;
     height: 25px;
-    width: 88px;
+    width: 63px;
     right: 1px;
-    top: 170px;
+    top: 185px;
 }
 
 #hider
@@ -229,7 +238,7 @@ a:hover
 {
     position: absolute;
     right: 20px;
-    top: 25px;
+    top: 35px;
 }
 
 #menu
@@ -243,6 +252,11 @@ a:hover
     height: 0px;
     overflow: hidden;
     transition: all .8s;
+}
+
+.menuOpen
+{
+    height: 160px;
 }
 
 .cryptogram
@@ -303,13 +317,13 @@ a:hover
 
 .keyboard-button
 {
-    font-size: 15px;
+    font-size: 20px;
     font-weight: 1000;
     font-family: "Martian Mono", Helvetica;
     text-align: center;
     height: 50px;
     width: 42px;
-    text-align: center;
+    padding: 1px;
     margin: 1px;
     background-color: dimgray;
     border-width: 0;
@@ -336,24 +350,24 @@ a:hover
 
 #left.fixed
 {
-    width: 300px !important;
+    width: 350px !important;
     background-color: green !important;
 }
 
 #right.fixed
 {
-    width: 300px !important;
+    width: 350px !important;
     background-color: red !important;
 }
 
 .stat
 {
-    font-size: 20px !important;
+    font-size: 20px;
 }
 
 .postfixed
 {
-    width: 300px !important;
+    width: min(350px, calc(100vw - 20px)) !important;
     background-color: blue !important;
 }
 
@@ -368,6 +382,7 @@ a:hover
 .postbutton
 {
     width: 100px;
+    padding: 1px;
     opacity: 0;
     margin-top: 120px;
     border-radius: 15px;
@@ -381,11 +396,20 @@ a:hover
 }
 
 @media only screen and (max-width: 700px) {
-    #logo {
+    #logo
+    {
         text-align: left;
         font-size: 28px;
+       
+    }
+    #logoContainer
+    {
         margin-top: 21px;
         margin-left: 20px;
+        width: 14em;
+    }
+    #toolDiv {
+        top: 30px;
     }
 }
 
@@ -395,45 +419,60 @@ a:hover
     }
     #confirm {
         width: 14.2vw;
-        font-size: 2.4vw;
+        font-size: 2.5vw;
     }
     #del {
-        font-size: 2.5vw;
+        font-size: 2.7vw;
         width: 11.9vw;
-    }
-    #left {
-        margin-left: 50px;
-    }
-    #right {
-        margin-right: 50px;
     }
 }
 
 @media only screen and (max-width: 401px) {
     .keyboard-button {
         width: 7.9vw;
+        height: 45px;
     }
     #confirm {
-        width: 14.2vw;
-        font-size: 2.2vw;
+        width: 15vw;
+        font-size: 2.5vw;
+        height: 45px;
     }
     #del {
-        font-size: 2.5vw;
+        font-size: 2.9vw;
         width: 11.6vw;
+        height: 45px;
     } 
     #logo {
-        font-size: 25px;
-        margin-top: 24px;
+        font-size: 20px;
+    }
+    #logoContainer {
+        margin-top: -10px;
         margin-left: 10px;
+        width: 10em;
     }
     #toolDiv {
+        margin-top: -15px;
         right: 10px;
     }
-    #left {
-        margin-left: 45px;
+    .tool {
+        width: 22px;
     }
-    #right {
-        margin-right: 45px;
+    #cryptogramContainer
+    {
+        height: 50vh;
+    }
+    #inputText
+    {
+        font-size: 20px;
+    }
+    #chartContainer
+    {
+        height: 180px;
+        width: 100%;
+    }
+    .cryptogram
+    {
+        font-size: 19px;
     }
 }
 
@@ -449,12 +488,6 @@ a:hover
         font-size: 2.6vw;
         width: 11vw;
     }
-    #left {
-        margin-left: 20px;
-    }
-    #right {
-        margin-right: 20px;
-    }
 }
 
 @media only screen and (max-width: 345px) {
@@ -464,16 +497,12 @@ a:hover
     #hearts {
         left: 160px;
     }
-    #logo {
-        font-size: 20px;
-        margin-top: 27px;
-        margin-left: 10px;
-    } #left {
+    /* #left {
         margin-left: 0px;
         width: 85px;
     }
     #right {
         margin-right: 0px;
         width: 85px;
-    }
+    } */
 }

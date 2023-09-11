@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(){
         status.innerHTML = "CORRECT";
         status.style.color = "#00ff00"
         status.style.opacity = 100;
-        container.style.boxShadow = "inset 0 0 100px green";
+        container.style.boxShadow = "inset 0 0 50px green";
         highlight(letter, 1, letter, "#00ff00");
     }
     function incorrect(letter)
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function(){
         status.innerHTML = "INCORRECT";
         status.style.color = "#ff0000"
         status.style.opacity = 100;
-        container.style.boxShadow = "inset 0 0 100px red";
+        container.style.boxShadow = "inset 0 0 50px red";
         highlight(letter, 1, letter, "#ff0000");
     }
     function keyColor(arr, color)
@@ -190,6 +190,8 @@ document.addEventListener("DOMContentLoaded", function(){
     const del = document.getElementById("del");
     const changing = new Object();
     const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let keyboardContainer = document.getElementById("keyboardContainer");
+    keyboardContainer.style.maxWidth = "500px";
     let cryptogramText = document.getElementById("cryptogram");
     var ignore = [];
     var changed = [];
@@ -238,4 +240,5 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     userWriter.start();
     userWriter.typeString('Letter to replace: ');
+    // userWriter.typeString(`${window.innerWidth} x ${window.innerHeight}`);
 });

@@ -103,7 +103,7 @@ def stats():
             "streak": 0,
             "maxStreak": 0,
             "avgLives": 0,
-            "closeCalls": 0,
+            "closeCalls": 198,
             "lives": [0, 0, 0, 0, 0, 0]
         }
     return render_template("stats.html", date=curDate, number=number, data=session["history"])
@@ -132,4 +132,5 @@ def api():
         return jsonify({'message': 'wrong', 'lives': session["lives"], 'complete': session["finished"]}), 200
 
 if __name__ == "__main__":
+    app.debug = True
     app.run(host='0.0.0.0')
