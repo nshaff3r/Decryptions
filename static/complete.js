@@ -33,12 +33,12 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     sizing();
     let buttons = [left, right];
+    window.addEventListener("resize", function(){
+        sizing();
+        buttons[0].style.marginTop = top;
+        buttons[1].style.marginTop = top;
+    });
     setTimeout(function(){
-        window.addEventListener("resize", function(){
-            sizing();
-            buttons[0].style.marginTop = top;
-            buttons[1].style.marginTop = top;
-        });
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = top;
@@ -62,29 +62,30 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[i].classList.add("postfixed"); 
                 if (i == 0) {
                     var copy = `DECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
-                    navigator.clipboard.writeText(copy)
-                        .then(() => {
-                            userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
-                            setTimeout(function(){
-                                userWriter.stop().pauseFor(1).start().deleteChars(20);
-                                buttons[0].classList.remove("postfixed");
+                    try {
+                        navigator.clipboard.writeText(copy)
+                            .then(() => {
+                                userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
                                 setTimeout(function(){
-                                    buttons[1].style.display = "block";
-                                }, 500)
+                                    userWriter.stop().pauseFor(1).start().deleteChars(20);
+                                    buttons[0].classList.remove("postfixed");
+                                    setTimeout(function(){
+                                        buttons[1].style.display = "block";
+                                    }, 500)
 
-                            }, 2000)
-                        })
-                        .catch(error => {
-                            var errorString = `\n<br>Error copying to clipboard. Please check your browser permissions and try again.`;
-                            userWriter.stop().pauseFor(1).start().typeString(errorString); 
-                            setTimeout(function(){
-                                userWriter.stop().pauseFor(1).start().deleteChars(81);
-                                buttons[0].classList.remove("postfixed");
+                                }, 2000)
+                            })
+                        } catch(error) {
+                                var errorString = `\n<br>Error copying to clipboard.`;
+                                userWriter.stop().pauseFor(1).start().typeString(errorString); 
                                 setTimeout(function(){
-                                    buttons[1].style.display = "block";
-                                }, 500)
-                            }, 5000)
-                        });
+                                    userWriter.stop().pauseFor(1).start().deleteChars(28);
+                                    buttons[0].classList.remove("postfixed");
+                                    setTimeout(function(){
+                                        buttons[1].style.display = "block";
+                                    }, 500)
+                                }, 3000)
+                            }
                 }
                 if (i == 1) {
                     userWriter.stop().pauseFor(1).start().deleteChars(50);
@@ -94,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             buttons[1].classList.remove("postfixed");
                             buttons[0].style.display = "block";
                         }, 100);
-                    }, time / 1.7);
+                    }, time + 400);
                 }
             })
         }

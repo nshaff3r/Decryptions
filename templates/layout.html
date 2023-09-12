@@ -45,6 +45,9 @@
                     let menu = document.getElementById("menu");
                     const content = document.getElementById("content");
                     var gate = false
+                    window.addEventListener("resize", function(){
+                        content.style.setProperty("height", `${window.innerHeight - 15}px`);
+                    })
                     content.style.setProperty("height", `${window.innerHeight - 15}px`);
                     contact.addEventListener("mouseover", function(){
                         menu.style.height = "160px";

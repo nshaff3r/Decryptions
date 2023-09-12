@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         buttons[0].classList.remove("postfixed");
                         buttons[1].style.display = "block";
                     }, 200)
-                }, 1500);
+                }, 1900);
             })
         }
     }, 0);

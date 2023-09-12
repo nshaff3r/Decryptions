@@ -81,13 +81,12 @@ document.addEventListener("DOMContentLoaded", function(){
         });
         document.getElementById("cover").style.width = 0;
     }, 3700);
-    
+    window.addEventListener("resize", function(){
+        sizing();
+        buttons[0].style.marginTop = top;
+        buttons[1].style.marginTop = top;
+    });
     setTimeout(function(){
-        window.addEventListener("resize", function(){
-            sizing();
-            buttons[0].style.marginTop = top;
-            buttons[1].style.marginTop = top;
-        });
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = top;
@@ -112,16 +111,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (i == 0) {
                     var copy = msg.replaceAll("<br>", "\n");
                     copy = copy.replaceAll('<i style="font-size: 12px;">(1❤️ Wins)</i>', ' (1❤️ Wins)');
-                    // if(typeof ClipboardItem && navigator.clipboard.write) {
-                        // NOTE: Safari locks down the clipboard API to only work when triggered
-                        //   by a direct user interaction. You can't use it async in a promise.
-                        //   But! You can wrap the promise in a ClipboardItem, and give that to
-                        //   the clipboard API.
-                        //   Found this on https://developer.apple.com/forums/thread/691873
-                        const type = "text/plain";
-                        const blob = new Blob([copy], { type });
-                        const data = [new ClipboardItem({ [type]: blob })];
-                        navigator.clipboard.write(data)
+    
+                    // const type = "text/plain";
+                    // const blob = new Blob([copy], { type });
+                    // const data = [new ClipboardItem({ [type]: blob })];
+                    try {
+                        navigator.clipboard.writeText(copy)
                         .then(() => {
                             userWriter.stop().pauseFor(1).start().typeString("\n<br>Copied to clipboard."); 
                             setTimeout(function(){
@@ -132,18 +127,18 @@ document.addEventListener("DOMContentLoaded", function(){
                                 }, 500)
                             }, 1500)
                         })
-                        .catch((error) => {
-                            alert("WOAHBUD");
-                            var errorString = "\n<br>Error copying to clipboard. Please check your browser permissions and try again.";
-                            userWriter.stop().pauseFor(1).start().typeString(errorString); 
+                    } catch(error){
+                        var errorString = "\n<br>Error copying to clipboard.";
+                        userWriter.stop().pauseFor(1).start().typeString(errorString); 
+                        setTimeout(function(){
+                            userWriter.stop().pauseFor(1).start().deleteChars(28);
+                            buttons[0].classList.remove("postfixed");
                             setTimeout(function(){
-                                userWriter.stop().pauseFor(1).start().deleteChars(81);
-                                buttons[0].classList.remove("postfixed");
                                 buttons[1].style.display = "block";
-                            }, 3300)
-                        });
+                            }, 500)
+                        }, 3000)
                     }
-                // }
+                }
                 if (i == 1) {
                     setTimeout(function(){
                         window.location.href = "/";

@@ -15,15 +15,29 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     userWriter.start();
     userWriter.typeString(msg);
+    const container = document.getElementById("cryptogramContainer");
+    var top = "60px";
+    function sizing()
+    {
+        if (window.innerWidth <= 401) {
+            container.style.height = "400px";
+            userText.style.fontSize = "21px";
+            top = "0px";
+        } else {
+            top = "60px";
+        }
+    }
+    sizing();
     let buttons = [left, right];
-    let defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
     window.addEventListener("resize", function(){
-        defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
+        sizing();
+        buttons[0].style.marginTop = top;
+        buttons[1].style.marginTop = top;
     });
     setTimeout(function(){
         for (let i = 0; i < 2; i++)
         {
-            buttons[i].style.marginTop = "60px";
+            buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
                 if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
@@ -33,8 +47,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[i].style.backgroundColor = "green";
             });
             buttons[i].addEventListener("mouseout", function(){
-                if (i == 1){buttons[1 - i].style.marginLeft = defaultMargin;}
-                else{buttons[1 - i].style.marginRight = defaultMargin;}
+                if (i == 1){buttons[1 - i].style.marginLeft = 0;}
+                else{buttons[1 - i].style.marginRight = 0;}
                 buttons[1 - i].style.opacity = 1;
                 buttons[i].style.width = "100px";
                 buttons[i].style.backgroundColor = "slategrey";
@@ -46,14 +60,18 @@ document.addEventListener("DOMContentLoaded", function(){
                     window.open("https://www.givedirectly.org/about/");
                     setTimeout(function(){
                         buttons[0].classList.remove("postfixed");
-                        buttons[1].style.display = "block";
+                        setTimeout(function(){
+                            buttons[1].style.display = "block";
+                        }, 500)
                     }, 2000)
                 }
                 if (i == 1) {
                     window.open("https://donate.givedirectly.org/");
                     setTimeout(function() {
                         buttons[1].classList.remove("postfixed");
-                        buttons[0].style.display = "block";
+                        setTimeout(function(){
+                            buttons[0].style.display = "block";
+                        }, 500)
                     }, 2000);
                 }
             })

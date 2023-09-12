@@ -100,27 +100,40 @@ document.addEventListener("DOMContentLoaded", function(){
     `;
 
     userWriter.start().typeString(msg0);
-    let buttons = [left, right];
-    let defaultMargin = window.getComputedStyle(right).getPropertyValue("margin-right");
+    const container = document.getElementById("cryptogramContainer");
+    var top = "60px";
+    function sizing()
+    {
+        if (window.innerWidth <= 401) {
+            container.style.height = "400px";
+            top = "0px";
+        } else {
+            top = "60px";
+        }
+    }
+    sizing();
     window.addEventListener("resize", function(){
-        defaultMargin = window.getComputedStyle(right).getPropertyValue("margin-right");
+        sizing();
+        buttons[0].style.marginTop = top;
+        buttons[1].style.marginTop = top;
     });
+    let buttons = [left, right];
     left.style.display = "none";
     setTimeout(function(){
         for (let i = 0; i < 2; i++)
         {
-            buttons[i].style.marginTop = "60px";
+            buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
                 if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
                 else{buttons[1 - i].style.marginLeft = "-100px";}
                 buttons[1 - i].style.opacity = 0;
-                buttons[i].style.width = "300px";
+                buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
                 buttons[i].style.backgroundColor = "green";
             });
             buttons[i].addEventListener("mouseout", function(){
-                if (i == 1){buttons[1 - i].style.marginLeft = defaultMargin;}
-                else{buttons[1 - i].style.marginRight = defaultMargin;}
+                if (i == 1){buttons[1 - i].style.marginLeft = 0;}
+                else{buttons[1 - i].style.marginRight = 0;}
                 buttons[1 - i].style.opacity = 1;
                 buttons[i].style.width = "100px";
                 buttons[i].style.backgroundColor = "slategrey";
