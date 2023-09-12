@@ -15,10 +15,10 @@ slashedDate = today.strftime("%m/%d")
 if (slashedDate[:2] != "10"):
     slashedDate = slashedDate.replace("0", "")
 
-# testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV.'
-# testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
-testCryptogram = 'JIXLAD UNP JLAMBZIX ZDP, SMVGZAMPB FPXP VLQPVE BULVV ZGULSP ZAJ PXIWULAD MA UNP OMMA.'
-testSolution = 'DURING THE DINOSAUR AGE, VOLCANOES WERE LIKELY STILL ACTIVE AND ERUPTING ON THE MOON.'
+testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV ADSFSD DF.'
+testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
+# testCryptogram = 'JIXLAD UNP JLAMBZIX ZDP, SMVGZAMPB FPXP VLQPVE BULVV ZGULSP ZAJ PXIWULAD MA UNP OMMA.'
+# testSolution = 'DURING THE DINOSAUR AGE, VOLCANOES WERE LIKELY STILL ACTIVE AND ERUPTING ON THE MOON.'
 count = 0
 alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for letter in alpha:
@@ -28,16 +28,16 @@ count = 26 - count
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    if not session.get("finished"):
+        session["finished"] = False
+    if session["finished"]:
+        return redirect("/complete")
     if not session.get("lives"):
         session["lives"] = 5
     if not session.get("replaced"):
         session["replaced"] = []
     if not session.get("failed"):
         session["failed"] = []
-    if not session.get("finished"):
-        session["finished"] = False
-    if session["finished"]:
-        return redirect("/complete")
     if not session.get("history"):
         session["history"] = {
             "games": 0,
@@ -92,7 +92,7 @@ def complete():
         win = True
 
     return render_template("complete.html", date=curDate, number=number, solvedCryptogram=testSolution,
-                    dateDashed=slashedDate, attempts=5 - session["lives"], state=win)
+                    dateDashed=slashedDate, attempts=5 - session["lives"], state=session["lives"])
 
 @app.route("/stats")
 def stats():

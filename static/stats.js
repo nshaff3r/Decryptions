@@ -14,13 +14,9 @@ document.addEventListener("DOMContentLoaded", function(){
         if (window.innerWidth <= 401) {
             container.style.height = "400px";
             top = "0px";
-        }
-        else
-        {
+        } else {
             top = "60px";
         }
-        buttons[0].style.marginTop = top;
-        buttons[1].style.marginTop = top;
     }
     sizing();
     var userText = document.getElementById('inputText');
@@ -85,9 +81,12 @@ document.addEventListener("DOMContentLoaded", function(){
         });
         document.getElementById("cover").style.width = 0;
     }, 3700);
+    
     setTimeout(function(){
         window.addEventListener("resize", function(){
             sizing();
+            buttons[0].style.marginTop = top;
+            buttons[1].style.marginTop = top;
         });
         for (let i = 0; i < 2; i++)
         {
@@ -113,35 +112,46 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (i == 0) {
                     var copy = msg.replaceAll("<br>", "\n");
                     copy = copy.replaceAll('<i style="font-size: 12px;">(1❤️ Wins)</i>', ' (1❤️ Wins)');
-                    navigator.clipboard.writeText(copy)
+                    // if(typeof ClipboardItem && navigator.clipboard.write) {
+                        // NOTE: Safari locks down the clipboard API to only work when triggered
+                        //   by a direct user interaction. You can't use it async in a promise.
+                        //   But! You can wrap the promise in a ClipboardItem, and give that to
+                        //   the clipboard API.
+                        //   Found this on https://developer.apple.com/forums/thread/691873
+                        const type = "text/plain";
+                        const blob = new Blob([copy], { type });
+                        const data = [new ClipboardItem({ [type]: blob })];
+                        navigator.clipboard.write(data)
                         .then(() => {
                             userWriter.stop().pauseFor(1).start().typeString("\n<br>Copied to clipboard."); 
                             setTimeout(function(){
                                 userWriter.stop().pauseFor(1).start().deleteChars(21);
                                 buttons[0].classList.remove("postfixed");
-                                buttons[1].style.display = "block";
+                                setTimeout(function(){
+                                    buttons[1].style.display = "block";
+                                }, 500)
                             }, 1500)
                         })
                         .catch((error) => {
+                            alert("WOAHBUD");
                             var errorString = "\n<br>Error copying to clipboard. Please check your browser permissions and try again.";
-                        userWriter.stop().pauseFor(1).start().typeString(errorString); 
-                        setTimeout(function(){
-                            userWriter.stop().pauseFor(1).start().deleteChars(81);
-                            buttons[0].classList.remove("postfixed");
-                            buttons[1].style.display = "block";
-                        }, 3300)
+                            userWriter.stop().pauseFor(1).start().typeString(errorString); 
+                            setTimeout(function(){
+                                userWriter.stop().pauseFor(1).start().deleteChars(81);
+                                buttons[0].classList.remove("postfixed");
+                                buttons[1].style.display = "block";
+                            }, 3300)
                         });
-                }
+                    }
+                // }
                 if (i == 1) {
-                    userWriter.stop().pauseFor(1).start().deleteChars(100);
-                    myChart.style.display = "none";
                     setTimeout(function(){
                         window.location.href = "/";
                         setTimeout(function() {
                             buttons[1].classList.remove("postfixed");
                             buttons[0].style.display = "block";
                         }, 100);
-                    }, 3100);
+                    }, 1000);
                 }
             })
         }

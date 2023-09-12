@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function(){
     {
         status.innerHTML = "CORRECT";
         status.style.color = "#00ff00"
-        status.style.opacity = 100;
+        status.style.opacity = 1;
         container.style.boxShadow = "inset 0 0 50px green";
         highlight(letter, 1, letter, "#00ff00");
     }
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function(){
     {
         status.innerHTML = "INCORRECT";
         status.style.color = "#ff0000"
-        status.style.opacity = 100;
+        status.style.opacity = 1;
         container.style.boxShadow = "inset 0 0 50px red";
         highlight(letter, 1, letter, "#ff0000");
     }

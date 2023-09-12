@@ -22,26 +22,37 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     userWriter.start();
     userWriter.typeString(msg);
+    var top = "60px";
+    function sizing()
+    {
+        if (window.innerWidth <= 401) {
+            top = "30px";
+        } else {
+            top = "60px";
+        }
+    }
+    sizing();
     let buttons = [left, right];
-    let defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
-    window.addEventListener("resize", function(){
-        defaultMargin = window.getComputedStyle(left).getPropertyValue("margin-left");
-    });
     setTimeout(function(){
+        window.addEventListener("resize", function(){
+            sizing();
+            buttons[0].style.marginTop = top;
+            buttons[1].style.marginTop = top;
+        });
         for (let i = 0; i < 2; i++)
         {
-            buttons[i].style.marginTop = "60px";
+            buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
                 if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
                 else{buttons[1 - i].style.marginLeft = "-100px";}
                 buttons[1 - i].style.opacity = 0;
-                buttons[i].style.width = "300px";
+                buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
                 buttons[i].style.backgroundColor = "green";
             });
             buttons[i].addEventListener("mouseout", function(){
-                if (i == 1){buttons[1 - i].style.marginLeft = defaultMargin;}
-                else{buttons[1 - i].style.marginRight = defaultMargin;}
+                if (i == 1){buttons[1 - i].style.marginLeft = 0;}
+                else{buttons[1 - i].style.marginRight = 0;}
                 buttons[1 - i].style.opacity = 1;
                 buttons[i].style.width = "100px";
                 buttons[i].style.backgroundColor = "slategrey";
@@ -57,7 +68,10 @@ document.addEventListener("DOMContentLoaded", function(){
                             setTimeout(function(){
                                 userWriter.stop().pauseFor(1).start().deleteChars(20);
                                 buttons[0].classList.remove("postfixed");
-                                buttons[1].style.display = "block";
+                                setTimeout(function(){
+                                    buttons[1].style.display = "block";
+                                }, 500)
+
                             }, 2000)
                         })
                         .catch(error => {
@@ -66,7 +80,9 @@ document.addEventListener("DOMContentLoaded", function(){
                             setTimeout(function(){
                                 userWriter.stop().pauseFor(1).start().deleteChars(81);
                                 buttons[0].classList.remove("postfixed");
-                                buttons[1].style.display = "block";
+                                setTimeout(function(){
+                                    buttons[1].style.display = "block";
+                                }, 500)
                             }, 5000)
                         });
                 }

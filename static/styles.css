@@ -80,12 +80,12 @@ a:hover
     margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5px;
+    margin-top: 15px;
     max-width: 350px;
     /* background-color: #201c1c;
     box-shadow: inset 0 0 3px black; */
     height: 170px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 #welcomeText
@@ -177,6 +177,7 @@ a:hover
 #status
 {
     position: absolute;
+    z-index: 2;
     opacity: 0;
     top: 130px;
     width: 100%;
@@ -184,7 +185,7 @@ a:hover
     font-size: 30px;
     color: #201c1c;
     text-align: center;
-    transition: all 1s;
+    transition: all .5s;
 }
 
 #myChart
@@ -350,13 +351,13 @@ a:hover
 
 #left.fixed
 {
-    width: 350px !important;
+    width: min(350px, calc(100vw - 20px)) !important;
     background-color: green !important;
 }
 
 #right.fixed
 {
-    width: 350px !important;
+    width: min(350px, calc(100vw - 20px)) !important;
     background-color: red !important;
 }
 
@@ -431,6 +432,9 @@ a:hover
     .keyboard-button {
         width: 7.9vw;
         height: 45px;
+    } .postbutton {
+        height: 60px;
+        font-size: 20px;
     }
     #confirm {
         width: 15vw;
@@ -459,7 +463,7 @@ a:hover
     }
     #cryptogramContainer
     {
-        height: 50vh;
+        height: 51vh;
     }
     #inputText
     {
@@ -469,6 +473,10 @@ a:hover
     {
         height: 180px;
         width: 100%;
+    }
+    #status
+    {
+        top: 85px;
     }
     .cryptogram
     {
