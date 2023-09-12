@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(){
     } else {
         finished = "💀";
         msg = `Better luck next time!\n`;
-        time = 1500;
+        time = 2000;
     }
     var userText = document.getElementById('inputText');
     userText.style.backgroundColor = "#201c1c";
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function(){
                                 userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
                                 setTimeout(function(){
                                     userWriter.stop().pauseFor(1).start().deleteChars(20);
-                                    buttons[0].classList.remove("postfixed");
+                                    buttons[i].classList.remove("postfixed");
                                     setTimeout(function(){
                                         buttons[1].style.display = "block";
                                     }, 500)
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function(){
                                 userWriter.stop().pauseFor(1).start().typeString(errorString); 
                                 setTimeout(function(){
                                     userWriter.stop().pauseFor(1).start().deleteChars(28);
-                                    buttons[0].classList.remove("postfixed");
+                                    buttons[i].classList.remove("postfixed");
                                     setTimeout(function(){
                                         buttons[1].style.display = "block";
                                     }, 500)
@@ -88,14 +88,11 @@ document.addEventListener("DOMContentLoaded", function(){
                             }
                 }
                 if (i == 1) {
-                    userWriter.stop().pauseFor(1).start().deleteChars(50);
                     setTimeout(function(){
                         window.location.href = "/stats";
-                        setTimeout(function() {
-                            buttons[1].classList.remove("postfixed");
-                            buttons[0].style.display = "block";
-                        }, 100);
-                    }, time + 400);
+                        buttons[1].classList.remove("postfixed");
+                        buttons[0].style.display = "block";
+                    }, 500);
                 }
             })
         }

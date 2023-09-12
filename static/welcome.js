@@ -49,16 +49,11 @@ document.addEventListener("DOMContentLoaded", function(){
             buttons[i].addEventListener("click", function(){
                 buttons[1 - i].style.display = "none";
                 buttons[i].classList.add("fixed");
-                typewriter.stop().pauseFor(1).start().deleteChars(43);
-                setTimeout(function() {
-                    document.getElementById("requestData").value = data[i];
-                    document.getElementById("ynForm").submit();
-                    setTimeout(function(){
-                        buttons[0].classList.remove("postfixed");
-                        buttons[1].style.display = "block";
-                    }, 200)
-                }, 1900);
+                document.getElementById("requestData").value = data[i];
+                buttons[i].classList.remove("fixed");
+                buttons[1 - i].style.display = "block";
+                document.getElementById("ynForm").submit();
             })
         }
-    }, 0);
+    }, 3500);
 });

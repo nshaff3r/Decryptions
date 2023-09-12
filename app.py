@@ -28,6 +28,8 @@ count = 26 - count
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    if not session.get("returning"): 
+        return redirect("/welcome")
     if not session.get("finished"):
         session["finished"] = False
     if session["finished"]:

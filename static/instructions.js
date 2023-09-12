@@ -276,7 +276,10 @@ document.addEventListener("DOMContentLoaded", function(){
                         page = 6;
                     }
                     if (i == 1) {
-                        window.location.href = "/";
+                        buttons[1].style.backgroundColor = "#0000ff"
+                        setTimeout(function(){
+                            window.location.href = "/";
+                        }, 500);
                     }
                 }
             })

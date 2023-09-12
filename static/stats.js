@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             setTimeout(function(){
                                 buttons[1].style.display = "block";
                             }, 500)
-                        }, 3000)
+                        }, 2000)
                     }
                 }
                 if (i == 1) {
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             buttons[1].classList.remove("postfixed");
                             buttons[0].style.display = "block";
                         }, 100);
-                    }, 1000);
+                    }, 500);
                 }
             })
         }
