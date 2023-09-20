@@ -1,6 +1,8 @@
 from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from datetime import date, timedelta
+import sqlite3
+import time
 
 app = Flask(__name__)
 app.config.from_pyfile('instance/config.py')
@@ -9,20 +11,22 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 today = date.today()
-number = 3
 curDate = today.strftime("%B %d, %Y")
 slashedDate = today.strftime("%m/%d")
 if (slashedDate[:2] != "10"):
     slashedDate = slashedDate.replace("0", "")
 
-testCryptogram = 'ZY PKL XSH XC XNNAH X MXP, ZS QKLAM SXIH KUHE SQHCSP PHXEV SK SEP XAA SRH ICKQC UXEZHSZHV ADSFSD DF.'
-testSolution =  'IF YOU ATE AN APPLE A DAY, IT WOULD TAKE OVER TWENTY YEARS TO TRY ALL THE KNOWN VARIETIES. '
-# testCryptogram = 'JIXLAD UNP JLAMBZIX ZDP, SMVGZAMPB FPXP VLQPVE BULVV ZGULSP ZAJ PXIWULAD MA UNP OMMA.'
-# testSolution = 'DURING THE DINOSAUR AGE, VOLCANOES WERE LIKELY STILL ACTIVE AND ERUPTING ON THE MOON.'
+sqliteConnection = sqlite3.connect('static/cryptograms.db')
+cursor = sqliteConnection.cursor()
+cursor.execute("SELECT * FROM puzzles WHERE DATE(date) = ?", (today,))
+data = cursor.fetchone()
+number = data[0] + 1
+cryptogram = data[1]
+solution =  data[2]
 count = 0
 alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for letter in alpha:
-    if letter not in testSolution:
+    if letter not in solution:
         count += 1
 count = 26 - count
 
@@ -50,8 +54,18 @@ def index():
             "closeCalls": 0,
             "lives": [0, 0, 0, 0, 0, 0]
         }
+    if not session.get("visited"):
+        session["visited"] = today
+
+    if session["visited"] != today:
+        session["lives"] = 5
+        session["finished"] = False
+        session["failed"] = []
+        session["replaced"] = []
+        session["visited"] = today
+
     return render_template("index.html", date=curDate, number=number,
-                           lives=session["lives"], cryptogramText=testCryptogram,
+                           lives=session["lives"], cryptogramText=cryptogram,
                            replaced=session["replaced"], failed=session["failed"])
 
 @app.route("/welcome", methods=["GET", "POST"])
@@ -93,7 +107,7 @@ def complete():
     else:
         win = True
 
-    return render_template("complete.html", date=curDate, number=number, solvedCryptogram=testSolution,
+    return render_template("complete.html", date=curDate, number=number, solvedCryptogram=solution,
                     dateDashed=slashedDate, attempts=5 - session["lives"], state=session["lives"])
 
 @app.route("/stats")
@@ -121,7 +135,7 @@ def give():
 @app.route("/api", methods=["POST"])
 def api():
     data = request.json
-    if testCryptogram.find(data["old"]) == testSolution.find(data["new"]):
+    if cryptogram.find(data["old"]) == solution.find(data["new"]):
          session["replaced"].append(data["old"] + data["new"])
          if len(session["replaced"]) == count:
              session["finished"] = True

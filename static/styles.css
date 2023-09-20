@@ -3,6 +3,17 @@
     src: url("Breymont-Bold.ttf");
 }
 
+@font-face {
+    font-family: Martian Mono;
+    src: url("MartianMono.ttf");
+}
+
+@font-face {
+    font-family: IBM Plex Mono;
+    src: url("IBMPlexMono.ttf");
+}
+
+
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
     10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -268,7 +279,7 @@ a:hover
     font-family: "Martian Mono", Helvetica;
     line-height: 1.5;
     bottom: 0px;
-    font-size: 23px;
+    font-size: 20px;
 }
 
 .tool
