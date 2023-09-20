@@ -13,8 +13,6 @@ Session(app)
 today = date.today()
 curDate = today.strftime("%B %d, %Y")
 slashedDate = today.strftime("%m/%d")
-if (slashedDate[:2] != "10"):
-    slashedDate = slashedDate.replace("0", "")
 
 sqliteConnection = sqlite3.connect('static/cryptograms.db')
 cursor = sqliteConnection.cursor()
