@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function(){
         document.addEventListener("keyup", function(e){
             userAction(e.key);
         });
-    }, 1500);
+    }, 1100);
     changing.changed = false;
     changing.replaced = false;
     changing.confirmed = false;
@@ -235,10 +235,9 @@ document.addEventListener("DOMContentLoaded", function(){
     var userText = document.getElementById('inputText');
     let userWriter = new Typewriter(userText, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 50,
+        delay: 20,
         deleteSpeed: 20
     });
     userWriter.start();
     userWriter.typeString('Letter to replace: ');
-    // userWriter.typeString(`${window.innerWidth} x ${window.innerHeight}`);
 });

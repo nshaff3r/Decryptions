@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(){
     if (data.games == 0) {
         solved = 0;
     }
-    var msg = `Games: ${data.games}<br>Solved: ${solved}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1❤️ Wins)</i>: ${data.closeCalls}`;
+    var msg = `Games: ${data.games}<br>Solved: ${solved}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1&#9829; Wins)</i>: ${data.closeCalls}`;
     const container = document.getElementById("cryptogramContainer");
     var top = "60px";
     function sizing()
@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", function(){
             buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
-                if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
-                else{buttons[1 - i].style.marginLeft = "-100px";}
+                if (i == 0){buttons[1 - i].style.marginRight = "-101px";}
+                else{buttons[1 - i].style.marginLeft = "-101px";}
                 buttons[1 - i].style.opacity = "0";
                 buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
                 buttons[i].style.backgroundColor = "green";
@@ -110,11 +110,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[i].classList.add("postfixed"); 
                 if (i == 0) {
                     var copy = msg.replaceAll("<br>", "\n");
-                    copy = copy.replaceAll('<i style="font-size: 12px;">(1❤️ Wins)</i>', ' (1❤️ Wins)');
-    
-                    // const type = "text/plain";
-                    // const blob = new Blob([copy], { type });
-                    // const data = [new ClipboardItem({ [type]: blob })];
+                    copy = copy.replaceAll('<i style="font-size: 12px;">(1&#9829; Wins)</i>', ' (1❤️ Wins)');
                     try {
                         navigator.clipboard.writeText(copy)
                         .then(() => {

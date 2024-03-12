@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function(){
     userText.style.backgroundColor = "#201c1c";
     let userWriter = new Typewriter(userText, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 30,
+        delay: 15,
         deleteSpeed: 5
     });
     userWriter.start();
@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", function(){
             buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
-                if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
-                else{buttons[1 - i].style.marginLeft = "-100px";}
+                if (i == 0){buttons[1 - i].style.marginRight = "-101px";}
+                else{buttons[1 - i].style.marginLeft = "-101px";}
                 buttons[1 - i].style.opacity = 0;
                 buttons[i].style.width = "300px";
                 buttons[i].style.backgroundColor = "green";
@@ -76,5 +76,5 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             })
         }
-    }, 7500);
+    }, 3900);
 });
