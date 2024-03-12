@@ -190,10 +190,13 @@ a:hover
     z-index: 2;
     opacity: 0;
     top: 130px;
-    width: 100%;
+    width: 70%;
+    left: 50%;
+    transform: translate(-50%, 0);
     font-family: 'IBM Plex Mono', sans-serif;
     font-size: 30px;
     color: #201c1c;
+    background-color: #201c1c;
     text-align: center;
     transition: all .5s;
 }

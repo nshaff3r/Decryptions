@@ -46,7 +46,8 @@ document.addEventListener("DOMContentLoaded", function(){
     {
         let userWriter = new Typewriter(userText, {
             cursor: '<span style="color: #ffffff;">|</span>',
-            delay: 30,
+            delay: 15,
+            deleteSpeed: 15
         });
         return userWriter;
     }
@@ -63,9 +64,8 @@ document.addEventListener("DOMContentLoaded", function(){
     var userText = document.getElementById('inputText');
     let userWriter = typeReset();
     let msg0 = `
-    Every day, there is a new puzzle in accordance with a set theme:
-    <span style="color: #00ff00;"><br>Mon: Fun Fact<br>Tue: Quote<br>
-    Wed: Joke<br>Thu: Proverb<br>Fri: Pun<br>Sat: Riddle<br>Sun: Haiku</span>
+    Decryptions are one of seven possible themes:
+    <span style="color: #00ff00;">Fun Fact, Quote, Joke, Proverb, Pun, Riddle, Song Lyric.</span>
     `;
     let msg1 = `
     The puzzles are cryptograms. To form
@@ -118,15 +118,99 @@ document.addEventListener("DOMContentLoaded", function(){
         buttons[1].style.marginTop = top;
     });
     let buttons = [left, right];
-    left.style.display = "none";
+    buttons[0].addEventListener("click", function(){
+        if (page==7) {
+            window.location.href = "/instructions";
+        } else {
+            window.location.href = "/";
+        }
+        setTimeout(function(){
+            buttons[0].style.display = "none";
+        }, 1000);
+    });
+
+    buttons[1].addEventListener("click", function(){
+        if (page == 0) {
+            buttons[1].style.backgroundColor = "#0000ff"
+            userWriter = typeReset();
+            userWriter.start().typeString(msg1); 
+            buttons[1].style.fontSize = "20px";
+            buttons[1].innerHTML = "See<br>Example";
+            page = 1;
+        } else if (page == 1) {
+            page = 2;
+            buttons[1].style.backgroundColor = "#0000ff"
+            buttons[1].innerHTML = "Tips"
+            buttons[1].style.fontSize = "25px"
+            example.innerHTML = exampleText;
+            userWriter = typeReset();
+            userWriter.start().typeString(""); 
+            hider.style.display = "block"
+            example.style.display = "block";
+            exampler(example, exampleText, solution);
+            hider.style.display = "none"
+            userWriter.stop().pauseFor(1).start().typeString("Check it out:"); 
+            setTimeout(function(){
+                if (page == 2) {
+                    userWriter.stop().pauseFor(1).start().deleteChars(13);
+                    userWriter.stop().pauseFor(1).start().typeString(msg2); 
+                }
+            }, 22000);
+        } else if (page == 2) {
+            page = 3;
+            example.style.display = "none";
+            tips.innerHTML = tipsText;
+            tips.style.display = "block";
+            hider.style.display = "none";
+            buttons[1].style.backgroundColor = "#0000ff";
+            buttons[1].innerHTML = "Next";
+            userWriter = typeReset();
+            userWriter.start().typeString(msg3); 
+            setTimeout(exampler, 1500, tips, "SHC", "AIS");
+        } else if (page == 3) {
+            page = 4;
+            buttons[1].style.backgroundColor = "#0000ff";
+            userWriter = typeReset();
+            userWriter.start().typeString(msg4); 
+            userText.style.fontSize = "19px";
+            setTimeout(exampler, 2500, tips, "NDG", "THE");
+        } else if (page == 4) {
+            page = 5;
+            buttons[1].style.backgroundColor = "#0000ff";
+            userWriter = typeReset();
+            userWriter.start().typeString(msg5); 
+            userText.style.fontSize = "23px";
+            setTimeout(exampler, 2000, tips, "WQ", "RO");
+        } else if (page == 5) { 
+            page = 6;
+            buttons[1].style.backgroundColor = "#0000ff";
+            userWriter = typeReset();
+            userWriter.start().typeString(msg6); 
+            userText.style.fontSize = "23px";
+            setTimeout(exampler, 1000, tips, "LIEZUIOVXTJ", "FGWDNGLCYPM");
+        } else if (page == 6) { 
+            page = 7;
+            buttons[1].style.backgroundColor = "#0000ff";
+            buttons[0].innerHTML = "Reread"
+            buttons[1].innerHTML = "Play!"
+            userWriter = typeReset();
+            userWriter.start().typeString(msg7); 
+            userText.style.fontSize = "15px";
+        } else if (page == 7) { 
+            buttons[1].style.backgroundColor = "#0000ff"
+            setTimeout(function(){
+                window.location.href = "/";
+            }, 500);
+        }
+    })
     setTimeout(function(){
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
-                if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
-                else{buttons[1 - i].style.marginLeft = "-100px";}
+                if (i == 0){buttons[1 - i].style.marginRight = "-101px";}
+                else{buttons[1 - i].style.marginLeft = "-101px";}
                 buttons[1 - i].style.opacity = 0;
                 buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
                 buttons[i].style.backgroundColor = "green";
@@ -138,151 +222,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[i].style.width = "100px";
                 buttons[i].style.backgroundColor = "slategrey";
             });
-            buttons[i].addEventListener("click", function(){
-                if (page == 0) {
-                    buttons[1].style.backgroundColor = "#0000ff"
-                    userWriter = typeReset();
-                    userWriter.start().typeString(msg1); 
-                    buttons[1].style.fontSize = "20px";
-                    buttons[1].innerHTML = "See<br>Example";
-                    buttons[0].style.display = "block";
-                    page = 1;
-                } else if (page == 1) {
-                    page = 2;
-                    if (i == 0) {
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg0); 
-                        buttons[0].style.backgroundColor = "#0000ff"
-                        buttons[0].style.opacity = 0;
-                        buttons[1].style.fontSize = "25px";
-                        buttons[1].innerHTML = "Next";
-                        page = 0;
-                        setTimeout(function(){
-                            buttons[0].style.display = "none";
-                        }, 1000);
-                    }
-                    if (i == 1) {
-                        buttons[1].style.backgroundColor = "#0000ff"
-                        buttons[1].innerHTML = "Tips"
-                        buttons[1].style.fontSize = "25px"
-                        example.innerHTML = exampleText;
-                        userWriter = typeReset();
-                        userWriter.start().typeString(""); 
-                        hider.style.display = "block"
-                        example.style.display = "block";
-                        exampler(example, exampleText, solution);
-                        setTimeout(function(){
-                            if (page == 2) {
-                                hider.style.display = "none"
-                                userWriter.stop().pauseFor(1).start().typeString(msg2); 
-                            }
-                        }, 22000);
-                    }
-                } else if (page == 2) {
-                    if (i == 0) {
-                        buttons[0].style.backgroundColor = "#0000ff"
-                        hider.style.display = "none"
-                        example.style.display = "none";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg1); 
-                        buttons[1].style.fontSize = "20px";
-                        buttons[1].innerHTML = "See<br>Example";
-                        page = 1;
-                    }
-                    if (i == 1) {
-                        page = 3;
-                        example.style.display = "none";
-                        tips.innerHTML = tipsText;
-                        tips.style.display = "block";
-                        hider.style.display = "none";
-                        buttons[1].style.backgroundColor = "#0000ff";
-                        buttons[1].innerHTML = "Next";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg3); 
-                        setTimeout(exampler, 3500, tips, "SHC", "AIS");
-                    }
-                } else if (page == 3) {
-                    if (i == 0) {
-                        buttons[0].style.backgroundColor = "#0000ff"
-                        tips.style.display = "none";
-                        example.style.display = "block";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg2); 
-                        buttons[1].innerHTML = "Tips";
-                        page = 2;
-                    }
-                    if (i == 1) {
-                        page = 4;
-                        buttons[1].style.backgroundColor = "#0000ff";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg4); 
-                        userText.style.fontSize = "19px";
-                        setTimeout(exampler, 1000, tips, "NDG", "THE");
-                    }
-                } else if (page == 4) {
-                    if (i == 0) {
-                        buttons[0].style.backgroundColor = "#0000ff"
-                        userText.style.fontSize = "23px";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg3); 
-                        page = 3;
-                    }
-                    if (i == 1) {
-                        page = 5;
-                        buttons[1].style.backgroundColor = "#0000ff";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg5); 
-                        userText.style.fontSize = "23px";
-                        setTimeout(exampler, 1000, tips, "WQ", "RO");
-                    }
-                } else if (page == 5) { 
-                    if (i == 0) {
-                        buttons[0].style.backgroundColor = "#0000ff"
-                        userText.style.fontSize = "19px";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg4); 
-                        page = 4;
-                    }
-                    if (i == 1) {
-                        page = 6;
-                        buttons[1].style.backgroundColor = "#0000ff";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg6); 
-                        userText.style.fontSize = "23px";
-                        setTimeout(exampler, 1000, tips, "LIEZUIOVXTJ", "FGWDNGLCYPM");
-                    }
-                } else if (page == 6) { 
-                    if (i == 0) {
-                        buttons[0].style.backgroundColor = "#0000ff"
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg5); 
-                        page = 5;
-                    }
-                    if (i == 1) {
-                        page = 7;
-                        buttons[1].style.backgroundColor = "#0000ff";
-                        buttons[1].innerHTML = "Play!"
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg7); 
-                        userText.style.fontSize = "15px";
-                    }
-                } else if (page == 7) { 
-                    if (i == 0) {
-                        buttons[0].style.backgroundColor = "#0000ff"
-                        buttons[1].innerHTML = "Next"
-                        userText.style.fontSize = "23px";
-                        userWriter = typeReset();
-                        userWriter.start().typeString(msg6); 
-                        page = 6;
-                    }
-                    if (i == 1) {
-                        buttons[1].style.backgroundColor = "#0000ff"
-                        setTimeout(function(){
-                            window.location.href = "/";
-                        }, 500);
-                    }
-                }
-            })
         }
     }, 0);
 });
