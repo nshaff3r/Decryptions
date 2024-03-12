@@ -3,25 +3,19 @@
 {% block cryptogram %}
 <p id="demo" class="cryptogram">KHNVTZEOSPG OG DXRSGE XOBH! ZXHDGH NFHNC WDNC OP D MHQ KDTG--OE QOXX NHVEDOPXT WH XOBH WHMSVH GHZEHRWHV EQHPEOHEF.</p>
 <script>
-    function highlight(el, letter, mode=0, altLetter='', color="#ffff00")
+    function highlight(el, letter, mode=0, altLetter, color="#ffff00")
     {
         var highlighted = `<span style="color: #ffff00;">${letter}</span>`;
         var altHighlighted = `<span style="color: ${color};">${altLetter}</span>`;
         if (mode==0) {
+            console.log(el.innerHTML)
             el.innerHTML = el.innerHTML.replaceAll(letter, highlighted);
+            console.log(el.innerHTML)
             var doubleReplaced = `<span style="color: #00ff00;"><span style="color: #ffff00;">${letter}</span></span>`;
             highlighted = `<span style="color: #00ff00;">${letter}</span>`;
             el.innerHTML = el.innerHTML.replaceAll(doubleReplaced, highlighted);
         } else if (mode==1) {
             el.innerHTML = el.innerHTML.replaceAll(highlighted, altHighlighted);
-        } else if (mode==2) {
-            el.innerHTML = el.innerHTML.replaceAll(altHighlighted, highlighted);
-        } else if (mode==3) {
-            el.innerHTML = el.innerHTML.replaceAll(altHighlighted, letter);
-        } else {
-            el.innerHTML = el.innerHTML.replaceAll(`>${letter}</`, `>~</`);
-            el.innerHTML = el.innerHTML.replaceAll(letter, altHighlighted);
-            el.innerHTML = el.innerHTML.replaceAll(`>~</`, `>${letter}</`);
         }
     }
 

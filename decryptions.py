@@ -16,11 +16,16 @@ slashedDate = today.strftime("%m/%d")
 
 sqliteConnection = sqlite3.connect('static/cryptograms.db')
 cursor = sqliteConnection.cursor()
-cursor.execute("SELECT * FROM puzzles WHERE DATE(date) = ?", (today,))
+cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(today) + " 00:00:00",))
 data = cursor.fetchone()
-number = data[0] + 1
-cryptogram = data[1]
-solution =  data[2]
+try:
+    solution = data[0]
+    cryptogram = data[1]
+    number = data[2]
+except:
+    solution = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
+    cryptogram = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
+    number = ''
 count = 0
 alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for letter in alpha:
@@ -112,13 +117,13 @@ def complete():
 def stats():
     if not session.get("history"):
         session["history"] = {
-            "games": 0,
-            "solved": 0,
-            "streak": 0,
-            "maxStreak": 0,
-            "avgLives": 0,
-            "closeCalls": 198,
-            "lives": [0, 0, 0, 0, 0, 0]
+            "games": 5,
+            "solved": 3,
+            "streak": 2,
+            "maxStreak": 2,
+            "avgLives": 1.4,
+            "closeCalls": 1,
+            "lives": [2, 1, 0, 2, 0, 0]
         }
     return render_template("stats.html", date=curDate, number=number, data=session["history"])
 
