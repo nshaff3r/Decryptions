@@ -64,9 +64,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     var copy = `DECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
                     try {
                         const data = {
-                            title: 'Decryptions',
-                            text: copy,
-                            url: 'https://decryptions.org',
+                            text: copy
                           };
                         navigator.share(data)
                         navigator.clipboard.writeText(copy)
