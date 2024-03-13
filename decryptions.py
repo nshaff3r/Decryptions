@@ -41,6 +41,7 @@ def index():
     if session["visited"] != today:
         session["lives"] = 5
         session["finished"] = False
+        session["stats"] = False
         session["failed"] = []
         session["replaced"] = []
         session["visited"] = today
@@ -86,6 +87,8 @@ def complete():
         return redirect("/")
 
     if not session.get("stats"):
+        session["stats"] = False
+    if not session["stats"]:
         session["stats"] = True
         if session["finished"]:
             if session["lives"] < 0:
@@ -103,7 +106,7 @@ def complete():
                     session["history"]["maxStreak"] = session["history"]["streak"]
                 if session["lives"] == 1:
                     session["history"]["closeCalls"] += 1
-
+        
     if session["lives"] == 0:
         win = False
     else:
@@ -116,13 +119,13 @@ def complete():
 def stats():
     if not session.get("history"):
         session["history"] = {
-            "games": 5,
-            "solved": 3,
-            "streak": 2,
-            "maxStreak": 2,
-            "avgLives": 1.4,
-            "closeCalls": 1,
-            "lives": [2, 1, 0, 2, 0, 0]
+            "games": 0,
+            "solved": 0,
+            "streak": 0,
+            "maxStreak": 0,
+            "avgLives": 0,
+            "closeCalls": 0,
+            "lives": [0, 0, 0, 0, 0, 0]
         }
     return render_template("stats.html", date=curDate, number=number, data=session["history"])
 
