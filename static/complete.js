@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function(){
     let left = document.getElementById("left");
     let right = document.getElementById("right");
     let num = document.getElementById("num").innerHTML;
+    let container = document.getElementById("cryptogramContainer");
+    container.style.height = "400px";
     let finished = "";
     var msg = "";
     var time = 1400
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(){
     function sizing()
     {
         if (window.innerWidth <= 401) {
-            top = "30px";
+            top = "0px";
         } else {
             top = "60px";
         }
@@ -67,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function(){
                             text: copy
                           };
                         navigator.share(data)
+                    }
+                    catch(err) {
                         navigator.clipboard.writeText(copy)
                             .then(() => {
                                 userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
@@ -79,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                                 }, 2000)
                             })
-                        } catch(error) {
+                            .catch(error => {
                                 var errorString = `\n<br>Error copying to clipboard.`;
                                 userWriter.stop().pauseFor(1).start().typeString(errorString); 
                                 setTimeout(function(){
@@ -89,7 +93,8 @@ document.addEventListener("DOMContentLoaded", function(){
                                         buttons[1].style.display = "block";
                                     }, 500)
                                 }, 3000)
-                            }
+                            });
+                        }
                 }
                 if (i == 1) {
                     setTimeout(function(){

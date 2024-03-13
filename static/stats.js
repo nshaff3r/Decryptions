@@ -111,7 +111,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (i == 0) {
                     var copy = msg.replaceAll("<br>", "\n");
                     copy = copy.replaceAll('<i style="font-size: 12px;">(1&#9829; Wins)</i>', ' (1❤️ Wins)');
+                    const data = {
+                        text: copy
+                      };
                     try {
+                        navigator.share(data)
                         navigator.clipboard.writeText(copy)
                         .then(() => {
                             userWriter.stop().pauseFor(1).start().typeString("\n<br>Copied to clipboard."); 
