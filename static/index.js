@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function(){
         {
             if (changing.changed)
             {
-                if (del.innerHTML == "Back" && ["BACK", "BACKSPACE"].includes(letter))
+                if (del.innerHTML == "Back" && ["BACK", "BACKSPACE"].includes(letter) && !changing.replaced)
                 {
                     userWriter.stop().pauseFor(1).start().deleteChars(13);
                     changing.changed = false;
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         }
                         keyColor(ignore, "#201c1c");
                         highlight(changing.old, 3, changing.old);
-                    }, 1200);
+                    }, 700);
                     
                 }
                 else if (del.innerHTML == "Del" && ["DEL", "BACKSPACE"].includes(letter))
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             }
                             lives[response.lives].classList.add("animation");
                             lives[response.lives].style.opacity = 0;
-                        }, 2300);
+                        }, 0);
                     });
                 }
     
@@ -235,8 +235,8 @@ document.addEventListener("DOMContentLoaded", function(){
     var userText = document.getElementById('inputText');
     let userWriter = new Typewriter(userText, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 5,
-        deleteSpeed: 5
+        delay: 20,
+        deleteSpeed: 15
     });
     userWriter.start();
     userWriter.typeString('Letter to replace: ');
