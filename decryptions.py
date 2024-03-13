@@ -35,6 +35,15 @@ count = 26 - count
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    if not session.get("visited"):
+        session["visited"] = today
+
+    if session["visited"] != today:
+        session["lives"] = 5
+        session["finished"] = False
+        session["failed"] = []
+        session["replaced"] = []
+        session["visited"] = today
     if not session.get("returning"): 
         return redirect("/welcome")
     if not session.get("finished"):
@@ -57,16 +66,6 @@ def index():
             "closeCalls": 0,
             "lives": [0, 0, 0, 0, 0, 0]
         }
-    if not session.get("visited"):
-        session["visited"] = today
-
-    if session["visited"] != today:
-        session["lives"] = 5
-        session["finished"] = False
-        session["failed"] = []
-        session["replaced"] = []
-        session["visited"] = today
-
     return render_template("index.html", date=curDate, number=number,
                            lives=session["lives"], cryptogramText=cryptogram,
                            replaced=session["replaced"], failed=session["failed"])
@@ -110,7 +109,7 @@ def complete():
     else:
         win = True
 
-    return render_template("complete.html", date=session["visited"], number=number, solvedCryptogram=solution,
+    return render_template("complete.html", date=curDate, number=number, solvedCryptogram=solution,
                     dateDashed=slashedDate, attempts=5 - session["lives"], state=session["lives"])
 
 @app.route("/stats")
