@@ -60,14 +60,14 @@ def index():
     if not session.get("visited"):
         session["visited"] = today
 
-    if session["visited"] != today:
-        session["lives"] = 5
-        session["finished"] = False
-        session["failed"] = []
-        session["replaced"] = []
-        session["visited"] = today
+    # if session["visited"] != today:
+    #     session["lives"] = 5
+    #     session["finished"] = False
+    #     session["failed"] = []
+    #     session["replaced"] = []
+    #     session["visited"] = today
 
-    return render_template("index.html", date=curDate, number=number,
+    return render_template("index.html", date=session["visited"], number=number,
                            lives=session["lives"], cryptogramText=cryptogram,
                            replaced=session["replaced"], failed=session["failed"])
 
