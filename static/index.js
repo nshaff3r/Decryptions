@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             if (response.complete == true) {
                                 setTimeout(function(){
                                     window.location.replace("/complete");
-                                }, 4600);
+                                }, 5000);
                             } 
                         }
                         var lives = document.querySelectorAll('.life');
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function(){
         document.addEventListener("keyup", function(e){
             userAction(e.key);
         });
-    }, 1100);
+    }, 900);
     changing.changed = false;
     changing.replaced = false;
     changing.confirmed = false;
@@ -235,8 +235,8 @@ document.addEventListener("DOMContentLoaded", function(){
     var userText = document.getElementById('inputText');
     let userWriter = new Typewriter(userText, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 20,
-        deleteSpeed: 20
+        delay: 5,
+        deleteSpeed: 5
     });
     userWriter.start();
     userWriter.typeString('Letter to replace: ');
