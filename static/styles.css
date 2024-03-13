@@ -105,7 +105,7 @@ a:hover
     margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15px;
+    margin-top: 20px;
     max-width: 350px;
     height: 170px;
 }
@@ -490,6 +490,10 @@ a:hover
         height: 51vh;
         transition: height 1s;
     }
+    #keyboardContainer
+    {
+        margin-top: 1vh;
+    }
     #inputText
     {
         font-size: 20px;
@@ -539,12 +543,10 @@ a:hover
     #hearts {
         left: 160px;
     }
-    /* #left {
-        margin-left: 0px;
-        width: 85px;
+}
+
+@media only screen and (min-height: 1100px) {
+    #keyboardContainer {
+        margin-top: 7vh;
     }
-    #right {
-        margin-right: 0px;
-        width: 85px;
-    } */
 }
