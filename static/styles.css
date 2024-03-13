@@ -30,9 +30,14 @@
 
 @media only screen and (orientation: landscape) {
     #content {
-        height: 100vh;
-        overflow: hidden;
+        overflow: none;
     }    
+
+    #cryptogramContainer
+    {
+        height: 400px !important;
+    }
+
   }
   
   @media only screen and (orientation: portrait) {
