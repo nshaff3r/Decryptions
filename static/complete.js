@@ -4,21 +4,21 @@ document.addEventListener("DOMContentLoaded", function(){
     let num = document.getElementById("num").innerHTML;
     let finished = "";
     var msg = "";
-    var time = 3500
+    var time = 1400
     if (state) {
         finished = "✅";
         msg = `Congratulations on completing Decryptions ${num}!`;
     } else {
         finished = "💀";
         msg = `Better luck next time!\n`;
-        time = 2000;
+        time = 800;
     }
     var userText = document.getElementById('inputText');
     userText.style.backgroundColor = "#201c1c";
     let userWriter = new Typewriter(userText, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 35,
-        deleteSpeed: 5
+        delay: 20,
+        deleteSpeed: 15
     });
     userWriter.start();
     userWriter.typeString(msg);
@@ -63,6 +63,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (i == 0) {
                     var copy = `DECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
                     try {
+                        const data = {
+                            title: 'Decryptions',
+                            text: copy,
+                            url: 'https://decryptions.org',
+                          };
+                        navigator.share(data)
                         navigator.clipboard.writeText(copy)
                             .then(() => {
                                 userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
