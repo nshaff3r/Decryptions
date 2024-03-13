@@ -119,14 +119,17 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     let buttons = [left, right];
     buttons[0].addEventListener("click", function(){
-        if (page==7) {
-            window.location.href = "/instructions";
-        } else {
-            window.location.href = "/";
-        }
+        setTimeout(function(){
+            if (page==7) {
+                window.location.href = "/instructions";
+            } else {
+                window.location.href = "/";
+            }
+        }, 1000);
+        
         setTimeout(function(){
             buttons[0].style.display = "none";
-        }, 1000);
+        }, 1100);
     });
 
     buttons[1].addEventListener("click", function(){
@@ -203,25 +206,31 @@ document.addEventListener("DOMContentLoaded", function(){
             }, 500);
         }
     })
+    function over(i) {
+        if (i == 0){buttons[1 - i].style.marginRight = "-101px";}
+        else{buttons[1 - i].style.marginLeft = "-101px";}
+        buttons[1 - i].style.opacity = 0;
+        buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
+        buttons[i].style.backgroundColor = "green";
+    }
+    function out(i) {
+        if (i == 1){buttons[1 - i].style.marginLeft = 0;}
+        else{buttons[1 - i].style.marginRight = 0;}
+        buttons[1 - i].style.opacity = 1;
+        buttons[i].style.width = "100px";
+        buttons[i].style.backgroundColor = "slategrey";
+    }
     setTimeout(function(){
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
-            buttons[i].addEventListener("mouseover", function(){
-                if (i == 0){buttons[1 - i].style.marginRight = "-101px";}
-                else{buttons[1 - i].style.marginLeft = "-101px";}
-                buttons[1 - i].style.opacity = 0;
-                buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
-                buttons[i].style.backgroundColor = "green";
-            });
-            buttons[i].addEventListener("mouseout", function(){
-                if (i == 1){buttons[1 - i].style.marginLeft = 0;}
-                else{buttons[1 - i].style.marginRight = 0;}
-                buttons[1 - i].style.opacity = 1;
-                buttons[i].style.width = "100px";
-                buttons[i].style.backgroundColor = "slategrey";
-            });
+            buttons[i].addEventListener("mouseover", () => over(i));
+            buttons[i].addEventListener("mouseout", () => out(i));
+            buttons[i].addEventListener("touchstart", () => over(i));
+            buttons[i].addEventListener("click", function(){
+                setTimeout(()=>out(i), 2500);
+            })
         }
-    }, 0);
+    }, 4300);
 });
