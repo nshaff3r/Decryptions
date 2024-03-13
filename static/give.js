@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", function(){
     userText.style.backgroundColor = "#201c1c";
     let userWriter = new Typewriter(userText, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 15,
-        deleteSpeed: 5
+        delay: 20,
+        deleteSpeed: 15
     });
     userWriter.start();
     userWriter.typeString(msg);

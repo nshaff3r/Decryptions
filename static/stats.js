@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function(){
     userText.style.backgroundColor = "#201c1c";
     let userWriter = new Typewriter(userText, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 30,
-        deleteSpeed: 5
+        delay: 20,
+        deleteSpeed: 15
     });
     let stop = document.getElementById("stop");
     if (data.closeCalls > 9) {

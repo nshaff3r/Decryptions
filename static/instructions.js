@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
     {
         let userWriter = new Typewriter(userText, {
             cursor: '<span style="color: #ffffff;">|</span>',
-            delay: 15,
+            delay: 20,
             deleteSpeed: 15
         });
         return userWriter;

@@ -210,7 +210,7 @@ a:hover
     font-family: 'IBM Plex Mono', sans-serif;
     font-size: 30px;
     color: #201c1c;
-    background-color: #201c1c;
+    background-color: rgba(32,28,28,0.8);
     text-align: center;
     transition: all .5s;
 }

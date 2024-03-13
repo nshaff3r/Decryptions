@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function(){
     var text = document.getElementById('welcomeText');
     let typewriter = new Typewriter(text, {
         cursor: '<span style="color: #ffffff;">|</span>',
-        delay: 15,
-        deleteSpeed: 5
+        delay: 20,
+        deleteSpeed: 15
     });
     let yes = document.getElementById("left");
     let no = document.getElementById("right");
