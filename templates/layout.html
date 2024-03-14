@@ -69,10 +69,12 @@
                     contact.addEventListener("mouseout", function(){
                         menu.classList.remove("menuOpen");
                         contact.classList.remove("contactOpen");
+                        gate = false;
                     });
                     menu.addEventListener("mouseout", function(){
                         menu.classList.remove("menuOpen");
                         contact.classList.remove("contactOpen");
+                        gate = false;
                     });
                     contact.addEventListener("click", function(){
                         menu.classList.add("menuOpen");
