@@ -1,8 +1,8 @@
 from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
-from datetime import date, timedelta
+from datetime import datetime, timedelta
+from pytz import timezone
 import sqlite3
-import time
 
 app = Flask(__name__)
 app.config.from_pyfile('instance/config.py')
@@ -10,9 +10,11 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-today = date.today() - timedelta(hours=4)
-curDate = today.strftime("%B %d, %Y")
-slashedDate = today.strftime("%m/%d")
+est = timezone('America/New_York') 
+dateobj = datetime.now(est)
+today = dateobj.strftime("%Y-%m-%d")
+curDate = dateobj.strftime("%B %d, %Y")
+slashedDate = dateobj.strftime("%m/%d")
 
 sqliteConnection = sqlite3.connect('static/cryptograms.db')
 cursor = sqliteConnection.cursor()
