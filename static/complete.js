@@ -87,7 +87,9 @@ document.addEventListener("DOMContentLoaded", function(){
                         const data = {
                             text: copy
                           };
-                        navigator.share(data)
+                        setTimeout(function(){
+                            navigator.share(data)
+                        }, 800);
                     }
                     catch(err) {
                         navigator.clipboard.writeText(copy)
