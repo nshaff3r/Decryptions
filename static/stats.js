@@ -121,7 +121,15 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[i].classList.add("postfixed"); 
                 setTimeout(function(){
                     buttons[i].classList.remove("postfixed");
-                }, 1000);
+                    if (i == 1){buttons[1 - i].style.marginLeft = 0;}
+                    else{buttons[1 - i].style.marginRight = 0;}
+                    buttons[1 - i].style.opacity = 1;
+                    buttons[i].style.width = "100px";
+                    buttons[i].style.backgroundColor = "slategrey";
+                }, 3000);
+                setTimeout(function(){
+                    buttons[1 - i].style.display = "block";
+                }, 4000)
                 if (i == 0) {
                     var copy = msg.replaceAll("<br>", "\n");
                     copy = copy.replaceAll('<i style="font-size: 12px;">(1&#9829; Wins)</i>', ' (1❤️ Wins)');
@@ -165,5 +173,5 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             })
         }
-    }, time);
+    }, 0);
 });

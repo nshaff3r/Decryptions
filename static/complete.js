@@ -72,7 +72,15 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[i].classList.add("postfixed"); 
                 setTimeout(function(){
                     buttons[i].classList.remove("postfixed");
-                }, 1000);
+                    if (i == 1){buttons[1 - i].style.marginLeft = 0;}
+                    else{buttons[1 - i].style.marginRight = 0;}
+                    buttons[1 - i].style.opacity = 1;
+                    buttons[i].style.width = "100px";
+                    buttons[i].style.backgroundColor = "slategrey";
+                }, 3000);
+                setTimeout(function(){
+                    buttons[1 - i].style.display = "block";
+                }, 4000)
                 if (i == 0) {
                     var copy = `Check out this cool\ndaily word game!\n\nDECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
                     try {
