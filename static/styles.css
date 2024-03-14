@@ -241,7 +241,11 @@ a:hover
     right: 1px;
     top: 185px;
 }
-
+#el404
+{
+    font-size: 30px;
+    top: 10px;
+}
 #hider
 {
     display: none;
