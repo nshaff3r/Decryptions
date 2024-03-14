@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     }, 700);
                     
                 }
-                else if (del.innerHTML == "Del" && ["DEL", "BACKSPACE"].includes(letter))
+                else if (del.innerHTML == "Del" && ["DEL", "BACKSPACE"].includes(letter) && !changing.confirmed)
                 {
                     userWriter.stop().pauseFor(1).start().deleteChars(1);
                     del.innerHTML = "Back";
