@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function(){
                       };
                     try {
                         navigator.share(data)
+                    } catch(error){
                         navigator.clipboard.writeText(copy)
                         .then(() => {
                             userWriter.stop().pauseFor(1).start().typeString("\n<br>Copied to clipboard."); 
@@ -137,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function(){
                                 }, 500)
                             }, 1500)
                         })
-                    } catch(error){
+                        .catch(error => {
                         var errorString = "\n<br>Error copying to clipboard.";
                         userWriter.stop().pauseFor(1).start().typeString(errorString); 
                         setTimeout(function(){
@@ -147,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function(){
                                 buttons[1].style.display = "block";
                             }, 500)
                         }, 2000)
+                    });
                     }
                 }
                 if (i == 1) {
