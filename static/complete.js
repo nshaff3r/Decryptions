@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function(){
     let right = document.getElementById("right");
     let num = document.getElementById("num").innerHTML;
     let container = document.getElementById("cryptogramContainer");
-    container.style.height = "400px";
     let finished = "";
     var msg = "";
     var time = 200;
