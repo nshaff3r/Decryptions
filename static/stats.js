@@ -136,33 +136,34 @@ document.addEventListener("DOMContentLoaded", function(){
                     const data = {
                         text: copy
                       };
-                    try {
-                        setTimeout(function(){
+                    setTimeout(function(){
+                        try {
                             navigator.share(data)
-                        }, 800);
-                    } catch(error){
-                        navigator.clipboard.writeText(copy)
-                        .then(() => {
-                            userWriter.stop().pauseFor(1).start().typeString("\n<br>Copied to clipboard."); 
+                        }
+                        catch(error){
+                            navigator.clipboard.writeText(copy)
+                            .then(() => {
+                                userWriter.stop().pauseFor(1).start().typeString("\n<br>Copied to clipboard."); 
+                                setTimeout(function(){
+                                    userWriter.stop().pauseFor(1).start().deleteChars(21);
+                                    setTimeout(function(){
+                                        buttons[1].style.display = "block";
+                                    }, 500)
+                                }, 1500)
+                            })
+                            .catch(error => {
+                            var errorString = "\n<br>Error copying to clipboard.";
+                            userWriter.stop().pauseFor(1).start().typeString(errorString); 
                             setTimeout(function(){
-                                userWriter.stop().pauseFor(1).start().deleteChars(21);
+                                userWriter.stop().pauseFor(1).start().deleteChars(28);
+                                buttons[0].classList.remove("postfixed");
                                 setTimeout(function(){
                                     buttons[1].style.display = "block";
                                 }, 500)
-                            }, 1500)
-                        })
-                        .catch(error => {
-                        var errorString = "\n<br>Error copying to clipboard.";
-                        userWriter.stop().pauseFor(1).start().typeString(errorString); 
-                        setTimeout(function(){
-                            userWriter.stop().pauseFor(1).start().deleteChars(28);
-                            buttons[0].classList.remove("postfixed");
-                            setTimeout(function(){
-                                buttons[1].style.display = "block";
-                            }, 500)
-                        }, 2000)
-                    });
-                    }
+                            }, 2000)
+                        });
+                        }
+                    }, 800);
                 }
                 if (i == 1) {
                     setTimeout(function(){

@@ -83,16 +83,15 @@ document.addEventListener("DOMContentLoaded", function(){
                 }, 4000)
                 if (i == 0) {
                     var copy = `Check out this cool\ndaily word game!\n\nDECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
-                    try {
-                        const data = {
-                            text: copy
-                          };
-                        setTimeout(function(){
+                    const data = {
+                        text: copy
+                    };
+                    setTimeout(function(){
+                        try {
                             navigator.share(data)
-                        }, 800);
-                    }
-                    catch(err) {
-                        navigator.clipboard.writeText(copy)
+                        }
+                        catch(err) {
+                            navigator.clipboard.writeText(copy)
                             .then(() => {
                                 userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
                                 setTimeout(function(){
@@ -114,7 +113,8 @@ document.addEventListener("DOMContentLoaded", function(){
                                     }, 500)
                                 }, 3000)
                             });
-                        }
+                            }
+                    }, 800);
                 }
                 if (i == 1) {
                     setTimeout(function(){
