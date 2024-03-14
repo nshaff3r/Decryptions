@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 else{buttons[1 - i].style.marginLeft = "-101px";}
                 buttons[1 - i].style.opacity = 0;
                 buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
-                buttons[i].style.backgroundColor = "green";
+                buttons[i].style.backgroundColor = "green"; 
             });
             buttons[i].addEventListener("mouseout", function(){
                 if (i == 1){buttons[1 - i].style.marginLeft = 0;}
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[1 - i].style.display = "none";
                 buttons[i].classList.add("postfixed"); 
                 if (i == 0) {
-                    var copy = `Check out this cool\ndaily word game\n\nDECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
+                    var copy = `Check out this cool\ndaily word game!\n\nDECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
                     try {
                         const data = {
                             text: copy
