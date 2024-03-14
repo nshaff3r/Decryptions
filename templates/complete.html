@@ -9,8 +9,11 @@
 
 
 {% block keyboard %}
-<button type="button" class="postbutton" id="left">Share</button>
-<button type="button" class="postbutton" id="right">View<br>Stats</button>
+<div>
+    <button type="button" class="postbutton" id="left">Share</button>
+    <button type="button" class="postbutton" id="right">View<br>Stats</button>
+    <div id="fader"></div>
+</div>
 <script>
     const dateDashed = {{ dateDashed | tojson }};
     const attempts = {{ attempts | tojson }};

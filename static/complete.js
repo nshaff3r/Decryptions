@@ -6,14 +6,18 @@ document.addEventListener("DOMContentLoaded", function(){
     container.style.height = "400px";
     let finished = "";
     var msg = "";
-    var time = 1400
+    var time = 200;
+    var fade = document.getElementById("fader")
+    if (window.getComputedStyle(fade, null).display == "none") {
+        time = 1800;
+    }
     if (state) {
         finished = "✅";
         msg = `Congratulations on completing Decryptions ${num}!`;
     } else {
         finished = "💀";
         msg = `Better luck next time!\n`;
-        time = 800;
+        time = 1100;
     }
     var userText = document.getElementById('inputText');
     userText.style.backgroundColor = "#201c1c";
@@ -41,13 +45,18 @@ document.addEventListener("DOMContentLoaded", function(){
         buttons[1].style.marginTop = top;
     });
     setTimeout(function(){
+        fade.style.opacity = 0;
+        fade.style.zIndex = 0;
+        setTimeout(function(){
+            fade.style.display = "none";
+        }, 2000)
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = top;
             buttons[i].style.opacity = 1;
             buttons[i].addEventListener("mouseover", function(){
-                if (i == 0){buttons[1 - i].style.marginRight = "-100px";}
-                else{buttons[1 - i].style.marginLeft = "-100px";}
+                if (i == 0){buttons[1 - i].style.marginRight = "-101px";}
+                else{buttons[1 - i].style.marginLeft = "-101px";}
                 buttons[1 - i].style.opacity = 0;
                 buttons[i].style.width = `${Math.min(350, window.innerWidth - 20)}px`;
                 buttons[i].style.backgroundColor = "green";
@@ -101,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         window.location.href = "/stats";
                         buttons[1].classList.remove("postfixed");
                         buttons[0].style.display = "block";
-                    }, 500);
+                    }, 800);
                 }
             })
         }

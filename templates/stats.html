@@ -13,8 +13,11 @@
 {% endblock %}
 
 {% block keyboard %}
+<div>
 <button type="button" class="postbutton" id="left">Share<br>Stats</button>
 <button type="button" class="postbutton" id="right">Home</button>
+<div id="fader"></div>
+</div>
 <script>
     const ctx = document.getElementById('myChart');
     const data = {{ data | tojson }};

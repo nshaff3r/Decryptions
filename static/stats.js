@@ -35,6 +35,11 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     userWriter.start();
     userWriter.typeString(msg);
+    var fade = document.getElementById("fader")
+    var time = 6000;
+    if (window.getComputedStyle(fade, null).display == "none") {
+        time = 7500;
+    }
     setTimeout(function(){ 
         var myChart = new Chart(ctx.getContext('2d'), {
             type: 'line',
@@ -87,6 +92,11 @@ document.addEventListener("DOMContentLoaded", function(){
         buttons[1].style.marginTop = top;
     });
     setTimeout(function(){
+        fade.style.opacity = 0;
+        fade.style.zIndex = 0;
+        setTimeout(function(){
+            fade.style.display = "none";
+        }, 2000)
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = top;
@@ -146,9 +156,9 @@ document.addEventListener("DOMContentLoaded", function(){
                             buttons[1].classList.remove("postfixed");
                             buttons[0].style.display = "block";
                         }, 100);
-                    }, 500);
+                    }, 800);
                 }
             })
         }
-    }, 0);
+    }, time);
 });

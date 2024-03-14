@@ -137,7 +137,9 @@ document.addEventListener("DOMContentLoaded", function(){
                             ignore.push(changing.old);
                             changed.push(changing.new)
                             if (response.complete == true) {
-                                window.location.replace("/complete");
+                                setTimeout(function(){
+                                    window.location.replace("/complete");
+                                }, 1000);
                             } 
                         } else {
                             incorrect(changing.new);

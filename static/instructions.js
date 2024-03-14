@@ -55,6 +55,11 @@ document.addEventListener("DOMContentLoaded", function(){
     let example = document.getElementById("cryptogram");
     example.style.display = "none";
     let tips = document.getElementById("tips");
+    var fade = document.getElementById("fader")
+    var time = 2500;
+    if (window.getComputedStyle(fade, null).display == "none") {
+        time = 4300;
+    }
     const exampleText = "AUR JFR HO QLZNAHBLKVF OHL RSARLAKDSVRSA MKARF PKQT AH AUR VDMMXR KBRF, IURLR VHSTF NXKZRM AURV AH NKFF ADVR."
     const solution = "THE USE OF CRYPTOGRAMS FOR ENTERTAINMENT DATES BACK TO THE MIDDLE AGES, WHERE MONKS PLAYED THEM TO PASS TIME."
     const tipsText = 'NDG EQWZ "VWXTNQIWSJ" HC S VWXTNQIWSJ LQW LQWNX-GHIDN QNDGW GUIOHCD EQWZC.'
@@ -221,6 +226,11 @@ document.addEventListener("DOMContentLoaded", function(){
         buttons[i].style.backgroundColor = "slategrey";
     }
     setTimeout(function(){
+        fade.style.opacity = 0;
+        fade.style.zIndex = 0;
+        setTimeout(function(){
+            fade.style.display = "none";
+        }, 2000)
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = top;
@@ -232,5 +242,5 @@ document.addEventListener("DOMContentLoaded", function(){
                 setTimeout(()=>out(i), 2500);
             })
         }
-    }, 4300);
+    }, time);
 });

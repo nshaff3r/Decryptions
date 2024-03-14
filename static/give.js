@@ -17,10 +17,15 @@ document.addEventListener("DOMContentLoaded", function(){
     userWriter.typeString(msg);
     const container = document.getElementById("cryptogramContainer");
     var top = "60px";
+    var fade = document.getElementById("fader")
+    var time = 5700;
+    if (window.getComputedStyle(fade, null).display == "none") {
+        time = 7300;
+    }
     function sizing()
     {
         if (window.innerWidth <= 401) {
-            container.style.height = "400px";
+            container.style.height = "350px";
             userText.style.fontSize = "21px";
             top = "0px";
         } else {
@@ -35,6 +40,11 @@ document.addEventListener("DOMContentLoaded", function(){
         buttons[1].style.marginTop = top;
     });
     setTimeout(function(){
+        fade.style.opacity = 0;
+        fade.style.zIndex = 0;
+        setTimeout(function(){
+            fade.style.display = "none";
+        }, 2000)
         for (let i = 0; i < 2; i++)
         {
             buttons[i].style.marginTop = top;
@@ -76,5 +86,5 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             })
         }
-    }, 3900);
+    }, time);
 });

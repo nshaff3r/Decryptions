@@ -2,10 +2,20 @@
 
 <html lang="en">
     <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q2ZCFEGNCC"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Q2ZCFEGNCC');
+        </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="og:title" content="Decryptions: A Daily Cryptogram Game"/>
         <meta property="og:image" content="../static/preview.png"/>
         <title>Decryptions</title>
+        <link rel="icon" type="image/x-icon" href="../static/decryptions.ico">
         <link href="../static/styles.css" rel="stylesheet" type="text/css">
         <canvas style="display:none" id="canvas"></canvas>
         <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>    
@@ -50,24 +60,34 @@
                     })
                     content.style.setProperty("height", `${window.innerHeight - 15}px`);
                     contact.addEventListener("mouseover", function(){
-                        menu.style.height = "160px";
+                        menu.classList.add("menuOpen");
+                        contact.classList.add("contactOpen");
                     });
                     menu.addEventListener("mouseover", function(){
-                        menu.style.height = "160px";
+                        menu.classList.add("menuOpen");
+                        contact.classList.add("contactOpen");
                     });
                     contact.addEventListener("mouseout", function(){
-                        menu.style.height = "0px";
+                        menu.classList.remove("menuOpen");
+                        contact.classList.remove("contactOpen");
                     });
                     menu.addEventListener("mouseout", function(){
-                        menu.style.height = "0px";
+                        menu.classList.remove("menuOpen");
+                        contact.classList.remove("contactOpen");
                     });
-                    contact.addEventListener("touchstart", function(){
-                        menu.classList.toggle("menuOpen");
+                    contact.addEventListener("click", function(){
+                        menu.classList.add("menuOpen");
+                        contact.classList.add("contactOpen");
                         if (gate == true) {
                             menu.classList.remove("menuOpen");
+                            contact.classList.remove("contactOpen");
+                            gate = false;
                         }
-                        gate = true;
+                        else {
+                            gate = true;
+                        }
                     })
+                    
                     setTimeout(function(){
                         text.innerHTML = "decRyptions";
                     }, 500);

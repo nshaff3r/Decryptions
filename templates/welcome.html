@@ -5,10 +5,13 @@
 {% endblock %}
 
 {% block keyboard %}
+<div>
 <form action="/welcome" id="ynForm" method="post">
     <input type="hidden" name="newUser" id="requestData">
     <button type="button" class="ynbutton" id="left">Yes</button>
     <button type="button" class="ynbutton" id="right">No</button>
+    <div id="fader"></div>
 </form>
+</div>
 <script src="../static/welcome.js"></script>
 {% endblock %}

@@ -18,14 +18,16 @@ sqliteConnection = sqlite3.connect('static/cryptograms.db')
 cursor = sqliteConnection.cursor()
 cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(today) + " 00:00:00",))
 data = cursor.fetchone()
-try:
-    solution = data[0]
-    cryptogram = data[1]
-    number = data[2]
-except:
-    solution = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
-    cryptogram = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
-    number = 2
+# try:
+#     solution = data[0]
+#     cryptogram = data[1]
+#     number = data[2]
+# except:
+# solution = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
+# cryptogram = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
+solution = "HI"
+cryptogram = "DF"
+number = 2
 count = 0
 alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 for letter in alpha:
