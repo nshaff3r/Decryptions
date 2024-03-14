@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             }
                             lives[response.lives].classList.add("animation");
                             lives[response.lives].style.opacity = 0;
-                        }, 2200);
+                        }, 1100);
                     });
                 }
     
