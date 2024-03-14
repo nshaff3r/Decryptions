@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         window.location.href = "/stats";
                         buttons[1].classList.remove("postfixed");
                         buttons[0].style.display = "block";
-                    }, 800);
+                    }, 700);
                 }
             })
         }
