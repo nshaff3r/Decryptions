@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(){
     if (data.games == 0) {
         solved = 0;
     }
-    var msg = `Games: ${data.games}<br>Solved: ${solved}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1&#9829; Wins)</i>: ${data.closeCalls}`;
+    var msg = `Check out this cool\ndaily word game\n\nGames: ${data.games}<br>Solved: ${solved}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1&#9829; Wins)</i>: ${data.closeCalls}`;
     const container = document.getElementById("cryptogramContainer");
     var top = "60px";
     function sizing()

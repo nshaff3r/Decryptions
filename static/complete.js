@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 buttons[1 - i].style.display = "none";
                 buttons[i].classList.add("postfixed"); 
                 if (i == 0) {
-                    var copy = `DECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
+                    var copy = `Check out this cool\ndaily word game\n\nDECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
                     try {
                         const data = {
                             text: copy
