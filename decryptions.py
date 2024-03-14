@@ -10,7 +10,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-today = date.today()
+today = date.today() - timedelta(hours=4)
 curDate = today.strftime("%B %d, %Y")
 slashedDate = today.strftime("%m/%d")
 
