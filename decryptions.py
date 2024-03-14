@@ -140,6 +140,10 @@ def instructions():
 def give():
     return render_template("give.html", date=curDate, number=number)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html", date=curDate, number=number), 404
+
 @app.route("/api", methods=["POST"])
 def api():
     data = request.json
