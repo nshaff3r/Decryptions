@@ -70,6 +70,9 @@ document.addEventListener("DOMContentLoaded", function(){
             buttons[i].addEventListener("click", function(){
                 buttons[1 - i].style.display = "none";
                 buttons[i].classList.add("postfixed"); 
+                setTimeout(function(){
+                    buttons[i].classList.remove("postfixed");
+                }, 1000);
                 if (i == 0) {
                     var copy = `Check out this cool\ndaily word game!\n\nDECRYPTIONS\n${dateDashed} ${num} ${finished}\nLives Used:\n${"❤️".repeat(attempts)} / 5️⃣\ndecryptions.org`
                     try {
@@ -84,7 +87,6 @@ document.addEventListener("DOMContentLoaded", function(){
                                 userWriter.stop().pauseFor(1).start().typeString('\n<br>Copied to keyboard.'); 
                                 setTimeout(function(){
                                     userWriter.stop().pauseFor(1).start().deleteChars(20);
-                                    buttons[i].classList.remove("postfixed");
                                     setTimeout(function(){
                                         buttons[1].style.display = "block";
                                     }, 500)

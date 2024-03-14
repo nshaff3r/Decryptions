@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(){
     if (data.games == 0) {
         solved = 0;
     }
-    var msg = `Check out this cool\ndaily word game!\n\nGames: ${data.games}<br>Solved: ${solved}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1&#9829; Wins)</i>: ${data.closeCalls}`;
+    var msg = `Check out this cool\ndaily word game!\n\nGames: ${data.games}<br>Solved: ${solved}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1&#9829; Wins)</i>: ${data.closeCalls}\ndecryptions.org`;
     var typed = `Games: ${data.games}<br>Solved: ${solved}%<br>Win Streak: ${data.streak}<br>Max Streak: ${data.maxStreak}<br>Avg Lives: ${data.avgLives.toFixed(2)}<br>Close Calls<i style="font-size: 12px;">(1&#9829; Wins)</i>: ${data.closeCalls}`;
     const container = document.getElementById("cryptogramContainer");
     var top = "60px";
@@ -119,6 +119,9 @@ document.addEventListener("DOMContentLoaded", function(){
             buttons[i].addEventListener("click", function(){
                 buttons[1 - i].style.display = "none";
                 buttons[i].classList.add("postfixed"); 
+                setTimeout(function(){
+                    buttons[i].classList.remove("postfixed");
+                }, 1000);
                 if (i == 0) {
                     var copy = msg.replaceAll("<br>", "\n");
                     copy = copy.replaceAll('<i style="font-size: 12px;">(1&#9829; Wins)</i>', ' (1❤️ Wins)');
@@ -133,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function(){
                             userWriter.stop().pauseFor(1).start().typeString("\n<br>Copied to clipboard."); 
                             setTimeout(function(){
                                 userWriter.stop().pauseFor(1).start().deleteChars(21);
-                                buttons[0].classList.remove("postfixed");
                                 setTimeout(function(){
                                     buttons[1].style.display = "block";
                                 }, 500)
