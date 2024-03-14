@@ -119,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (i == 1) {
                     setTimeout(function(){
                         window.location.href = "/stats";
-                        buttons[0].style.display = "block";
                     }, 700);
                     setTimeout(function(){
                         buttons[1].classList.remove("postfixed");
