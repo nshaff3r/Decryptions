@@ -34,10 +34,10 @@ function exampler(el, str, solved)
 document.addEventListener("DOMContentLoaded", function(){
     let demo = document.getElementById("el404");
     let solution = `
-    UH OH! THIS PAGES DOESN'T EXIST. (ERROR 404)
+    UH OH! THIS PAGE DOESN'T EXIST. (ERROR 404)
     `;
     let msg = `
-    IG MG! SGOK TVCPK BMPKL'S PUOKS. (PHHMH 404)
+    IG MG! SGOK TVCP BMPKL'S PUOKS. (PHHMH 404)
     `;
     exampler(demo, msg, solution);
     var fade = document.getElementById("fader")
