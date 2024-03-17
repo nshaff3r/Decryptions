@@ -6,7 +6,7 @@ import sqlite3
 
 app = Flask(__name__)
 app.config.from_pyfile('instance/config.py')
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(years=999)
 app.config["SESSION_TYPE"] = "filesystem"
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 Session(app)
@@ -38,6 +38,7 @@ count = 26 - count
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    session.permenant = True
     if not session.get("visited"):
         session["visited"] = today
 
