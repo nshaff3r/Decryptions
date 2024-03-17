@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config.from_pyfile('instance/config.py')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config["SESSION_TYPE"] = "filesystem"
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 Session(app)
 
 est = timezone('America/New_York') 
