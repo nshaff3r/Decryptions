@@ -95,7 +95,9 @@ def complete():
             session["lives"] = 0
         # session["history"]["games"] += 1
         # session["history"]["lives"][session["lives"]] += 1
-        session["history"]["avgLives"] = (sum(session["history"]["lives"])) / (session["history"]["games"])
+        total = session["history"]["lives"][1] + 2 * session["history"]["lives"][2] \
+            + 3 * session["history"]["lives"] + 4 * session["history"]["lives"][4]
+        session["history"]["avgLives"] = total / (session["history"]["games"])
         if session["lives"] == 0:
             session["history"]["streak"] = 0
         # else:
