@@ -88,26 +88,26 @@ def complete():
 
     if not session.get("stats"):
         session["stats"] = False
-    # if not session["stats"]:
-    session["stats"] = True
-    if session["finished"]:
-        if session["lives"] < 0:
-            session["lives"] = 0
-        # session["history"]["games"] += 1
-        # session["history"]["lives"][session["lives"]] += 1
-        total = session["history"]["lives"][1] + 2 * session["history"]["lives"][2] \
-            + 3 * session["history"]["lives"] + 4 * session["history"]["lives"][4]
-        session["history"]["avgLives"] = total / (session["history"]["games"])
-        if session["lives"] == 0:
-            session["history"]["streak"] = 0
-        # else:
-            # session["history"]["solved"] += 1
-            # session["history"]["streak"] += 1
-            # if session["history"]["streak"] > session["history"]["maxStreak"]:
-            #     session["history"]["maxStreak"] = session["history"]["streak"]
-            # if session["lives"] == 1:
-            #     session["history"]["closeCalls"] += 1
-    
+    if not session["stats"]:
+        session["stats"] = True
+        if session["finished"]:
+            if session["lives"] < 0:
+                session["lives"] = 0
+            session["history"]["games"] += 1
+            session["history"]["lives"][session["lives"]] += 1
+            total = session["history"]["lives"][1] + 2 * session["history"]["lives"][2] \
+                + 3 * session["history"]["lives"][3] + 4 * session["history"]["lives"][4]
+            session["history"]["avgLives"] = total / (session["history"]["games"])
+            if session["lives"] == 0:
+                session["history"]["streak"] = 0
+            else:
+                session["history"]["solved"] += 1
+                session["history"]["streak"] += 1
+                if session["history"]["streak"] > session["history"]["maxStreak"]:
+                    session["history"]["maxStreak"] = session["history"]["streak"]
+                if session["lives"] == 1:
+                    session["history"]["closeCalls"] += 1
+        
     if session["lives"] == 0:
         win = False
     else:
