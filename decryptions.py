@@ -93,19 +93,18 @@ def complete():
     if session["finished"]:
         if session["lives"] < 0:
             session["lives"] = 0
-        session["history"]["avgLives"] = (session["history"]["streak"] * \
-            session["history"]["games"] + session["lives"]) / (session["history"]["games"] + 1)
-        session["history"]["games"] += 1
-        session["history"]["lives"][session["lives"]] += 1
+        # session["history"]["games"] += 1
+        # session["history"]["lives"][session["lives"]] += 1
+        session["history"]["avgLives"] = (sum(session["history"]["lives"])) / (session["history"]["games"])
         if session["lives"] == 0:
             session["history"]["streak"] = 0
-        else:
-            session["history"]["solved"] += 1
-            session["history"]["streak"] += 1
-            if session["history"]["streak"] > session["history"]["maxStreak"]:
-                session["history"]["maxStreak"] = session["history"]["streak"]
-            if session["lives"] == 1:
-                session["history"]["closeCalls"] += 1
+        # else:
+            # session["history"]["solved"] += 1
+            # session["history"]["streak"] += 1
+            # if session["history"]["streak"] > session["history"]["maxStreak"]:
+            #     session["history"]["maxStreak"] = session["history"]["streak"]
+            # if session["lives"] == 1:
+            #     session["history"]["closeCalls"] += 1
     
     if session["lives"] == 0:
         win = False
