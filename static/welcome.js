@@ -55,5 +55,5 @@ document.addEventListener("DOMContentLoaded", function(){
                 document.getElementById("ynForm").submit();
             })
         }
-    }, 1200);
+    }, 1700);
 });
