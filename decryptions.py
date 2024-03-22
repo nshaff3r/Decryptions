@@ -8,47 +8,63 @@ app = Flask(__name__)
 app.config.from_pyfile('instance/config.py')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=9999)
 app.config["SESSION_TYPE"] = "filesystem"
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 Session(app)
 
-est = timezone('America/New_York') 
-dateobj = datetime.now(est)
-today = dateobj.strftime("%Y-%m-%d")
-curDate = dateobj.strftime("%B %d, %Y")
-slashedDate = dateobj.strftime("%m/%d")
+today = ""
+curDate = ""
+number = 0
+count = 26
+cryptogram = ""
+solution = ""
+slashedDate = ""
 
-sqliteConnection = sqlite3.connect('static/cryptograms.db')
-cursor = sqliteConnection.cursor()
-cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(today) + " 00:00:00",))
-data = cursor.fetchone()
-try:
-    solution = data[0]
-    cryptogram = data[1]
-    number = data[2]
-except:
-    solution = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
-    cryptogram = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
-    number = 2
-count = 0
-alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-for letter in alpha:
-    if letter not in solution:
-        count += 1
-count = 26 - count
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    session.permenant = True
+def onvisit():
+    global today, curDate, slashedDate
+    est = timezone('America/New_York') 
+    dateobj = datetime.now(est)
+    today = dateobj.strftime("%Y-%m-%d")
+    curDate = dateobj.strftime("%B %d, %Y")
+    slashedDate = dateobj.strftime("%m/%d")
     if not session.get("visited"):
         session["visited"] = today
-
+        getpuzzle()
     if session["visited"] != today:
+        getpuzzle()
         session["lives"] = 5
         session["finished"] = False
         session["stats"] = False
         session["failed"] = []
         session["replaced"] = []
         session["visited"] = today
+    elif cryptogram == "" or number == 0:
+        getpuzzle()
+
+def getpuzzle():
+    global number, count, cryptogram, solution
+    sqliteConnection = sqlite3.connect('static/cryptograms.db')
+    cursor = sqliteConnection.cursor()
+    cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(today) + " 00:00:00",))
+    data = cursor.fetchone()
+    try:
+        solution = data[0]
+        cryptogram = data[1]
+        number = data[2]
+    except:
+        solution = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
+        cryptogram = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
+        number = 2
+    count = 0
+    alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for letter in alpha:
+        if letter not in solution:
+            count += 1
+    count = 26 - count
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    onvisit()
+    session.permenant = True
     if not session.get("returning"): 
         return redirect("/welcome")
     if not session.get("finished"):
@@ -77,6 +93,7 @@ def index():
 
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
+    onvisit()
     if request.method == "POST":
         session["returning"] = request.form.get("newUser")
         if session["returning"] == "no":
@@ -87,9 +104,9 @@ def welcome():
 
 @app.route("/complete")
 def complete():
+    onvisit()
     if not session.get("finished"):
         return redirect("/")
-
     if not session.get("stats"):
         session["stats"] = False
     if not session["stats"]:
@@ -122,6 +139,7 @@ def complete():
 
 @app.route("/stats")
 def stats():
+    onvisit()
     if not session.get("history"):
         session["history"] = {
             "games": 0,
@@ -136,14 +154,17 @@ def stats():
 
 @app.route("/instructions")
 def instructions():
+    onvisit()
     return render_template("instructions.html", date=curDate, number=number)
 
 @app.route("/give")
 def give():
+    onvisit()
     return render_template("give.html", date=curDate, number=number)
 
 @app.errorhandler(404)
 def page_not_found(e):
+    onvisit()
     return render_template("404.html", date=curDate, number=number), 404
 
 @app.route("/api", methods=["POST"])
