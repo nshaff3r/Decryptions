@@ -63,6 +63,7 @@ def getpuzzle():
 
 @app.route("/debug1923409123")
 def debug1923409123():
+    return jsonify({'ip': request.remote_addr}), 200
     return render_template("debug1923409123.html", metric=session["history"])
 
 @app.route("/", methods=["GET", "POST"])
