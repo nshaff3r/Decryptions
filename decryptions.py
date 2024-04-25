@@ -176,13 +176,13 @@ def page_not_found(e):
 def api():
     est = timezone('America/New_York') 
     ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    sqliteConnection = sqlite3.connect('static/data.db')
-    cursor = sqliteConnection.cursor()
     data = request.json
     if cryptogram.find(data["old"]) == solution.find(data["new"]):
          session["replaced"].append(data["old"] + data["new"])
          if len(session["replaced"]) == count:
             session["finished"] = True
+            sqliteConnection = sqlite3.connect('static/data.db')
+            cursor = sqliteConnection.cursor()
             cursor.execute('INSERT INTO solved (IP, Date, Lives, Solved) VALUES (?, ?, ?, ?);', (ip, datetime.now(est), session["lives"], 1))
             sqliteConnection.commit()
             sqliteConnection.close()
@@ -192,6 +192,8 @@ def api():
         session["failed"].append(data["old"] + data["new"])
         if (int(session["lives"]) == 0):
             session["finished"] = True
+            sqliteConnection = sqlite3.connect('static/data.db')
+            cursor = sqliteConnection.cursor()
             cursor.execute('INSERT INTO solved (IP, Date, Lives, Solved) VALUES (?, ?, ?, ?);', (ip, datetime.now(est), session["lives"], 0))
             sqliteConnection.commit()
             sqliteConnection.close()
