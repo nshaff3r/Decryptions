@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             if (response.complete == true) {
                                 setTimeout(function(){
                                     window.location.replace("/complete");
-                                }, 5000);
+                                }, 4000);
                             } 
                         }
                         var lives = document.querySelectorAll('.life');

@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from datetime import datetime, timedelta
 from pytz import timezone
+import socket, struct
 import sqlite3
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ slashedDate = ""
 
 
 def onvisit():
-    global today, curDate, slashedDate
+    global today, curDate, slashedDate    
     est = timezone('America/New_York') 
     dateobj = datetime.now(est)
     today = dateobj.strftime("%Y-%m-%d")
@@ -63,7 +64,6 @@ def getpuzzle():
 
 @app.route("/debug1923409123")
 def debug1923409123():
-    return jsonify({'ip': request.remote_addr}), 200
     return render_template("debug1923409123.html", metric=session["history"])
 
 @app.route("/", methods=["GET", "POST"])
@@ -174,17 +174,27 @@ def page_not_found(e):
 
 @app.route("/api", methods=["POST"])
 def api():
+    est = timezone('America/New_York') 
+    ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    sqliteConnection = sqlite3.connect('static/data.db')
+    cursor = sqliteConnection.cursor()
     data = request.json
     if cryptogram.find(data["old"]) == solution.find(data["new"]):
          session["replaced"].append(data["old"] + data["new"])
          if len(session["replaced"]) == count:
-             session["finished"] = True
+            session["finished"] = True
+            cursor.execute('INSERT INTO solved (IP, Date, Lives, Solved) VALUES (?, ?, ?, ?);', (ip, datetime.now(est), session["lives"], 1))
+            sqliteConnection.commit()
+            sqliteConnection.close()
          return jsonify({'message': 'correct', 'lives': session["lives"], 'complete': session["finished"]}), 200
     else:
         session["lives"] -= 1
         session["failed"].append(data["old"] + data["new"])
         if (int(session["lives"]) == 0):
             session["finished"] = True
+            cursor.execute('INSERT INTO solved (IP, Date, Lives, Solved) VALUES (?, ?, ?, ?);', (ip, datetime.now(est), session["lives"], 0))
+            sqliteConnection.commit()
+            sqliteConnection.close()
         return jsonify({'message': 'wrong', 'lives': session["lives"], 'complete': session["finished"]}), 200
 
 if __name__ == "__main__":
