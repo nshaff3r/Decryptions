@@ -90,7 +90,7 @@ def index():
             "maxStreak": 0,
             "avgLives": 0,
             "closeCalls": 0,
-            "lives": [0, 0, 0, 0, 0, 0]
+            "lives": [0, 0, 0, 0, 0]
         }
     return render_template("index.html", date=curDate, number=number,
                            lives=session["lives"], cryptogramText=cryptogram,
@@ -153,7 +153,7 @@ def stats():
             "maxStreak": 0,
             "avgLives": 0,
             "closeCalls": 0,
-            "lives": [0, 0, 0, 0, 0, 0]
+            "lives": [0, 0, 0, 0, 0]
         }
     return render_template("stats.html", date=curDate, number=number, data=session["history"])
 

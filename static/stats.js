@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function(){
         var myChart = new Chart(ctx.getContext('2d'), {
             type: 'line',
             data: {
-                labels: ['💀', '❤️', '❤️❤️', '❤️❤️❤️', '❤️❤️❤️❤️', '❤️❤️❤️❤️❤️'],
+                labels: ['💀', '❤️', '❤️❤️', '❤️❤️❤️', '❤️❤️❤️❤️'],
                     datasets: [{
                     data: data.lives,
                     borderWidth: 1
