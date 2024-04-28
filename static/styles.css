@@ -189,7 +189,7 @@ a:hover
 #hearts
 {
     position: absolute;
-    left: 170px;
+    left: 215px;
     top: 11px;
     width: 136px;
     height: 14px;
@@ -336,7 +336,7 @@ a:hover
 .life
 {
     width: 14px;
-    margin-right: 10px;
+    margin-right: 7px;
     transition: 1s;
     transition-delay: 1s;
 }
