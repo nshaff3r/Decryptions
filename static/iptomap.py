@@ -1,6 +1,5 @@
 import requests
 import sqlite3
-import json
 
 cords = open("coordinates.txt", "w")
 results = set()
@@ -12,7 +11,7 @@ for ip in cursor.fetchall():
     data.append(ip[0])
 
 
-for addr in data[48:]:
+for addr in data:
     header = {"User-Agent": "keycdn-tools:https://apple.com"}
     url = f"https://tools.keycdn.com/geo.json?host={addr}"
     response = requests.get(url, headers=header)
