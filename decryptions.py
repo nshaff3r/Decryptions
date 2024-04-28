@@ -8,8 +8,10 @@ import sqlite3
 app = Flask(__name__)
 app.config.from_pyfile('instance/config.py')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=9999)
+app.config['SESSION_REFRESH_EACH_REQUEST'] = True
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+app.permanent_session_lifetime = timedelta(days=9999)
 
 today = ""
 curDate = ""
@@ -70,6 +72,7 @@ def debug1923409123():
 def index():
     onvisit()
     session.permenant = True
+    app.permanent_session_lifetime = timedelta(days=9999)
     if not session.get("returning"): 
         return redirect("/welcome")
     if not session.get("finished"):
