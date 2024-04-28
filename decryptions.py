@@ -31,7 +31,7 @@ def onvisit():
         getpuzzle()
     if session["visited"] != today:
         getpuzzle()
-        session["lives"] = 5
+        session["lives"] = 4
         session["finished"] = False
         session["stats"] = False
         session["failed"] = []
@@ -61,6 +61,10 @@ def getpuzzle():
             count += 1
     count = 26 - count
 
+@app.route("/debug1923409123")
+def debug1923409123():
+    return render_template("debug1923409123.html", metric=session["history"])
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     onvisit()
@@ -72,7 +76,7 @@ def index():
     if session["finished"]:
         return redirect("/complete")
     if not session.get("lives"):
-        session["lives"] = 5
+        session["lives"] = 4
     if not session.get("replaced"):
         session["replaced"] = []
     if not session.get("failed"):
