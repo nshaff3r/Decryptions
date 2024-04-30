@@ -96,7 +96,7 @@ def index():
             "closeCalls": 0,
             "lives": [0, 0, 0, 0, 0]
         }
-    return render_template("index.html", date="April 30th, 2024", number=number,
+    return render_template("index.html", date=curDate, number=number,
                            lives=session["lives"], cryptogramText=cryptogram,
                            replaced=session["replaced"], failed=session["failed"])
 
