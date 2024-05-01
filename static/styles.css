@@ -223,9 +223,9 @@ a:hover
 #cover
 {
     position: absolute;
-    bottom: 60px;
+    bottom: 32px;
     right: 1px;
-    height: 130px;
+    height: 150px;
     width: 320px;
     transition: all 5s;
     background-color: #201c1c;
