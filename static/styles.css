@@ -488,6 +488,9 @@ a:hover
     #logo {
         font-size: 20px;
     }
+    #cover {
+    bottom: 45px;
+    }
     #logoContainer {
         margin-top: -10px;
         margin-left: 10px;
