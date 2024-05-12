@@ -60,7 +60,7 @@ def getpuzzle():
     except:
         solution = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
         cryptogram = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
-        number = 2
+        number = 62
     count = 0
     alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     for letter in alpha:
