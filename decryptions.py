@@ -27,7 +27,7 @@ def onvisit():
     est = timezone('America/New_York') 
     dateobj = datetime.now(est)
     today = dateobj.strftime("%Y-%m-%d")
-    curDate = dateobj.strftime("%B %dth, %Y")
+    curDate = dateobj.strftime("%B %d, %Y")
     slashedDate = dateobj.strftime("%m/%d")
     if not session.get("visited"):
         session["visited"] = today
