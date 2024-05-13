@@ -32,17 +32,14 @@ def onvisit():
     if not session.get("visited"):
         session["visited"] = today
         getpuzzle()
-    if not session.get("switch"):
-        session["switch"] = False
-    if session["visited"] != today or not session["switch"]:
+    if session["visited"] != today:
+        session["visited"] = today
         getpuzzle()
-        session["switch"] = True
         session["lives"] = 4
         session["finished"] = False
         session["stats"] = False
         session["failed"] = []
         session["replaced"] = []
-        session["visited"] = today
     elif cryptogram == "" or number == 0:
         getpuzzle()
 
@@ -50,7 +47,7 @@ def getpuzzle():
     global number, count, cryptogram, solution
     sqliteConnection = sqlite3.connect('static/cryptograms.db')
     cursor = sqliteConnection.cursor()
-    cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(today) + " 00:00:00",))
+    cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(session["visited"]) + " 00:00:00",))
     data = cursor.fetchone()
     sqliteConnection.close()
     try:
