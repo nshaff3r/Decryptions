@@ -32,9 +32,12 @@ def onvisit():
     if not session.get("visited"):
         session["visited"] = today
         getpuzzle()
-    if session["visited"] != today:
-        session["visited"] = today
+    if not session.get("switch"):
+        session["switch"] = False
+    if session["visited"] != today or not session["switch"]:
         getpuzzle()
+        session["switch"] = True
+        session["visited"] = today
         session["lives"] = 4
         session["finished"] = False
         session["stats"] = False
