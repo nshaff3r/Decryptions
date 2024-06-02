@@ -50,7 +50,7 @@ def getpuzzle():
     global number, count, cryptogram, solution
     sqliteConnection = sqlite3.connect('static/cryptograms.db')
     cursor = sqliteConnection.cursor()
-    cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(session["visited"]) + " 00:00:00",))
+    cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(today) + " 00:00:00",))
     data = cursor.fetchone()
     sqliteConnection.close()
     try:
