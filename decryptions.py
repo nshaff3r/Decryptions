@@ -13,64 +13,53 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 app.permanent_session_lifetime = timedelta(days=9999)
 
-today = ""
-curDate = ""
-number = 0
 count = 26
-cryptogram = ""
-solution = ""
-slashedDate = ""
 
-
-def onvisit(debug=False):
-    global today, curDate, slashedDate    
+def onvisit(debug=False, fetch=True): 
     est = timezone('America/New_York') 
     dateobj = datetime.now(est)
     if debug:
         dateobj = dateobj + timedelta(days=1)
     today = dateobj.strftime("%Y-%m-%d")
-    curDate = dateobj.strftime("%B %d, %Y")
-    slashedDate = dateobj.strftime("%m/%d")
+    session["curDate"] = dateobj.strftime("%B %d, %Y")
+    session["slashedDate"] = dateobj.strftime("%m/%d")
     if not session.get("visited"):
         session["visited"] = today
-        getpuzzle()
     if session["visited"] != today:
-        getpuzzle()
-        session["switch"] = True
         session["visited"] = today
+        session["switch"] = True
         session["lives"] = 4
         session["finished"] = False
         session["stats"] = False
         session["failed"] = []
         session["replaced"] = []
-    elif cryptogram == "" or number == 0:
+    if fetch:
         getpuzzle()
 
 def getpuzzle():
-    global number, count, cryptogram, solution
     sqliteConnection = sqlite3.connect('static/cryptograms.db')
     cursor = sqliteConnection.cursor()
-    cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(today) + " 00:00:00",))
+    cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(session["visited"]) + " 00:00:00",))
     data = cursor.fetchone()
     sqliteConnection.close()
     try:
-        solution = data[0]
-        cryptogram = data[1]
-        number = data[2]
+        session["solution"] = data[0]
+        session["cryptogram"] = data[1]
+        session["number"] = data[2]
     except:
-        solution = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
-        cryptogram = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
-        number = 62
+        session["solution"] = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
+        session["cryptogram"] = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
+        session["number"] = 62
     count = 0
     alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     for letter in alpha:
-        if letter not in solution:
+        if letter not in session["solution"]:
             count += 1
     count = 26 - count
 
 @app.route("/debug1923409123")
 def debug1923409123():
-    onvisit()
+    onvisit(debug=True)
     session.permenant = True
     app.permanent_session_lifetime = timedelta(days=9999)
     if not session.get("returning"): 
@@ -95,8 +84,8 @@ def debug1923409123():
             "closeCalls": 0,
             "lives": [0, 0, 0, 0, 0]
         }
-    return render_template("index.html", date=curDate, number=number,
-                           lives=session["lives"], cryptogramText=cryptogram,
+    return render_template("index.html", date=session["curDate"], number=session["number"],
+                           lives=session["lives"], cryptogramText=session["cryptogram"],
                            replaced=session["replaced"], failed=session["failed"])
 
 
@@ -127,24 +116,24 @@ def index():
             "closeCalls": 0,
             "lives": [0, 0, 0, 0, 0]
         }
-    return render_template("index.html", date=curDate, number=number,
-                           lives=session["lives"], cryptogramText=cryptogram,
+    return render_template("index.html", date=session["curDate"], number=session["number"],
+                           lives=session["lives"], cryptogramText=session["cryptogram"],
                            replaced=session["replaced"], failed=session["failed"])
 
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
-    onvisit()
+    onvisit(fetch=False)
     if request.method == "POST":
         session["returning"] = request.form.get("newUser")
         if session["returning"] == "no":
             return redirect("/instructions")
         else:
             return redirect("/")
-    return render_template("welcome.html", date=curDate, number=number)
+    return render_template("welcome.html", date=session["curDate"], number=session["number"])
 
 @app.route("/complete")
 def complete():
-    onvisit()
+    onvisit(fetch=False)
     if not session.get("finished"):
         return redirect("/")
     if not session.get("stats"):
@@ -174,12 +163,12 @@ def complete():
     else:
         win = True
 
-    return render_template("complete.html", date=curDate, number=number, solvedCryptogram=solution,
-                    dateDashed=slashedDate, attempts=5 - session["lives"], state=session["lives"])
+    return render_template("complete.html", date=session["curDate"], number=session["number"], solvedCryptogram=session["solution"],
+                    dateDashed=session["slashedDate"], attempts=5 - session["lives"], state=session["lives"])
 
 @app.route("/stats")
 def stats():
-    onvisit()
+    onvisit(fetch=False)
     if not session.get("history"):
         session["history"] = {
             "games": 0,
@@ -190,29 +179,29 @@ def stats():
             "closeCalls": 0,
             "lives": [0, 0, 0, 0, 0]
         }
-    return render_template("stats.html", date=curDate, number=number, data=session["history"])
+    return render_template("stats.html", date=session["curDate"], number=session["number"], data=session["history"])
 
 @app.route("/instructions")
 def instructions():
-    onvisit()
-    return render_template("instructions.html", date=curDate, number=number)
+    onvisit(fetch=False)
+    return render_template("instructions.html", date=session["curDate"], number=session["number"])
 
 @app.route("/give")
 def give():
-    onvisit()
-    return render_template("give.html", date=curDate, number=number)
+    onvisit(fetch=False)
+    return render_template("give.html", date=session["curDate"], number=session["number"])
 
 @app.errorhandler(404)
 def page_not_found(e):
-    onvisit()
-    return render_template("404.html", date=curDate, number=number), 404
+    onvisit(fetch=False)
+    return render_template("404.html", date=session["curDate"], number=session["number"]), 404
 
 @app.route("/api", methods=["POST"])
 def api():
     est = timezone('America/New_York') 
     ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     data = request.json
-    if cryptogram.find(data["old"]) == solution.find(data["new"]):
+    if session["cryptogram"].find(data["old"]) == session["solution"].find(data["new"]):
          session["replaced"].append(data["old"] + data["new"])
          if len(session["replaced"]) == count:
             session["finished"] = True
