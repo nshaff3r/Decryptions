@@ -15,11 +15,9 @@ app.permanent_session_lifetime = timedelta(days=9999)
 
 count = 26
 
-def onvisit(debug=False, fetch=True): 
+def onvisit(fetch=True): 
     est = timezone('America/New_York') 
     dateobj = datetime.now(est)
-    if debug:
-        dateobj = dateobj + timedelta(days=1)
     today = dateobj.strftime("%Y-%m-%d")
     session["curDate"] = dateobj.strftime("%B %d, %Y")
     session["slashedDate"] = dateobj.strftime("%m/%d")
@@ -56,38 +54,6 @@ def getpuzzle():
         if letter not in session["solution"]:
             count += 1
     count = 26 - count
-
-@app.route("/debug1923409123")
-def debug1923409123():
-    onvisit(debug=True)
-    session.permenant = True
-    app.permanent_session_lifetime = timedelta(days=9999)
-    if not session.get("returning"): 
-        return redirect("/welcome")
-    if not session.get("finished"):
-        session["finished"] = False
-    if session["finished"]:
-        return redirect("/complete")
-    if not session.get("lives"):
-        session["lives"] = 4
-    if not session.get("replaced"):
-        session["replaced"] = []
-    if not session.get("failed"):
-        session["failed"] = []
-    if not session.get("history"):
-        session["history"] = {
-            "games": 0,
-            "solved": 0,
-            "streak": 0,
-            "maxStreak": 0,
-            "avgLives": 0,
-            "closeCalls": 0,
-            "lives": [0, 0, 0, 0, 0]
-        }
-    return render_template("index.html", date=session["curDate"], number=session["number"],
-                           lives=session["lives"], cryptogramText=session["cryptogram"],
-                           replaced=session["replaced"], failed=session["failed"])
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
