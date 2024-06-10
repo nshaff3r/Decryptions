@@ -22,19 +22,19 @@ solution = ""
 slashedDate = ""
 
 
-def onvisit():
+def onvisit(debug=False):
     global today, curDate, slashedDate    
     est = timezone('America/New_York') 
     dateobj = datetime.now(est)
+    if debug:
+        dateobj = dateobj + timedelta(days=1)
     today = dateobj.strftime("%Y-%m-%d")
     curDate = dateobj.strftime("%B %d, %Y")
     slashedDate = dateobj.strftime("%m/%d")
     if not session.get("visited"):
         session["visited"] = today
         getpuzzle()
-    if not session.get("switch"):
-        session["switch"] = False
-    if session["visited"] != today or not session["switch"]:
+    if session["visited"] != today:
         getpuzzle()
         session["switch"] = True
         session["visited"] = today
@@ -70,7 +70,35 @@ def getpuzzle():
 
 @app.route("/debug1923409123")
 def debug1923409123():
-    return render_template("debug1923409123.html", metric=session["history"])
+    onvisit()
+    session.permenant = True
+    app.permanent_session_lifetime = timedelta(days=9999)
+    if not session.get("returning"): 
+        return redirect("/welcome")
+    if not session.get("finished"):
+        session["finished"] = False
+    if session["finished"]:
+        return redirect("/complete")
+    if not session.get("lives"):
+        session["lives"] = 4
+    if not session.get("replaced"):
+        session["replaced"] = []
+    if not session.get("failed"):
+        session["failed"] = []
+    if not session.get("history"):
+        session["history"] = {
+            "games": 0,
+            "solved": 0,
+            "streak": 0,
+            "maxStreak": 0,
+            "avgLives": 0,
+            "closeCalls": 0,
+            "lives": [0, 0, 0, 0, 0]
+        }
+    return render_template("index.html", date=curDate, number=number,
+                           lives=session["lives"], cryptogramText=cryptogram,
+                           replaced=session["replaced"], failed=session["failed"])
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
