@@ -35,6 +35,7 @@ def onvisit(fetch=True):
         getpuzzle()
 
 def getpuzzle():
+    global count
     sqliteConnection = sqlite3.connect('static/cryptograms.db')
     cursor = sqliteConnection.cursor()
     cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(session["visited"]) + " 00:00:00",))
@@ -169,6 +170,7 @@ def api():
     data = request.json
     if session["cryptogram"].find(data["old"]) == session["solution"].find(data["new"]):
          session["replaced"].append(data["old"] + data["new"])
+         print(len(session["replaced"]), count)
          if len(session["replaced"]) == count:
             session["finished"] = True
             sqliteConnection = sqlite3.connect('static/data.db')
