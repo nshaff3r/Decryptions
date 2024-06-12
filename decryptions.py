@@ -59,6 +59,10 @@ def getpuzzle():
             count += 1
     count = 26 - count
 
+@app.route("/debug1923409123.html")
+def debug():
+    return render_template("debug1923409123.html", metric=[session['lives'], session['finished'], len(session["replaced"]), count])
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     onvisit()
