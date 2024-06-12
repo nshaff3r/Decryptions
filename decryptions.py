@@ -49,9 +49,9 @@ def getpuzzle():
         session["solution"] = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
         session["cryptogram"] = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
         session["number"] = 62
-    session["solution"] = 'AND'
-    session["cryptogram"] = 'XSN'
-    session["number"] = 62
+    # session["solution"] = 'AND'
+    # session["cryptogram"] = 'XSN'
+    # session["number"] = 62
     count = 0
     alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     for letter in alpha:
