@@ -49,6 +49,9 @@ def getpuzzle():
         session["solution"] = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
         session["cryptogram"] = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
         session["number"] = 62
+    session["solution"] = 'AND'
+    session["cryptogram"] = 'XSN'
+    session["number"] = 62
     count = 0
     alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     for letter in alpha:
@@ -131,7 +134,7 @@ def complete():
         win = True
 
     return render_template("complete.html", date=session["curDate"], number=session["number"], solvedCryptogram=session["solution"],
-                    dateDashed=session["slashedDate"], attempts=5 - session["lives"], state=session["lives"])
+                    dateDashed=session["slashedDate"], attempts=4 - session["lives"], state=session["lives"])
 
 @app.route("/stats")
 def stats():
@@ -170,7 +173,6 @@ def api():
     data = request.json
     if session["cryptogram"].find(data["old"]) == session["solution"].find(data["new"]):
          session["replaced"].append(data["old"] + data["new"])
-         print(len(session["replaced"]), count)
          if len(session["replaced"]) == count:
             session["finished"] = True
             sqliteConnection = sqlite3.connect('static/data.db')
