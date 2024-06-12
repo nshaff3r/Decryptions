@@ -13,8 +13,6 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 app.permanent_session_lifetime = timedelta(days=9999)
 
-count = 26
-
 def onvisit(fetch=True): 
     est = timezone('America/New_York') 
     dateobj = datetime.now(est)
@@ -35,7 +33,6 @@ def onvisit(fetch=True):
         getpuzzle()
 
 def getpuzzle():
-    global count
     sqliteConnection = sqlite3.connect('static/cryptograms.db')
     cursor = sqliteConnection.cursor()
     cursor.execute("SELECT problem, solution, published_id FROM puzzles JOIN published ON puzzles.id = published.cryptogram_id WHERE date = (?);", (str(session["visited"]) + " 00:00:00",))
@@ -58,10 +55,11 @@ def getpuzzle():
         if letter not in session["solution"]:
             count += 1
     count = 26 - count
+    session['count'] = count
 
 @app.route("/debug1923409123.html")
 def debug():
-    return render_template("debug1923409123.html", metric=[session['lives'], session['finished'], len(session["replaced"]), count])
+    return render_template("debug1923409123.html", metric=[session['lives'], session['finished'], len(session["replaced"]), session['count']])
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -177,7 +175,7 @@ def api():
     data = request.json
     if session["cryptogram"].find(data["old"]) == session["solution"].find(data["new"]):
          session["replaced"].append(data["old"] + data["new"])
-         if len(session["replaced"]) == count:
+         if len(session["replaced"]) == session['count']:
             session["finished"] = True
             sqliteConnection = sqlite3.connect('static/data.db')
             cursor = sqliteConnection.cursor()
