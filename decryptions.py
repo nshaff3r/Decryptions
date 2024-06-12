@@ -68,14 +68,16 @@ def index():
     app.permanent_session_lifetime = timedelta(days=9999)
     if not session.get("returning"): 
         return redirect("/welcome")
+    if not session.get("replaced"):
+        session["replaced"] = []
+    if len(session["replaced"]) == session['count']:
+            session["finished"] = True
     if not session.get("finished"):
         session["finished"] = False
     if session["finished"]:
         return redirect("/complete")
     if not session.get("lives"):
         session["lives"] = 4
-    if not session.get("replaced"):
-        session["replaced"] = []
     if not session.get("failed"):
         session["failed"] = []
     if not session.get("history"):
