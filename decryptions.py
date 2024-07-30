@@ -25,7 +25,7 @@ def onvisit(fetch=True):
         session["switch2"] = False
     if session["visited"] != today or not session["switch2"]:
         session["visited"] = today
-        session["switch"] = True
+        session["switch2"] = True
         session["lives"] = 4
         session["finished"] = False
         session["stats"] = False    
@@ -181,22 +181,22 @@ def api():
          session["replaced"].append(data["old"] + data["new"])
          if len(session["replaced"]) == session['count']:
             session["finished"] = True
-            sqliteConnection = sqlite3.connect('static/data.db')
-            cursor = sqliteConnection.cursor()
-            cursor.execute('INSERT INTO solved (IP, Date, Lives, Solved) VALUES (?, ?, ?, ?);', (ip, datetime.now(est), session["lives"], 1))
-            sqliteConnection.commit()
-            sqliteConnection.close()
+            # sqliteConnection = sqlite3.connect('static/data.db')
+            # cursor = sqliteConnection.cursor()
+            # cursor.execute('INSERT INTO solved (IP, Date, Lives, Solved) VALUES (?, ?, ?, ?);', (ip, datetime.now(est), session["lives"], 1))
+            # sqliteConnection.commit()
+            # sqliteConnection.close()
          return jsonify({'message': 'correct', 'lives': session["lives"], 'complete': session["finished"]}), 200
     else:
         session["lives"] -= 1
         session["failed"].append(data["old"] + data["new"])
         if (int(session["lives"]) == 0):
             session["finished"] = True
-            sqliteConnection = sqlite3.connect('static/data.db')
-            cursor = sqliteConnection.cursor()
-            cursor.execute('INSERT INTO solved (IP, Date, Lives, Solved) VALUES (?, ?, ?, ?);', (ip, datetime.now(est), session["lives"], 0))
-            sqliteConnection.commit()
-            sqliteConnection.close()
+            # sqliteConnection = sqlite3.connect('static/data.db')
+            # cursor = sqliteConnection.cursor()
+            # cursor.execute('INSERT INTO solved (IP, Date, Lives, Solved) VALUES (?, ?, ?, ?);', (ip, datetime.now(est), session["lives"], 0))
+            # sqliteConnection.commit()
+            # sqliteConnection.close()
         return jsonify({'message': 'wrong', 'lives': session["lives"], 'complete': session["finished"]}), 200
 
 if __name__ == "__main__":
