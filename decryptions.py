@@ -17,8 +17,8 @@ def onvisit(fetch=True):
     est = timezone('America/New_York') 
     dateobj = datetime.now(est)
     today = dateobj.strftime("%Y-%m-%d")
-    session["curDate"] = dateobj.strftime("%B %d, %Y")
-    session["slashedDate"] = dateobj.strftime("%m/%d")
+    session["curDate"] = str(dateobj.strftime("%B %d, %Y"))
+    session["slashedDate"] = str(dateobj.strftime("%m/%d"))
     if not session.get("visited"):
         session["visited"] = today
     if session["visited"] != today:
@@ -43,9 +43,9 @@ def getpuzzle():
         session["cryptogram"] = data[1]
         session["number"] = data[2]
     except:
-        session["solution"] = 'A PHOTON CHECKS INTO A HOTEL. "CAN I HELP YOU WITH YOUR LUGGAGE?" HE\'S ASKED. "NO THANKS, I\'M TRAVELING LIGHT."'
-        session["cryptogram"] = 'G IVZYZR QVHQMD ARYZ G VZYHU. "QGR A VHUI BZL KAYV BZLO ULNNGNH?" VH\'D GDMHP. "RZ YVGRMD, A\'J YOGTHUARN UANVY."'
-        session["number"] = 62
+        session["solution"] = "TWO ASTRONAUTS WENT TO A BAR ON THE MOON. THEY LEFT AFTER A FEW MINUTES BECAUSE IT HAD NO ATMOSPHERE!"
+        session["cryptogram"] = "GKD JWGVDUJXGW KSUG GD J PJV DU GAS ODDU. GAST CSIG JIGSV J ISK ORUXGSW PSEJXWS RG AJZ UD JGODWNASVS!"
+        session["number"] = 139
     # session["solution"] = 'AND'
     # session["cryptogram"] = 'XSN'
     # session["number"] = 62
