@@ -21,12 +21,14 @@ def onvisit(fetch=True):
     session["slashedDate"] = str(dateobj.strftime("%m/%d"))
     if not session.get("visited"):
         session["visited"] = today
-    if session["visited"] != today:
+    if not session.get("switch2"):
+        session["switch2"] = False
+    if session["visited"] != today or not session["switch2"]:
         session["visited"] = today
         session["switch"] = True
         session["lives"] = 4
         session["finished"] = False
-        session["stats"] = False
+        session["stats"] = False    
         session["failed"] = []
         session["replaced"] = []
     if fetch:
